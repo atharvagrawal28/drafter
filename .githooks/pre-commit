@@ -1,0 +1,83 @@
+#!/bin/sh
+# Fast, and about the two things that must never reach a commit.
+#
+# The heavy suites run on pre-push instead: a commit should stay quick enough
+# that nobody is tempted to reach for --no-verify, which is how these guards
+# stop working.
+
+# 1a. An environment file by name.
+#
+#     This repository is developed with a real Groq key in .env.local, and the
+#     single worst outcome for this project is publishing it. .gitignore already
+#     covers it; this is the belt to that pair of braces.
+#
+#     Template files are explicitly allowed. .env.example carries placeholder
+#     values and MUST be committed — it is how anyone else learns which
+#     variables to set. Blocking it was a false positive that would have taught
+#     the team to reach for --no-verify, which is how a guard stops working.
+staged_env=$(git diff --cached --name-only \
+  | grep -Ei '(^|/)\.?env(\.|$)|\.env\.' \
+  | grep -Eiv '\.(example|sample|template|dist)$' \
+  || true)
+if [ -n "$staged_env" ]; then
+  echo ""
+  echo "  BLOCKED — an environment file is staged:"
+  echo "$staged_env" | sed 's/^/    /'
+  echo ""
+  # `git rm --cached` rather than `git restore --staged`: restore needs a HEAD
+  # to restore from, so it fails on the very first commit — which is exactly
+  # when this guard is most likely to fire.
+  echo "  These may contain a live API key. Unstage with:"
+  echo "    git rm --cached $staged_env"
+  echo ""
+  exit 1
+fi
+
+# 1b. A secret by SHAPE, anywhere in the staged content.
+#
+#     The filename check above only catches keys in files that look like env
+#     files. The likelier accident is a key pasted into a README, a script or a
+#     config while debugging. This reads what is actually about to be committed
+#     and looks for a live Groq key: the gsk_ prefix followed by a long token.
+#     The placeholder in .env.example ("your_groq_key_here") does not match.
+staged_secret=$(git diff --cached -U0 \
+  | grep -E '^\+' \
+  | grep -Eo 'gsk_[A-Za-z0-9]{20,}' \
+  | head -1 \
+  || true)
+if [ -n "$staged_secret" ]; then
+  echo ""
+  echo "  BLOCKED — what looks like a live Groq API key is in the staged changes:"
+  echo "    ${staged_secret%${staged_secret#gsk_????}}…"
+  echo ""
+  echo "  Find it with:"
+  echo "    git diff --cached -S 'gsk_'"
+  echo ""
+  echo "  Remove the key from the file, then stage again. If it has already been"
+  echo "  pushed anywhere, revoke it at https://console.groq.com/keys — rewriting"
+  echo "  history is not enough once a key is public."
+  echo ""
+  exit 1
+fi
+
+# 2. Types. Cheap, and catches the majority of what a careless edit breaks.
+#
+# Skipped rather than failed when the compiler is not installed. On a fresh
+# clone, before `npm install`, the honest report is "cannot check" — blocking
+# the commit and blaming TypeScript would send someone hunting for an error
+# that does not exist.
+if [ ! -x "node_modules/.bin/tsc" ]; then
+  echo "  types skipped — run 'npm install' to enable this check"
+  exit 0
+fi
+
+echo "  checking types..."
+if ! ./node_modules/.bin/tsc --noEmit; then
+  echo ""
+  echo "  BLOCKED — TypeScript errors above. Fix them, or commit with --no-verify"
+  echo "  if you genuinely intend to leave the tree broken."
+  echo ""
+  exit 1
+fi
+
+echo "  types OK"

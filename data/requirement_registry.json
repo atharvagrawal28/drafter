@@ -1,0 +1,1407 @@
+{
+  "registry_version": "2026-07-R4",
+  "regulation_set": "SEBI (ICDR) Regulations, 2018 — Chapter IX (Initial Public Offer by Small and Medium Enterprises), Regulations 227 to 280, read with Schedule VI, as last amended on 8 March 2025, together with the NSE Emerge / BSE SME issuer checklists.",
+  "regulation_set_as_at": "2025-03-08",
+  "registry_reviewed_at": "2026-07-23",
+  "note": "Curated disclosure requirement registry for an SME IPO offer document. Each item is the atomic unit tracked by the Gap & Consistency Checker. 'chapters' maps the requirement onto the DRHP tree in drhp_structure.json — this is the single source of truth for chapter-to-requirement traceability. 'evidence_fields' are dotted paths into the issuer data object; coverage is COMPUTED from their presence, never asserted. Regulation references are indicative and simplified for the prototype; a production knowledge base versions these against the live SEBI ICDR text and the exchange checklists. Version R3 extends the registry using evidence from a corpus of 14 filed NSE Emerge SME DRHPs (5,619 pages, 2.6 million words): every requirement added in R3 carries a `corpus_evidence` field recording the share of real filings that contain it. Items appearing in 79-100% of filings but absent from R2 were added; nothing was added on intuition. Registry R4: the numbered regulation citations were checked against the consolidated ICDR text published by SEBI (last amended 8 March 2025). Citations that name a regulation number have been verified against that text; citations that name a Schedule VI section describe where the disclosure sits in the offer document and are not regulation numbers.",
+  "fulfilment_legend": {
+    "issuer_data": "Satisfied by information the issuer supplies. Coverage depends on evidence_fields being present.",
+    "standard_clause": "Satisfied structurally by standard offer-document text that Drafter generates, with issuer fields merged in. Always flagged for merchant-banker finalisation.",
+    "banker_certification": "Can only be discharged by the merchant banker / auditor as part of due diligence and certification. Reported separately so it does not misrepresent the promoter's own progress.",
+    "not_applicable": "Some requirements are sector-conditional. Where the issuer indicates the requirement does not apply (for example installed capacity for a services business), it is reported as 'Not applicable' and excluded from the coverage denominator entirely — it is not an obligation that can be met or missed."
+  },
+  "sections": [
+    {
+      "section_id": "S1",
+      "section_title": "General Information & Company Identity",
+      "requirements": [
+        {
+          "id": "R1.1",
+          "requirement": "Name, CIN, date and place of incorporation, registered and corporate office address",
+          "source": "Companies Act 2013 s.7; ICDR Sch VI (SME) Part A",
+          "evidence": "Certificate of Incorporation, MOA/AOA",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.3",
+            "IV.4"
+          ],
+          "evidence_fields": [
+            "identity.company_name",
+            "identity.cin",
+            "identity.incorporation_date",
+            "identity.registered_office"
+          ]
+        },
+        {
+          "id": "R1.2",
+          "requirement": "Main objects as set out in the Memorandum of Association",
+          "source": "ICDR Sch VI (SME) Part A",
+          "evidence": "MOA objects clause",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.4"
+          ],
+          "evidence_fields": [
+            "identity.moa_objects"
+          ]
+        },
+        {
+          "id": "R1.3",
+          "requirement": "Particulars of the lead manager, registrar, market maker, banker to the issue and underwriter",
+          "source": "ICDR Reg 246; Sch VI (SME)",
+          "evidence": "Issue engagement letters, due diligence certificate",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.3"
+          ],
+          "evidence_fields": [
+            "issue_structure.lead_manager",
+            "issue_structure.registrar",
+            "issue_structure.underwriter",
+            "issue_structure.banker"
+          ]
+        },
+        {
+          "id": "R1.4",
+          "requirement": "Company Secretary and Compliance Officer details, investor grievance contact",
+          "source": "ICDR Sch VI (SME); LODR readiness",
+          "evidence": "Board resolution appointing the Compliance Officer",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.3"
+          ],
+          "evidence_fields": [
+            "identity.company_secretary",
+            "identity.email"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S2",
+      "section_title": "Business Overview",
+      "requirements": [
+        {
+          "id": "R2.1",
+          "requirement": "Description of the business, products/services offered, and the revenue model",
+          "source": "ICDR Sch VI (SME) — Our Business",
+          "evidence": "Intake Step 'Business Overview'",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2"
+          ],
+          "evidence_fields": [
+            "business.business_description",
+            "business.products_services",
+            "business.revenue_model"
+          ]
+        },
+        {
+          "id": "R2.2",
+          "requirement": "Industry overview and the issuer's competitive position within it",
+          "source": "ICDR Sch VI (SME) — Industry Overview",
+          "evidence": "Industry data with cited public sources",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.1"
+          ],
+          "evidence_fields": [
+            "business.industry",
+            "business.industry_overview",
+            "business.competitive_strengths"
+          ]
+        },
+        {
+          "id": "R2.3",
+          "requirement": "Customer concentration — identity of key customers and the revenue share attributable to each",
+          "source": "ICDR risk-disclosure principle; exchange checklist",
+          "evidence": "Customer-wise revenue schedule certified by the auditor",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2"
+          ],
+          "evidence_fields": [
+            "business.top_customers"
+          ]
+        },
+        {
+          "id": "R2.4",
+          "requirement": "Revenue from operations stated in the business section must reconcile with the restated audited financial statements",
+          "source": "ICDR consistency principle; exchange return pattern (unreconciled figures)",
+          "evidence": "Cross-check: Our Business vs Restated Financial Statements",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2",
+            "V.1"
+          ],
+          "evidence_fields": [
+            "business.revenue_stated",
+            "financials.revenue_latest_year"
+          ],
+          "consistency_check": {
+            "type": "cross_section_numeric",
+            "field_a": "business.revenue_stated",
+            "field_b": "financials.revenue_latest_year",
+            "label_a": "Our Business (Chapter IV.2)",
+            "label_b": "Restated Financial Statements (Chapter V.1)",
+            "unit": "INR crore",
+            "tolerance_pct": 1,
+            "exchange_pattern": "Figures quoted in the business section not reconciling with the restated financial statements is among the most frequent causes of an exchange observation letter."
+          }
+        },
+        {
+          "id": "R2.5",
+          "requirement": "Installed capacity, capacity utilisation and principal properties/plants",
+          "source": "ICDR Sch VI (SME) — Our Business",
+          "evidence": "Plant records, factory licences",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2"
+          ],
+          "evidence_fields": [
+            "business.plants_capacity"
+          ],
+          "applicability": {
+            "field": "business.has_manufacturing",
+            "reason": "Not applicable: the issuer has indicated it does not operate manufacturing facilities. Installed capacity and utilisation are disclosures specific to manufacturing issuers."
+          },
+          "corpus_evidence": "Appears in 64% of the 14-document corpus; the balance are services issuers with no manufacturing operations, which is why this requirement is sector-conditional."
+        },
+        {
+          "id": "R2.6",
+          "requirement": "Employee strength and human resources",
+          "source": "ICDR Sch VI (SME) — Our Business",
+          "evidence": "Payroll/HR records",
+          "mandatory": false,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2"
+          ],
+          "evidence_fields": [
+            "business.employees"
+          ]
+        },
+        {
+          "id": "R2.7",
+          "requirement": "Intellectual property owned or used by the issuer — trademarks, patents, designs and their registration status",
+          "source": "ICDR Sch VI (SME) — Our Business",
+          "evidence": "Trademark/patent registration certificates and applications",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2"
+          ],
+          "evidence_fields": [
+            "business.intellectual_property"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        },
+        {
+          "id": "R2.8",
+          "requirement": "Immovable properties owned or leased by the issuer, with tenure and the nature of the interest held",
+          "source": "ICDR Sch VI (SME) — Our Business / Our Property",
+          "evidence": "Title deeds, lease deeds, rent agreements",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2"
+          ],
+          "evidence_fields": [
+            "business.immovable_properties"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        },
+        {
+          "id": "R2.9",
+          "requirement": "Narrative disclosures must be written in the impersonal, formal register of an offer document rather than in the first person",
+          "source": "ICDR Sch VI (SME) — presentation; exchange observation on promotional or conversational language",
+          "evidence": "The issuer's own narrative answers",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.2",
+            "II.1",
+            "V.2",
+            "IV.1"
+          ],
+          "evidence_fields": [
+            "business.business_description"
+          ],
+          "corpus_evidence": "Every filing in the 14-document corpus is written impersonally about \"the Company\"; none uses the first person.",
+          "consistency_check": {
+            "type": "register_check",
+            "fields": [
+              "business.business_description",
+              "business.revenue_model",
+              "business.products_services",
+              "business.competitive_strengths",
+              "business.business_strategies",
+              "business.mda_drivers",
+              "business.suppliers",
+              "legal.litigation",
+              "management.related_parties"
+            ],
+            "exchange_pattern": "Conversational or promotional language in an offer document draws an exchange observation on presentation."
+          },
+          "corpus_probe": "not-keyword-detectable"
+        }
+      ]
+    },
+    {
+      "section_id": "S3",
+      "section_title": "Risk Factors",
+      "requirements": [
+        {
+          "id": "R3.1",
+          "requirement": "Company-specific (internal) risk factors derived from the issuer's own business and operations",
+          "source": "ICDR Sch VI (SME) — Risk Factors",
+          "evidence": "Derived from the issuer's business, financial and legal disclosures",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "II.1"
+          ],
+          "evidence_fields": [
+            "business.business_description",
+            "business.revenue_model"
+          ]
+        },
+        {
+          "id": "R3.2",
+          "requirement": "Raw-material price volatility and supplier-concentration risk, where applicable",
+          "source": "ICDR risk-disclosure principle",
+          "evidence": "Procurement records, supplier schedule",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "II.1"
+          ],
+          "evidence_fields": [
+            "business.suppliers"
+          ],
+          "applicability": {
+            "field": "business.has_manufacturing",
+            "reason": "Not applicable: the issuer has indicated it does not operate manufacturing facilities, so raw-material price volatility is not a principal risk. Supplier concentration, where relevant to a services business, is captured under the general internal risk factors."
+          },
+          "corpus_evidence": "Appears in 64% of the 14-document corpus; the balance are services issuers with no manufacturing operations, which is why this requirement is sector-conditional."
+        },
+        {
+          "id": "R3.3",
+          "requirement": "Customer-concentration risk where a small number of customers account for a large revenue share",
+          "source": "ICDR risk-disclosure principle",
+          "evidence": "Derived from R2.3",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "II.1"
+          ],
+          "evidence_fields": [
+            "business.top_customers"
+          ]
+        },
+        {
+          "id": "R3.4",
+          "requirement": "Any outstanding litigation, tax demand or regulatory proceeding must be reflected as a risk factor",
+          "source": "ICDR risk-disclosure principle; exchange return pattern (undisclosed proceedings)",
+          "evidence": "Cross-check: Risk Factors vs Outstanding Litigation",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "II.1",
+            "VI.1"
+          ],
+          "evidence_fields": [
+            "legal.litigation"
+          ],
+          "consistency_check": {
+            "type": "litigation_flag",
+            "trigger_field": "legal.litigation_mentioned",
+            "requires_field": "legal.litigation_disclosed",
+            "scan_fields": [
+              "business.internal_notes_for_checker",
+              "management.related_parties",
+              "legal.tax_matters"
+            ],
+            "exchange_pattern": "A proceeding referenced anywhere in the issuer's records but absent from the Legal chapter is treated by the exchange as a material non-disclosure and routinely returns the draft."
+          }
+        },
+        {
+          "id": "R3.5",
+          "requirement": "External, industry and issue-related risk factors, including risks relating to the SME platform and limited liquidity",
+          "source": "ICDR Sch VI (SME) — Risk Factors",
+          "evidence": "Industry analysis; issue structure",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "II.1"
+          ],
+          "evidence_fields": [
+            "business.industry",
+            "issue.price_band"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S4",
+      "section_title": "Financial Information",
+      "requirements": [
+        {
+          "id": "R4.1",
+          "requirement": "Restated audited financial statements for the last three financial years (Statement of Profit and Loss, Balance Sheet, Cash Flow Statement)",
+          "source": "ICDR Reg 246 r/w Sch VI (SME)",
+          "evidence": "Restated financial statements certified by the peer-reviewed auditor",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.1",
+            "III.2"
+          ],
+          "evidence_fields": [
+            "financials.years",
+            "financials.revenue_3yr",
+            "financials.pat_3yr",
+            "financials.networth_3yr",
+            "financials.cash_flow_ops_3yr"
+          ]
+        },
+        {
+          "id": "R4.2",
+          "requirement": "Statement of accounting ratios — basic and diluted EPS, Return on Net Worth, Net Asset Value per share",
+          "source": "ICDR Sch VI (SME)",
+          "evidence": "Derived from the restated financial statements",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.1",
+            "III.6"
+          ],
+          "evidence_fields": [
+            "financials.eps",
+            "financials.ronw_pct",
+            "financials.nav_per_share"
+          ]
+        },
+        {
+          "id": "R4.3",
+          "requirement": "Reference to the peer-reviewed statutory auditor, the auditor's firm registration number and the examination report on the restated financials",
+          "source": "ICDR Reg 246; exchange return pattern (missing auditor reference)",
+          "evidence": "Auditor's examination report",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.1"
+          ],
+          "evidence_fields": [
+            "financials.auditor",
+            "financials.auditor_frn"
+          ],
+          "consistency_check": {
+            "type": "presence_critical",
+            "fields": [
+              "financials.auditor",
+              "financials.auditor_frn"
+            ],
+            "exchange_pattern": "Omission of the peer-reviewed auditor reference and firm registration number is a standard exchange observation and blocks pre-check clearance."
+          }
+        },
+        {
+          "id": "R4.4",
+          "requirement": "The revenue series presented in the financial statements must be internally consistent with the latest-year revenue relied upon elsewhere in the document",
+          "source": "ICDR consistency principle",
+          "evidence": "Cross-check within Restated Financial Statements",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.1"
+          ],
+          "evidence_fields": [
+            "financials.revenue_3yr",
+            "financials.revenue_latest_year"
+          ],
+          "consistency_check": {
+            "type": "series_consistency",
+            "series_field": "financials.revenue_3yr",
+            "scalar_field": "financials.revenue_latest_year",
+            "label_series": "Restated revenue series (Chapter V.1)",
+            "label_scalar": "Latest-year revenue from operations",
+            "unit": "INR crore",
+            "tolerance_pct": 1,
+            "exchange_pattern": "Internally inconsistent financial series are flagged automatically by the exchange pre-check."
+          }
+        },
+        {
+          "id": "R4.5",
+          "requirement": "Capitalisation statement showing borrowings and shareholders' funds before and after the issue",
+          "source": "ICDR Sch VI (SME) — Financial Information",
+          "evidence": "Derived from the restated financial statements and the issue size",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.1"
+          ],
+          "evidence_fields": [
+            "financials.networth_3yr",
+            "indebtedness.total_borrowings"
+          ],
+          "corpus_evidence": "79% of the 14-document corpus"
+        }
+      ]
+    },
+    {
+      "section_id": "S5",
+      "section_title": "Capital Structure & Objects of the Issue",
+      "requirements": [
+        {
+          "id": "R5.1",
+          "requirement": "Pre-issue and post-issue shareholding pattern and the history of the equity share capital build-up",
+          "source": "ICDR Sch VI (SME) — Capital Structure",
+          "evidence": "Register of members, share allotment records",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.4"
+          ],
+          "evidence_fields": [
+            "capital_structure.share_capital_history",
+            "capital_structure.shareholding_pattern",
+            "issue.pre_issue_capital"
+          ],
+          "consistency_check": {
+            "type": "shareholding_reconciliation",
+            "pattern_field": "capital_structure.shareholding_pattern",
+            "total_field": "issue.pre_issue_capital",
+            "tolerance_pct": 0.5,
+            "exchange_pattern": "A shareholding pattern that does not add back to the pre-issue paid-up capital is a routine exchange observation."
+          }
+        },
+        {
+          "id": "R5.2",
+          "requirement": "Issue size, number of equity shares offered, face value and the basis of the price band",
+          "source": "ICDR Sch VI (SME)",
+          "evidence": "Board and shareholder resolutions authorising the issue",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.1",
+            "III.4"
+          ],
+          "evidence_fields": [
+            "issue.issue_size",
+            "issue.face_value",
+            "issue.price_band",
+            "issue.fresh_issue_shares"
+          ]
+        },
+        {
+          "id": "R5.3",
+          "requirement": "Objects of the issue with a break-up of the proposed utilisation of net proceeds and the schedule of deployment",
+          "source": "ICDR Reg 246; Sch VI (SME)",
+          "evidence": "Board-approved deployment plan; quotations for capital expenditure",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.objects_breakup",
+            "issue.net_proceeds"
+          ]
+        },
+        {
+          "id": "R5.4",
+          "requirement": "The aggregate of the stated objects must reconcile with the net proceeds of the issue",
+          "source": "ICDR consistency principle; exchange return pattern (unreconciled figures)",
+          "evidence": "Cross-check within Objects of the Issue",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.objects_breakup",
+            "issue.net_proceeds"
+          ],
+          "consistency_check": {
+            "type": "sum_reconciliation",
+            "sum_field": "issue.objects_breakup",
+            "sum_key": "amount",
+            "target_field": "issue.net_proceeds",
+            "label_sum": "Objects of the Issue (Chapter III.5)",
+            "label_target": "Net proceeds of the issue",
+            "unit": "INR crore",
+            "tolerance_pct": 1,
+            "exchange_pattern": "Objects that do not aggregate to the stated net proceeds are flagged immediately by the exchange pre-check and are a leading cause of returned drafts."
+          }
+        },
+        {
+          "id": "R5.5",
+          "requirement": "Net proceeds must equal the gross issue size less the estimated issue-related expenses",
+          "source": "ICDR Sch VI (SME) — Objects of the Issue",
+          "evidence": "Estimated issue expense schedule",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.issue_size",
+            "issue.net_proceeds",
+            "issue.issue_expenses"
+          ],
+          "consistency_check": {
+            "type": "difference_reconciliation",
+            "gross_field": "issue.issue_size",
+            "net_field": "issue.net_proceeds",
+            "deduction_field": "issue.issue_expenses",
+            "label": "Gross issue size less issue expenses vs stated net proceeds",
+            "unit": "INR crore",
+            "tolerance_pct": 1,
+            "exchange_pattern": "The bridge from gross issue size to net proceeds must be arithmetically demonstrable."
+          }
+        },
+        {
+          "id": "R5.6",
+          "requirement": "Market maker reservation portion and the resulting net issue to the public",
+          "source": "ICDR Reg 261 (market making for SME issues)",
+          "evidence": "Market making agreement",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.1",
+            "VII.2"
+          ],
+          "evidence_fields": [
+            "issue.market_maker",
+            "issue.market_maker_reservation_shares"
+          ]
+        },
+        {
+          "id": "R5.7",
+          "requirement": "Appointment of a monitoring agency for the deployment of issue proceeds, where the issue size excluding the offer for sale exceeds INR 50 crore",
+          "source": "ICDR Reg 262(1) (Chapter IX — SME)",
+          "evidence": "Monitoring agency appointment letter, or the board's basis for non-applicability",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.monitoring_agency"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus",
+          "applicability": {
+            "field": "issue.issue_size",
+            "exceeds": 50,
+            "reason": "Regulation 262(1) requires a monitoring agency only where the issue size, excluding any offer for sale, exceeds INR 50 crore. This issue is below that threshold, so no monitoring agency is required."
+          }
+        },
+        {
+          "id": "R5.8",
+          "requirement": "Basis of the estimated working-capital requirement funded from the net proceeds, with the assumptions and holding periods relied upon",
+          "source": "ICDR Sch VI (SME) — Objects of the Issue",
+          "evidence": "Working-capital computation certified by the statutory auditor",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.working_capital_basis"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        },
+        {
+          "id": "R5.9",
+          "requirement": "Amount proposed to be deployed towards general corporate purposes, which must not exceed fifteen per cent of the amount being raised or INR 10 crore, whichever is less",
+          "source": "ICDR Reg 230(2) (Chapter IX — SME), as substituted w.e.f. 8 March 2025",
+          "evidence": "Objects break-up and gross issue size",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.objects_breakup",
+            "issue.issue_size"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus",
+          "consistency_check": {
+            "type": "percentage_cap",
+            "component_field": "issue.objects_breakup",
+            "component_match": "general corporate",
+            "total_field": "issue.issue_size",
+            "cap_pct": 15,
+            "unit": "INR crore",
+            "label": "General corporate purposes as a share of gross proceeds",
+            "exchange_pattern": "General corporate purposes exceeding the prescribed ceiling is an arithmetic breach the exchange pre-check identifies immediately. The SME ceiling was tightened to the lower of 15% and INR 10 crore with effect from 8 March 2025, so a draft prepared on the earlier 25% basis will be returned.",
+            "cap_absolute": 10,
+            "subject": "general corporate purposes",
+            "total_label": "the gross issue proceeds",
+            "citation": "Regulation 230(2) caps",
+            "remediation": "Reduce the general corporate purposes allocation to at most the ceiling shown, and identify the balance against a specific, described object. The ceiling is arithmetic and is checked directly by the exchange."
+          }
+        },
+        {
+          "id": "R5.10",
+          "requirement": "Break-up of the estimated issue-related expenses by category (fees of the lead manager, registrar, legal advisors, advertising, listing and statutory fees)",
+          "source": "ICDR Sch VI (SME) — Objects of the Issue",
+          "evidence": "Estimated expense schedule agreed with the lead manager",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.issue_expenses_breakup"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        },
+        {
+          "id": "R5.11",
+          "requirement": "The objects of the issue must not include repayment, directly or indirectly, of any loan taken from a promoter, a member of the promoter group or any related party",
+          "source": "ICDR Reg 230(1)(h) (Chapter IX — SME), inserted w.e.f. 8 March 2025",
+          "evidence": "Objects of the issue and the schedule of loans proposed to be repaid",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.5"
+          ],
+          "evidence_fields": [
+            "issue.objects_breakup"
+          ],
+          "consistency_check": {
+            "type": "prohibited_object",
+            "component_field": "issue.objects_breakup",
+            "patterns": [
+              "promoter",
+              "promoter group",
+              "related party",
+              "director"
+            ],
+            "context": [
+              "repay",
+              "repayment",
+              "loan",
+              "borrowing",
+              "advance",
+              "unsecured loan"
+            ],
+            "label": "Repayment of promoter or related-party borrowings from issue proceeds",
+            "exchange_pattern": "Using issue proceeds to repay a promoter or related-party loan is expressly prohibited for SME issues and is a condition of eligibility, not a disclosure point. An object framed this way stops the issue rather than drawing a query."
+          },
+          "corpus_probe": "absence-expected"
+        },
+        {
+          "id": "R5.12",
+          "requirement": "Where the issue includes an offer for sale, that component must not exceed twenty per cent of the total issue size, and no selling shareholder may offer more than fifty per cent of their pre-issue holding on a fully diluted basis",
+          "source": "ICDR Reg 230(1)(f) and (g) (Chapter IX — SME), inserted w.e.f. 8 March 2025",
+          "evidence": "Issue structure showing the fresh issue and offer for sale components",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.1",
+            "III.2"
+          ],
+          "evidence_fields": [
+            "issue.offer_for_sale_size"
+          ],
+          "applicability": {
+            "field": "issue.has_offer_for_sale",
+            "reason": "The issue is a fresh issue only, with no offer for sale component, so the Regulation 230(1)(f) and (g) limits do not apply."
+          },
+          "consistency_check": {
+            "type": "percentage_cap",
+            "component_scalar_field": "issue.offer_for_sale_size",
+            "total_field": "issue.issue_size",
+            "cap_pct": 20,
+            "unit": "INR crore",
+            "subject": "the offer for sale component",
+            "total_label": "the total issue size",
+            "citation": "Regulation 230(1)(f) caps",
+            "remediation": "Reduce the offer for sale component to at most the ceiling shown, or increase the fresh issue so that the offer for sale falls within twenty per cent of the total issue size. This is a condition of eligibility for the issue, not a disclosure point.",
+            "label": "Offer for sale as a share of the total issue size",
+            "exchange_pattern": "The twenty per cent limit on the offer for sale component of an SME issue was introduced with effect from 8 March 2025 and is a condition of eligibility. A draft structured on the earlier basis does not draw a query, it fails the eligibility test."
+          },
+          "corpus_probe": "absence-expected"
+        }
+      ]
+    },
+    {
+      "section_id": "S6",
+      "section_title": "Management, Governance & Legal",
+      "requirements": [
+        {
+          "id": "R6.1",
+          "requirement": "Details of directors and key managerial personnel — name, designation, DIN, age, qualification and experience",
+          "source": "ICDR Sch VI (SME); Companies Act 2013",
+          "evidence": "Board records, DIN records, appointment letters",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.5"
+          ],
+          "evidence_fields": [
+            "management.directors",
+            "management.kmp"
+          ]
+        },
+        {
+          "id": "R6.2",
+          "requirement": "Related-party transactions, including transactions with promoter-group entities, and the amounts involved",
+          "source": "ICDR Sch VI (SME); Ind AS 24; exchange return pattern (undisclosed related parties)",
+          "evidence": "Related-party schedule in the audited financials",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.5",
+            "V.1"
+          ],
+          "evidence_fields": [
+            "management.related_parties"
+          ],
+          "consistency_check": {
+            "type": "related_party_flag",
+            "declared_field": "management.related_parties",
+            "scan_fields": [
+              "business.internal_notes_for_checker",
+              "business.suppliers",
+              "management.group_companies",
+              "business.business_description"
+            ],
+            "exchange_pattern": "Undisclosed related-party dealings are one of the three most common reasons an SME draft is returned by the exchange."
+          }
+        },
+        {
+          "id": "R6.3",
+          "requirement": "Outstanding litigation and material developments against the company, its directors, promoters and group companies",
+          "source": "ICDR Reg 246; Sch VI (SME) — Legal",
+          "evidence": "Legal counsel certificate; case records; tax demand notices",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "VI.1"
+          ],
+          "evidence_fields": [
+            "legal.litigation",
+            "legal.material_developments"
+          ]
+        },
+        {
+          "id": "R6.4",
+          "requirement": "Group companies, their basic particulars and the nature of the relationship",
+          "source": "ICDR Sch VI (SME)",
+          "evidence": "Group structure chart; MCA filings",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.7"
+          ],
+          "evidence_fields": [
+            "management.group_companies"
+          ]
+        },
+        {
+          "id": "R6.5",
+          "requirement": "Corporate governance — board composition, independent directors, and constitution of the Audit, Nomination & Remuneration and Stakeholders Relationship Committees",
+          "source": "ICDR Sch VI (SME); LODR readiness",
+          "evidence": "Board and committee constitution resolutions",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.5"
+          ],
+          "evidence_fields": [
+            "management.corporate_governance_committees"
+          ]
+        },
+        {
+          "id": "R6.6",
+          "requirement": "Remuneration paid to directors and key managerial personnel",
+          "source": "ICDR Sch VI (SME); Companies Act 2013 s.197",
+          "evidence": "Remuneration records; audited financials",
+          "mandatory": false,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.5"
+          ],
+          "evidence_fields": [
+            "management.remuneration"
+          ]
+        },
+        {
+          "id": "R6.7",
+          "requirement": "Particulars of the issuer's subsidiaries, if any, with the nature of the holding and their financial position — or an express statement that the issuer has none",
+          "source": "ICDR Sch VI (SME) — Our Subsidiaries",
+          "evidence": "Shareholding records; MCA filings of each subsidiary",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.9"
+          ],
+          "evidence_fields": [
+            "management.subsidiaries"
+          ],
+          "corpus_evidence": "86% of the 14-document corpus"
+        }
+      ]
+    },
+    {
+      "section_id": "S7",
+      "section_title": "Front Matter & Mandatory Statements",
+      "requirements": [
+        {
+          "id": "R7.1",
+          "requirement": "Cover page particulars — 'Draft Red Herring Prospectus' label, issue type (fixed price / book built), face value, price band, and the listing platform",
+          "source": "ICDR Sch VI (SME) Part A — cover page",
+          "evidence": "Issue structure decisions; exchange in-principle application",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "COVER"
+          ],
+          "evidence_fields": [
+            "issue.issue_type",
+            "issue.face_value",
+            "issue.price_band",
+            "issue_structure.listing_platform"
+          ]
+        },
+        {
+          "id": "R7.2",
+          "requirement": "Issuer's absolute responsibility statement and the lead manager's responsibility statement",
+          "source": "ICDR Sch VI (SME) Part A — cover page",
+          "evidence": "Signed by the board and the lead manager",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "COVER"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R7.3",
+          "requirement": "General risk statement and the SME platform eligibility / listing statement",
+          "source": "ICDR Sch VI (SME) Part A; ICDR Chapter IX eligibility",
+          "evidence": "Standard statement; exchange eligibility confirmation",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "COVER"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R7.4",
+          "requirement": "Definitions and abbreviations, including issue-related, company-related and industry terms",
+          "source": "ICDR Sch VI (SME) — Section I",
+          "evidence": "Standard glossary merged with issuer-specific terms",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "I.1"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R7.5",
+          "requirement": "Presentation of financial, industry and market data — currency of presentation, financial year convention, rounding and the sourcing of third-party industry data",
+          "source": "ICDR Sch VI (SME) — Section I",
+          "evidence": "Standard statement",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "I.2"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R7.6",
+          "requirement": "Forward-looking statements caution and the issuer's undertaking on material developments",
+          "source": "ICDR Sch VI (SME) — Section I",
+          "evidence": "Standard statement",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "I.3"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R7.7",
+          "requirement": "Summary of the offer document — business, industry, promoters, issue size, objects, restated financials, litigation, related-party transactions and contingent liabilities, presented together at the front of the document",
+          "source": "ICDR Sch VI (SME) — Summary of the Offer Document",
+          "evidence": "Derived from the corresponding detailed chapters",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "I.4"
+          ],
+          "evidence_fields": [
+            "identity.company_name",
+            "business.business_description",
+            "issue.issue_size",
+            "financials.revenue_latest_year"
+          ],
+          "corpus_evidence": "Required by Schedule VI; the first chapter an exchange reviewer reads."
+        }
+      ]
+    },
+    {
+      "section_id": "S8",
+      "section_title": "The Issue, Terms and Issue Procedure",
+      "requirements": [
+        {
+          "id": "R8.1",
+          "requirement": "The Issue table — fresh issue and/or offer for sale, number of equity shares, face value and issue size",
+          "source": "ICDR Sch VI (SME) — The Issue",
+          "evidence": "Board and shareholder resolutions",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.1"
+          ],
+          "evidence_fields": [
+            "issue.issue_type",
+            "issue.fresh_issue_shares",
+            "issue.face_value",
+            "issue.issue_size"
+          ]
+        },
+        {
+          "id": "R8.2",
+          "requirement": "Issue structure — allocation between retail individual investors and other-than-retail investors, and the market maker portion",
+          "source": "ICDR Reg 253; Sch VI (SME)",
+          "evidence": "Issue structure agreed with the lead manager",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "VII.2"
+          ],
+          "evidence_fields": [
+            "issue.market_maker_reservation_shares",
+            "issue.fresh_issue_shares"
+          ]
+        },
+        {
+          "id": "R8.3",
+          "requirement": "Terms of the issue — ranking of equity shares, mode of payment, rights of holders, minimum application size and lot",
+          "source": "ICDR Sch VI (SME) — Terms of the Issue",
+          "evidence": "Standard terms merged with the issue's lot size",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "VII.1"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R8.4",
+          "requirement": "Issue procedure — ASBA and UPI mechanism, bidding process, basis of allotment and refund timelines",
+          "source": "ICDR Sch VI (SME); SEBI ASBA/UPI circulars",
+          "evidence": "Standard procedure text",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "VII.3"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R8.5",
+          "requirement": "Underwriting and market making arrangements, including the underwriter's obligations",
+          "source": "ICDR Reg 260, 261",
+          "evidence": "Underwriting agreement; market making agreement",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "VII.1",
+            "III.3"
+          ],
+          "evidence_fields": [
+            "issue_structure.underwriter",
+            "issue.market_maker"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S9",
+      "section_title": "Basis for Issue Price",
+      "requirements": [
+        {
+          "id": "R9.1",
+          "requirement": "Qualitative factors supporting the issue price",
+          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "evidence": "Derived from competitive strengths",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.6"
+          ],
+          "evidence_fields": [
+            "business.competitive_strengths"
+          ]
+        },
+        {
+          "id": "R9.2",
+          "requirement": "Quantitative factors — basic and diluted EPS, price-to-earnings ratio at the price band, Return on Net Worth and Net Asset Value per share",
+          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "evidence": "Derived from the restated financial statements",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.6"
+          ],
+          "evidence_fields": [
+            "financials.eps",
+            "financials.ronw_pct",
+            "financials.nav_per_share",
+            "issue.price_band"
+          ]
+        },
+        {
+          "id": "R9.3",
+          "requirement": "Comparison with listed industry peers, or an express statement that no directly comparable listed peer exists",
+          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "evidence": "Peer set with sources; exchange filings of peers",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.6"
+          ],
+          "evidence_fields": [
+            "financials.peer_comparison"
+          ]
+        },
+        {
+          "id": "R9.4",
+          "requirement": "Key performance indicators of the issuer's business, disclosed for each restated period, certified and approved by the audit committee",
+          "source": "ICDR Sch VI (SME) — Basis for Issue Price; SEBI KPI disclosure requirements",
+          "evidence": "KPI schedule approved by the audit committee and certified by the statutory auditor",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.6"
+          ],
+          "evidence_fields": [
+            "business.kpis"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        },
+        {
+          "id": "R9.5",
+          "requirement": "Weighted average cost of acquisition of equity shares by the promoters and selling shareholders, compared against the issue price",
+          "source": "ICDR Sch VI (SME) — Basis for Issue Price; SEBI WACA disclosure requirements",
+          "evidence": "Share acquisition history certified by the statutory auditor",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.6",
+            "IV.6"
+          ],
+          "evidence_fields": [
+            "promoters.waca"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        },
+        {
+          "id": "R9.6",
+          "requirement": "Weighted average earnings per share and return on net worth across the restated periods, weighted by the respective period weights",
+          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "evidence": "Derived from the restated financial statements",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "III.6"
+          ],
+          "evidence_fields": [
+            "financials.eps_3yr",
+            "financials.ronw_3yr"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        }
+      ]
+    },
+    {
+      "section_id": "S10",
+      "section_title": "Financial Condition, Results and Indebtedness",
+      "requirements": [
+        {
+          "id": "R10.1",
+          "requirement": "Management's discussion and analysis of the financial condition and results of operations, with year-on-year movement explained",
+          "source": "ICDR Sch VI (SME) — MD&A",
+          "evidence": "Restated financials and management commentary",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.2"
+          ],
+          "evidence_fields": [
+            "financials.revenue_3yr",
+            "financials.pat_3yr",
+            "business.mda_drivers"
+          ]
+        },
+        {
+          "id": "R10.2",
+          "requirement": "Significant factors affecting the results of operations and any known trends or uncertainties",
+          "source": "ICDR Sch VI (SME) — MD&A",
+          "evidence": "Management commentary",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.2"
+          ],
+          "evidence_fields": [
+            "business.mda_drivers"
+          ]
+        },
+        {
+          "id": "R10.3",
+          "requirement": "Financial indebtedness — secured and unsecured borrowings, principal lenders, security created and material terms",
+          "source": "ICDR Sch VI (SME) — Financial Indebtedness",
+          "evidence": "Sanction letters; charge registers; lender certificates",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "V.3"
+          ],
+          "evidence_fields": [
+            "indebtedness.total_borrowings",
+            "indebtedness.lenders"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S11",
+      "section_title": "Approvals & Regulatory Disclosures",
+      "requirements": [
+        {
+          "id": "R11.1",
+          "requirement": "Government and other statutory approvals held and applied for, and approvals still required",
+          "source": "ICDR Sch VI (SME) — Government and Other Approvals",
+          "evidence": "Licences, consents, registrations",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "VI.2"
+          ],
+          "evidence_fields": [
+            "legal.approvals"
+          ]
+        },
+        {
+          "id": "R11.2",
+          "requirement": "Key regulations and policies applicable to the issuer's business",
+          "source": "ICDR Sch VI (SME) — Key Regulations and Policies",
+          "evidence": "Sector regulation mapping",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "IV.3"
+          ],
+          "evidence_fields": [
+            "business.industry"
+          ]
+        },
+        {
+          "id": "R11.3",
+          "requirement": "Other regulatory and statutory disclosures — SEBI disclaimer, exchange disclaimer, consents, expert opinions, previous public issues and listing particulars",
+          "source": "ICDR Sch VI (SME) — Other Regulatory and Statutory Disclosures",
+          "evidence": "Standard clauses with issuer particulars merged",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "VI.3"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R11.4",
+          "requirement": "Price information of past issues handled by the lead manager, and the lead manager's track record",
+          "source": "ICDR Sch VI — Other Regulatory and Statutory Disclosures",
+          "evidence": "Track record furnished by the lead manager",
+          "mandatory": true,
+          "fulfilment": "banker_certification",
+          "chapters": [
+            "VI.3"
+          ],
+          "evidence_fields": [
+            "issue_structure.lead_manager_track_record"
+          ],
+          "corpus_evidence": "100% of the 14-document corpus"
+        }
+      ]
+    },
+    {
+      "section_id": "S12",
+      "section_title": "Promoters & Promoter Group",
+      "requirements": [
+        {
+          "id": "R12.1",
+          "requirement": "Promoter particulars — name, age, qualification, experience, and shareholding in the issuer",
+          "source": "ICDR Sch VI (SME) — Our Promoters",
+          "evidence": "Promoter declarations; register of members",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.6"
+          ],
+          "evidence_fields": [
+            "promoters.promoter_names",
+            "promoters.promoter_details",
+            "promoters.promoter_shareholding_pct"
+          ]
+        },
+        {
+          "id": "R12.2",
+          "requirement": "Minimum promoter contribution and the lock-in applicable to promoter and pre-issue capital",
+          "source": "ICDR Reg 236, 238 (SME promoter contribution and lock-in)",
+          "evidence": "Lock-in undertaking; depository confirmation",
+          "mandatory": true,
+          "fulfilment": "banker_certification",
+          "chapters": [
+            "III.4",
+            "IV.6"
+          ],
+          "evidence_fields": [
+            "promoters.promoter_contribution_pct",
+            "promoters.lock_in_confirmation"
+          ]
+        },
+        {
+          "id": "R12.3",
+          "requirement": "Confirmation that the issuer, its promoters, promoter group, directors and selling shareholders are not debarred from accessing the capital markets, and that none is a wilful defaulter, a fraudulent borrower or a fugitive economic offender",
+          "source": "ICDR Reg 228 (Chapter IX — entities not eligible to make an initial public offer)",
+          "evidence": "Promoter and director declarations verified in due diligence",
+          "mandatory": true,
+          "fulfilment": "banker_certification",
+          "chapters": [
+            "VI.3",
+            "IV.6"
+          ],
+          "evidence_fields": [
+            "promoters.promoter_disqualification_confirmation"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S13",
+      "section_title": "Dividend, Tax and Capital Matters",
+      "requirements": [
+        {
+          "id": "R13.1",
+          "requirement": "Dividend policy and the dividend declared, if any, in the preceding financial years",
+          "source": "ICDR Sch VI (SME) — Dividend Policy",
+          "evidence": "Board-approved dividend policy; dividend records",
+          "mandatory": true,
+          "fulfilment": "issuer_data",
+          "chapters": [
+            "IV.8"
+          ],
+          "evidence_fields": [
+            "dividend.dividend_policy"
+          ]
+        },
+        {
+          "id": "R13.2",
+          "requirement": "Statement of special tax benefits available to the company and its shareholders, certified by the statutory auditor",
+          "source": "ICDR Sch VI (SME) — Statement of Special Tax Benefits",
+          "evidence": "Auditor's tax benefits certificate",
+          "mandatory": true,
+          "fulfilment": "banker_certification",
+          "chapters": [
+            "III.7"
+          ],
+          "evidence_fields": [
+            "tax.special_tax_benefits_certificate"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S14",
+      "section_title": "Constitutional Documents & Inspection",
+      "requirements": [
+        {
+          "id": "R14.1",
+          "requirement": "Main provisions of the Articles of Association",
+          "source": "ICDR Sch VI (SME) — Section VIII",
+          "evidence": "Articles of Association",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "VIII.1"
+          ],
+          "evidence_fields": []
+        },
+        {
+          "id": "R14.2",
+          "requirement": "Material contracts and documents available for inspection",
+          "source": "ICDR Sch VI (SME) — Section IX",
+          "evidence": "Contract register; issue agreements",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "IX.1"
+          ],
+          "evidence_fields": [
+            "issue_structure.lead_manager",
+            "issue_structure.registrar"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S15",
+      "section_title": "Declaration",
+      "requirements": [
+        {
+          "id": "R15.1",
+          "requirement": "Declaration by the directors and the Company Secretary confirming compliance with the Companies Act, the SEBI Act and the ICDR Regulations, and that no statement made is contrary to those provisions",
+          "source": "ICDR Sch VI (SME) — Declaration",
+          "evidence": "Signed declaration page",
+          "mandatory": true,
+          "fulfilment": "banker_certification",
+          "chapters": [
+            "IX.2"
+          ],
+          "evidence_fields": [
+            "management.directors",
+            "identity.company_secretary"
+          ]
+        }
+      ]
+    },
+    {
+      "section_id": "S16",
+      "section_title": "Foreign Investment",
+      "requirements": [
+        {
+          "id": "R16.1",
+          "requirement": "Restrictions on foreign ownership of Indian securities under FEMA and the consolidated FDI policy",
+          "source": "ICDR Sch VI (SME); FEMA (Non-debt Instruments) Rules",
+          "evidence": "Standard clause",
+          "mandatory": true,
+          "fulfilment": "standard_clause",
+          "chapters": [
+            "VII.4"
+          ],
+          "evidence_fields": []
+        }
+      ]
+    }
+  ]
+}

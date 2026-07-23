@@ -1,0 +1,992 @@
+{
+  "documents": [
+    {
+      "name": "eco_fuel",
+      "pages": 397,
+      "words": 180741
+    },
+    {
+      "name": "gabion_tech",
+      "pages": 352,
+      "words": 199939
+    },
+    {
+      "name": "himalayan_solar",
+      "pages": 365,
+      "words": 186553
+    },
+    {
+      "name": "inspros_engineers",
+      "pages": 431,
+      "words": 194124
+    },
+    {
+      "name": "krm_company",
+      "pages": 443,
+      "words": 179790
+    },
+    {
+      "name": "leapfrog_bse",
+      "pages": 367,
+      "words": 193103
+    },
+    {
+      "name": "mar13_issuer",
+      "pages": 550,
+      "words": 227170
+    },
+    {
+      "name": "prakhar_software",
+      "pages": 364,
+      "words": 187281
+    },
+    {
+      "name": "propshop_events",
+      "pages": 435,
+      "words": 204081
+    },
+    {
+      "name": "royal_arc",
+      "pages": 351,
+      "words": 181662
+    },
+    {
+      "name": "sbhatnagar_issuer",
+      "pages": 402,
+      "words": 201318
+    },
+    {
+      "name": "sept26_issuer",
+      "pages": 447,
+      "words": 195699
+    },
+    {
+      "name": "sept30_issuer",
+      "pages": 402,
+      "words": 166472
+    },
+    {
+      "name": "shyam_dhani",
+      "pages": 425,
+      "words": 187073
+    },
+    {
+      "name": "teja_engineering",
+      "pages": 255,
+      "words": 133453
+    },
+    {
+      "name": "twinkle_paper_bse",
+      "pages": 407,
+      "words": 166352
+    },
+    {
+      "name": "yajur_bse",
+      "pages": 372,
+      "words": 201998
+    }
+  ],
+  "chapterStats": [
+    {
+      "id": "I.1",
+      "title": "Definitions and Abbreviations",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "I.2",
+      "title": "Presentation of Financial, Industry and Market Data",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "I.3",
+      "title": "Forward-Looking Statements",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "I.4",
+      "title": "Summary of the Offer Document",
+      "count": 4,
+      "pct": 24
+    },
+    {
+      "id": "II.1",
+      "title": "Risk Factors",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "III.1",
+      "title": "The Issue",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "III.2",
+      "title": "Summary of Financial Information",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "III.3",
+      "title": "General Information",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "III.4",
+      "title": "Capital Structure",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "III.5",
+      "title": "Objects of the Issue",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "III.6",
+      "title": "Basis for Issue Price",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "III.7",
+      "title": "Statement of Special Tax Benefits",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.1",
+      "title": "Industry Overview",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.2",
+      "title": "Our Business",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.3",
+      "title": "Key Regulations and Policies",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.4",
+      "title": "History and Certain Corporate Matters",
+      "count": 15,
+      "pct": 88
+    },
+    {
+      "id": "IV.5",
+      "title": "Our Management",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.6",
+      "title": "Our Promoters and Promoter Group",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.7",
+      "title": "Our Group Companies",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.8",
+      "title": "Dividend Policy",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IV.9",
+      "title": "Our Subsidiaries",
+      "count": 13,
+      "pct": 76
+    },
+    {
+      "id": "V.1",
+      "title": "Restated Financial Statements",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "V.2",
+      "title": "Management's Discussion and Analysis of Financial Condition and Results of Operations",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "V.3",
+      "title": "Financial Indebtedness",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "VI.1",
+      "title": "Outstanding Litigation and Material Developments",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "VI.2",
+      "title": "Government and Other Approvals",
+      "count": 15,
+      "pct": 88
+    },
+    {
+      "id": "VI.3",
+      "title": "Other Regulatory and Statutory Disclosures",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "VII.1",
+      "title": "Terms of the Issue",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "VII.2",
+      "title": "Issue Structure",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "VII.3",
+      "title": "Issue Procedure",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "VII.4",
+      "title": "Restrictions on Foreign Ownership of Indian Securities",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "VIII.1",
+      "title": "Main Provisions of the Articles of Association",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IX.1",
+      "title": "Material Contracts and Documents for Inspection",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "IX.2",
+      "title": "Declaration",
+      "count": 17,
+      "pct": 100
+    }
+  ],
+  "requirementStats": [
+    {
+      "id": "R1.1",
+      "text": "Name, CIN, date and place of incorporation, registered and corporate office address",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R1.2",
+      "text": "Main objects as set out in the Memorandum of Association",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R1.3",
+      "text": "Particulars of the lead manager, registrar, market maker, banker to the issue and underwriter",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R1.4",
+      "text": "Company Secretary and Compliance Officer details, investor grievance contact",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R2.1",
+      "text": "Description of the business, products/services offered, and the revenue model",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R2.2",
+      "text": "Industry overview and the issuer's competitive position within it",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R2.3",
+      "text": "Customer concentration — identity of key customers and the revenue share attributable to each",
+      "count": 13,
+      "pct": 76
+    },
+    {
+      "id": "R2.4",
+      "text": "Revenue from operations stated in the business section must reconcile with the restated audited financial statements",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R2.5",
+      "text": "Installed capacity, capacity utilisation and principal properties/plants",
+      "count": 12,
+      "pct": 71
+    },
+    {
+      "id": "R2.6",
+      "text": "Employee strength and human resources",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R2.7",
+      "text": "Intellectual property owned or used by the issuer — trademarks, patents, designs and their registration status",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R2.8",
+      "text": "Immovable properties owned or leased by the issuer, with tenure and the nature of the interest held",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R2.9",
+      "text": "Narrative disclosures must be written in the impersonal, formal register of an offer document rather than in the first person",
+      "count": 0,
+      "pct": 0
+    },
+    {
+      "id": "R3.1",
+      "text": "Company-specific (internal) risk factors derived from the issuer's own business and operations",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R3.2",
+      "text": "Raw-material price volatility and supplier-concentration risk, where applicable",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R3.3",
+      "text": "Customer-concentration risk where a small number of customers account for a large revenue share",
+      "count": 15,
+      "pct": 88
+    },
+    {
+      "id": "R3.4",
+      "text": "Any outstanding litigation, tax demand or regulatory proceeding must be reflected as a risk factor",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R3.5",
+      "text": "External, industry and issue-related risk factors, including risks relating to the SME platform and limited liquidity",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R4.1",
+      "text": "Restated audited financial statements for the last three financial years (Statement of Profit and Loss, Balance Sheet, Cash Flow Statement)",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R4.2",
+      "text": "Statement of accounting ratios — basic and diluted EPS, Return on Net Worth, Net Asset Value per share",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R4.3",
+      "text": "Reference to the peer-reviewed statutory auditor, the auditor's firm registration number and the examination report on the restated financials",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R4.4",
+      "text": "The revenue series presented in the financial statements must be internally consistent with the latest-year revenue relied upon elsewhere in the document",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R4.5",
+      "text": "Capitalisation statement showing borrowings and shareholders' funds before and after the issue",
+      "count": 14,
+      "pct": 82
+    },
+    {
+      "id": "R5.1",
+      "text": "Pre-issue and post-issue shareholding pattern and the history of the equity share capital build-up",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.2",
+      "text": "Issue size, number of equity shares offered, face value and the basis of the price band",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.3",
+      "text": "Objects of the issue with a break-up of the proposed utilisation of net proceeds and the schedule of deployment",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.4",
+      "text": "The aggregate of the stated objects must reconcile with the net proceeds of the issue",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.5",
+      "text": "Net proceeds must equal the gross issue size less the estimated issue-related expenses",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.6",
+      "text": "Market maker reservation portion and the resulting net issue to the public",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.7",
+      "text": "Appointment of a monitoring agency for the deployment of issue proceeds, where the issue size excluding the offer for sale exceeds INR 50 crore",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.8",
+      "text": "Basis of the estimated working-capital requirement funded from the net proceeds, with the assumptions and holding periods relied upon",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.9",
+      "text": "Amount proposed to be deployed towards general corporate purposes, which must not exceed fifteen per cent of the amount being raised or INR 10 crore, whichever is less",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.10",
+      "text": "Break-up of the estimated issue-related expenses by category (fees of the lead manager, registrar, legal advisors, advertising, listing and statutory fees)",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R5.11",
+      "text": "The objects of the issue must not include repayment, directly or indirectly, of any loan taken from a promoter, a member of the promoter group or any related party",
+      "count": 0,
+      "pct": 0
+    },
+    {
+      "id": "R5.12",
+      "text": "Where the issue includes an offer for sale, that component must not exceed twenty per cent of the total issue size, and no selling shareholder may offer more than fifty per cent of their pre-issue holding on a fully diluted basis",
+      "count": 0,
+      "pct": 0
+    },
+    {
+      "id": "R6.1",
+      "text": "Details of directors and key managerial personnel — name, designation, DIN, age, qualification and experience",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R6.2",
+      "text": "Related-party transactions, including transactions with promoter-group entities, and the amounts involved",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R6.3",
+      "text": "Outstanding litigation and material developments against the company, its directors, promoters and group companies",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R6.4",
+      "text": "Group companies, their basic particulars and the nature of the relationship",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R6.5",
+      "text": "Corporate governance — board composition, independent directors, and constitution of the Audit, Nomination & Remuneration and Stakeholders Relationship Committees",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R6.6",
+      "text": "Remuneration paid to directors and key managerial personnel",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R6.7",
+      "text": "Particulars of the issuer's subsidiaries, if any, with the nature of the holding and their financial position — or an express statement that the issuer has none",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R7.1",
+      "text": "Cover page particulars — 'Draft Red Herring Prospectus' label, issue type (fixed price / book built), face value, price band, and the listing platform",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R7.2",
+      "text": "Issuer's absolute responsibility statement and the lead manager's responsibility statement",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R7.3",
+      "text": "General risk statement and the SME platform eligibility / listing statement",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R7.4",
+      "text": "Definitions and abbreviations, including issue-related, company-related and industry terms",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R7.5",
+      "text": "Presentation of financial, industry and market data — currency of presentation, financial year convention, rounding and the sourcing of third-party industry data",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R7.6",
+      "text": "Forward-looking statements caution and the issuer's undertaking on material developments",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R7.7",
+      "text": "Summary of the offer document — business, industry, promoters, issue size, objects, restated financials, litigation, related-party transactions and contingent liabilities, presented together at the front of the document",
+      "count": 9,
+      "pct": 53
+    },
+    {
+      "id": "R8.1",
+      "text": "The Issue table — fresh issue and/or offer for sale, number of equity shares, face value and issue size",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R8.2",
+      "text": "Issue structure — allocation between retail individual investors and other-than-retail investors, and the market maker portion",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R8.3",
+      "text": "Terms of the issue — ranking of equity shares, mode of payment, rights of holders, minimum application size and lot",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R8.4",
+      "text": "Issue procedure — ASBA and UPI mechanism, bidding process, basis of allotment and refund timelines",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R8.5",
+      "text": "Underwriting and market making arrangements, including the underwriter's obligations",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R9.1",
+      "text": "Qualitative factors supporting the issue price",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R9.2",
+      "text": "Quantitative factors — basic and diluted EPS, price-to-earnings ratio at the price band, Return on Net Worth and Net Asset Value per share",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R9.3",
+      "text": "Comparison with listed industry peers, or an express statement that no directly comparable listed peer exists",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R9.4",
+      "text": "Key performance indicators of the issuer's business, disclosed for each restated period, certified and approved by the audit committee",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R9.5",
+      "text": "Weighted average cost of acquisition of equity shares by the promoters and selling shareholders, compared against the issue price",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R9.6",
+      "text": "Weighted average earnings per share and return on net worth across the restated periods, weighted by the respective period weights",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R10.1",
+      "text": "Management's discussion and analysis of the financial condition and results of operations, with year-on-year movement explained",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R10.2",
+      "text": "Significant factors affecting the results of operations and any known trends or uncertainties",
+      "count": 16,
+      "pct": 94
+    },
+    {
+      "id": "R10.3",
+      "text": "Financial indebtedness — secured and unsecured borrowings, principal lenders, security created and material terms",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R11.1",
+      "text": "Government and other statutory approvals held and applied for, and approvals still required",
+      "count": 14,
+      "pct": 82
+    },
+    {
+      "id": "R11.2",
+      "text": "Key regulations and policies applicable to the issuer's business",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R11.3",
+      "text": "Other regulatory and statutory disclosures — SEBI disclaimer, exchange disclaimer, consents, expert opinions, previous public issues and listing particulars",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R11.4",
+      "text": "Price information of past issues handled by the lead manager, and the lead manager's track record",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R12.1",
+      "text": "Promoter particulars — name, age, qualification, experience, and shareholding in the issuer",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R12.2",
+      "text": "Minimum promoter contribution and the lock-in applicable to promoter and pre-issue capital",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R12.3",
+      "text": "Confirmation that the issuer, its promoters, promoter group, directors and selling shareholders are not debarred from accessing the capital markets, and that none is a wilful defaulter, a fraudulent borrower or a fugitive economic offender",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R13.1",
+      "text": "Dividend policy and the dividend declared, if any, in the preceding financial years",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R13.2",
+      "text": "Statement of special tax benefits available to the company and its shareholders, certified by the statutory auditor",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R14.1",
+      "text": "Main provisions of the Articles of Association",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R14.2",
+      "text": "Material contracts and documents available for inspection",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R15.1",
+      "text": "Declaration by the directors and the Company Secretary confirming compliance with the Companies Act, the SEBI Act and the ICDR Regulations, and that no statement made is contrary to those provisions",
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "id": "R16.1",
+      "text": "Restrictions on foreign ownership of Indian securities under FEMA and the consolidated FDI policy",
+      "count": 17,
+      "pct": 100
+    }
+  ],
+  "gapStats": [
+    {
+      "key": "KPI",
+      "label": "Key Performance Indicators",
+      "probes": [
+        "key performance indicators",
+        "kpi of our company"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "OBJECTS_MONITOR",
+      "label": "Monitoring agency / deployment monitoring",
+      "probes": [
+        "monitoring agency",
+        "monitoring of utilisation"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "BASIS_ALLOT",
+      "label": "Basis of allotment",
+      "probes": [
+        "basis of allotment"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "RPT_CHAPTER",
+      "label": "Related Party Transactions (own chapter)",
+      "probes": [
+        "related party transactions"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "PROPERTY",
+      "label": "Our Property / immovable properties",
+      "probes": [
+        "immovable propert",
+        "our properties"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "IP",
+      "label": "Intellectual property",
+      "probes": [
+        "intellectual property"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "EMPLOYEES",
+      "label": "Human resources / employees",
+      "probes": [
+        "human resources",
+        "our employees"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "WORKING_CAP",
+      "label": "Working capital requirement basis",
+      "probes": [
+        "working capital requirement",
+        "basis of working capital"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "GCP",
+      "label": "General corporate purposes",
+      "probes": [
+        "general corporate purpose"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "ISSUE_EXPENSES",
+      "label": "Issue expenses breakdown",
+      "probes": [
+        "issue related expenses",
+        "offer related expenses",
+        "issue expenses"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "WEIGHTED_EPS",
+      "label": "Weighted average EPS / RoNW table",
+      "probes": [
+        "weighted average",
+        "weighted average number of equity shares"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "WACA",
+      "label": "Weighted average cost of acquisition",
+      "probes": [
+        "weighted average cost of acquisition",
+        "waca"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "BRLM_TRACK",
+      "label": "Track record of lead manager",
+      "probes": [
+        "track record of the past issues",
+        "price information of past issues"
+      ],
+      "count": 17,
+      "pct": 100
+    },
+    {
+      "key": "ACC_RATIOS",
+      "label": "Accounting ratios (own section)",
+      "probes": [
+        "accounting ratios"
+      ],
+      "count": 16,
+      "pct": 94
+    },
+    {
+      "key": "OUR_SUBS",
+      "label": "Our Subsidiaries",
+      "probes": [
+        "our subsidiaries",
+        "subsidiaries of our company"
+      ],
+      "count": 15,
+      "pct": 88
+    },
+    {
+      "key": "CAPACITY",
+      "label": "Installed capacity and utilisation",
+      "probes": [
+        "installed capacity",
+        "capacity utilisation",
+        "capacity utilization"
+      ],
+      "count": 15,
+      "pct": 88
+    },
+    {
+      "key": "CAPITALISATION",
+      "label": "Capitalisation statement",
+      "probes": [
+        "capitalisation statement",
+        "capitalization statement"
+      ],
+      "count": 14,
+      "pct": 82
+    },
+    {
+      "key": "GREEN_SHOE",
+      "label": "Green shoe option",
+      "probes": [
+        "green shoe"
+      ],
+      "count": 14,
+      "pct": 82
+    },
+    {
+      "key": "PRE_IPO",
+      "label": "Pre-IPO placement",
+      "probes": [
+        "pre ipo placement",
+        "pre-ipo placement"
+      ],
+      "count": 13,
+      "pct": 76
+    },
+    {
+      "key": "SUMMARY",
+      "label": "Summary of the Offer Document",
+      "probes": [
+        "summary of the offer document",
+        "summary of offer document",
+        "summary of the issue document"
+      ],
+      "count": 9,
+      "pct": 53
+    }
+  ],
+  "lengths": {
+    "pages": [
+      255,
+      351,
+      352,
+      364,
+      365,
+      367,
+      372,
+      397,
+      402,
+      402,
+      407,
+      425,
+      431,
+      435,
+      443,
+      447,
+      550
+    ],
+    "words": [
+      133453,
+      166352,
+      166472,
+      179790,
+      180741,
+      181662,
+      186553,
+      187073,
+      187281,
+      193103,
+      194124,
+      195699,
+      199939,
+      201318,
+      201998,
+      204081,
+      227170
+    ]
+  }
+}

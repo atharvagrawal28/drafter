@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "issuer_id": "backtest-himalayan",
+    "case_name": "Himalayan Solar Limited",
+    "sector": "Solar / renewable energy equipment",
+    "fictional": false,
+    "purpose": "BACKTEST FIXTURE — NOT a demo issuer. Facts extracted from the company's own Draft Red Herring Prospectus dated 26 September 2025, filed on the NSE Emerge platform and published by NSE. Used solely to measure Drafter's coverage against a genuinely filed SME DRHP. No defects are planted here: any finding the checker raises is a real observation about the issuer data as extracted, and several are artefacts of extraction rather than of the filing (see BACKTEST.md).",
+    "source": {
+      "document": "Draft Red Herring Prospectus dated 26 September 2025",
+      "platform": "NSE Emerge",
+      "url": "https://nsearchives.nseindia.com/emerge/corporates/content/Registration_27092025052000_DRHP_HimalayanSolar_NSE_26092025.pdf",
+      "pages": 365,
+      "words": 186553,
+      "retrieved": "2026-07-22",
+      "note": "Public regulatory filing. Only factual particulars are reproduced here — no drafting language from the filing is copied into Drafter's own output."
+    },
+    "extraction_note": "Monetary figures in the filing are stated in INR lakh; they are converted to INR crore here (lakh / 100) because Drafter's engine works in crore. Fields the filing leaves as '[●]' at the draft stage (price band, net proceeds, general corporate purposes) are left ABSENT here rather than guessed — that is exactly the state a real promoter would be in, and it exercises Drafter's placeholder path.",
+    "planted_defects": []
+  },
+  "identity": {
+    "company_name": "Himalayan Solar Limited",
+    "cin": "U40100HR2015PLC056609",
+    "incorporation_date": "8 September 2015",
+    "incorporation_place": "Haryana",
+    "registered_office": "SCO-411, 2nd Floor, Sector 20, Panchkula, Haryana 134117, India",
+    "corporate_office": "SCO-411, 2nd Floor, Sector 20, Panchkula, Haryana 134117, India",
+    "website": "www.himalayansolar.co.in",
+    "email": "cs@himalayansolar.co.in",
+    "phone": "+91 7087117405",
+    "company_secretary": "Mrs. Navkiran Kaur, Company Secretary and Compliance Officer",
+    "moa_objects": "To carry on the business of manufacture, assembly, installation and supply of solar photovoltaic modules and allied renewable energy equipment, and to undertake engineering, procurement and construction of solar power projects."
+  },
+  "business": {
+    "business_description": "Himalayan Solar Limited was originally incorporated as a private limited company in Haryana in September 2015 and was converted into a public limited company in November 2024. The Company operates in the solar and renewable energy equipment sector.",
+    "products_services": "Solar photovoltaic modules and allied renewable energy equipment, together with engineering, procurement and construction services for solar installations.",
+    "revenue_model": "Revenue is earned from the manufacture and supply of solar modules and equipment and from engineering, procurement and construction contracts.",
+    "industry": "Solar and renewable energy equipment",
+    "industry_overview": "",
+    "revenue_stated": 142.44,
+    "top_customers": "",
+    "suppliers": "",
+    "plants_capacity": "",
+    "employees": "",
+    "competitive_strengths": "",
+    "business_strategies": "",
+    "mda_drivers": "",
+    "internal_notes_for_checker": "",
+    "has_manufacturing": true
+  },
+  "financials": {
+    "years": [
+      "FY23",
+      "FY24",
+      "FY25"
+    ],
+    "revenue_3yr": [
+      47.59,
+      138.32,
+      142.44
+    ],
+    "pat_3yr": [
+      0.58,
+      4.94,
+      15.85
+    ],
+    "revenue_latest_year": 142.44,
+    "pat_latest_year": 15.85,
+    "eps": 9.77,
+    "eps_diluted": 9.77,
+    "ronw_pct": null,
+    "nav_per_share": null,
+    "networth_3yr": [],
+    "total_assets_3yr": [],
+    "borrowings_3yr": [],
+    "cash_flow_ops_3yr": [],
+    "ebitda_3yr": [],
+    "auditor": "M/s. Himanshu Mohta & Associates, Chartered Accountants (Peer Review Auditor)",
+    "auditor_frn": "",
+    "audit_report_date": "17 September 2025",
+    "peer_comparison": "",
+    "source": "Restated statement of profit and loss, DRHP dated 26 September 2025, page 51. Figures converted from INR lakh to INR crore."
+  },
+  "issue": {
+    "issue_type": "Fresh issue and offer for sale, 100% book built",
+    "face_value": 10,
+    "pre_issue_capital": null,
+    "fresh_issue_shares": 5178000,
+    "issue_size": null,
+    "issue_expenses": null,
+    "net_proceeds": null,
+    "price_band": "",
+    "price_floor": null,
+    "price_cap": null,
+    "market_maker": "",
+    "market_maker_reservation_shares": null,
+    "objects_breakup": [
+      {
+        "purpose": "Funding capital expenditure for expansion and upgradation of the existing manufacturing facility",
+        "amount": 12.98,
+        "deployment": ""
+      },
+      {
+        "purpose": "Meeting incremental working capital requirements",
+        "amount": 24.59,
+        "deployment": ""
+      },
+      {
+        "purpose": "Repayment or pre-payment, in full or in part, of certain outstanding borrowings",
+        "amount": 2.6,
+        "deployment": ""
+      }
+    ],
+    "has_offer_for_sale": false,
+    "offer_for_sale_size": null
+  },
+  "capital_structure": {
+    "authorised_capital": "",
+    "paid_up_capital": "",
+    "share_capital_history": [],
+    "shareholding_pattern": [],
+    "promoter_holding_pre_pct": null,
+    "public_holding_pre_pct": null
+  },
+  "management": {
+    "directors": "",
+    "kmp": "Ms. Sakshi Sharma, Chief Financial Officer; Mrs. Navkiran Kaur, Company Secretary and Compliance Officer.",
+    "remuneration": "",
+    "related_parties": "",
+    "group_companies": "",
+    "corporate_governance_committees": ""
+  },
+  "promoters": {
+    "promoter_names": "Mr. Manjeet Singh, Mrs. Karthiyani M, Mr. Himanshu Dalal, Mr. Mehtab Singh and Mrs. Anita Kumari",
+    "promoter_details": "",
+    "promoter_shareholding_pct": null,
+    "promoter_contribution_pct": null,
+    "lock_in_confirmation": null,
+    "promoter_disqualification_confirmation": null
+  },
+  "legal": {
+    "litigation": "",
+    "litigation_matters": [],
+    "litigation_mentioned": false,
+    "litigation_disclosed": false,
+    "tax_matters": "",
+    "material_developments": "",
+    "approvals": "",
+    "pending_approvals": ""
+  },
+  "indebtedness": {
+    "total_borrowings": null,
+    "secured": null,
+    "unsecured": null,
+    "lenders": "",
+    "terms": ""
+  },
+  "dividend": {
+    "dividend_policy": "",
+    "dividend_history": ""
+  },
+  "tax": {
+    "special_tax_benefits_certificate": null
+  },
+  "issue_structure": {
+    "lead_manager": "",
+    "registrar": "",
+    "underwriter": "",
+    "banker": "",
+    "legal_advisor": "",
+    "listing_platform": "NSE Emerge"
+  },
+  "eligibility": {
+    "converted_from_firm": false,
+    "full_year_since_conversion": null,
+    "promoter_change_last_year": false,
+    "exchange_application": true,
+    "depository_agreement": true,
+    "no_partly_paid_shares": true,
+    "promoter_shares_demat": true,
+    "firm_financing_arrangements": true
+  }
+}

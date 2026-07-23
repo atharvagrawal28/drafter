@@ -1,0 +1,36 @@
+#!/bin/sh
+# The full gate, before anything leaves this machine.
+#
+# A push to main deploys to Vercel and is visible to anyone reading the
+# repository, so this is the last point at which a regression is cheap. Every
+# suite here runs without an API key.
+
+set -e
+
+echo ""
+echo "  Drafter — verifying before push"
+echo ""
+
+if [ ! -x "node_modules/.bin/tsc" ]; then
+  echo "  dependencies not installed — run 'npm install' first."
+  exit 1
+fi
+
+echo "  [1/5] types"
+./node_modules/.bin/tsc --noEmit
+
+echo "  [2/5] engine — defects, exports, reachability, thresholds, action plan"
+npm run --silent verify
+
+echo "  [3/5] eligibility gate"
+npm run --silent verify:eligibility
+
+echo "  [4/5] financials extraction"
+npm run --silent verify:extract
+
+echo "  [5/5] regulation watch"
+npm run --silent verify:watch
+
+echo ""
+echo "  All checks passed. Pushing."
+echo ""

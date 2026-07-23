@@ -1,0 +1,317 @@
+{
+  "doc_type": "SME Draft Red Herring Prospectus (DRHP)",
+  "basis": "Structure follows SEBI (ICDR) Regulations, 2018 - Schedule VI (contents of the offer document) and Chapter IX, as used in actual NSE Emerge / BSE SME DRHPs. Demo registry: verify against the live schedule before any real use. Structure validated against a corpus of 17 filed SME DRHPs (14 NSE Emerge + 3 BSE SME, 6,765 pages): 30 of 34 chapters appear in every document in the corpus, and all 34 in at least 86%.",
+  "front_matter": {
+    "cover_page": [
+      "Logo, name, CIN, date & place of incorporation of the issuer",
+      "Registered & corporate office, contact, website, email",
+      "Company Secretary & Compliance Officer",
+      "Promoters of the company",
+      "'Draft Red Herring Prospectus' / book-built or fixed-price issue label",
+      "The Issue: fresh issue / offer for sale, number of equity shares, face value, price band/price",
+      "Eligibility & listing platform (NSE Emerge / BSE SME) statement",
+      "General risk / issuer's & LM's absolute responsibility statements",
+      "Lead Manager, Registrar, Market Maker details and logos"
+    ],
+    "standard_statements": [
+      "Table of Contents",
+      "Notice to investors / disclaimer clauses"
+    ]
+  },
+  "sections": [
+    {
+      "id": "I",
+      "title": "Section I — General",
+      "chapters": [
+        {
+          "id": "I.1",
+          "title": "Definitions and Abbreviations",
+          "mode": "boilerplate"
+        },
+        {
+          "id": "I.2",
+          "title": "Presentation of Financial, Industry and Market Data",
+          "mode": "boilerplate"
+        },
+        {
+          "id": "I.3",
+          "title": "Forward-Looking Statements",
+          "mode": "boilerplate"
+        },
+        {
+          "id": "I.4",
+          "title": "Summary of the Offer Document",
+          "mode": "factual",
+          "priority": true,
+          "must_cover": [
+            "summary of the business",
+            "summary of the industry",
+            "names of promoters",
+            "size of the issue",
+            "objects of the issue",
+            "pre-issue shareholding of promoters",
+            "summary of restated financials",
+            "summary of outstanding litigation",
+            "summary of related-party transactions",
+            "summary of contingent liabilities"
+          ],
+          "corpus_evidence": "A dedicated summary chapter is required by Schedule VI and appears in the corpus; it is the first thing an exchange reviewer reads."
+        }
+      ]
+    },
+    {
+      "id": "II",
+      "title": "Section II — Risk Factors",
+      "chapters": [
+        {
+          "id": "II.1",
+          "title": "Risk Factors",
+          "mode": "narrative",
+          "priority": true,
+          "must_cover": [
+            "internal/company-specific risks",
+            "customer concentration",
+            "supplier/raw-material risk",
+            "working-capital intensity",
+            "litigation risk (if any)",
+            "external/industry risks",
+            "issue-related risks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "III",
+      "title": "Section III — Introduction",
+      "chapters": [
+        {
+          "id": "III.1",
+          "title": "The Issue",
+          "mode": "factual",
+          "priority": true
+        },
+        {
+          "id": "III.2",
+          "title": "Summary of Financial Information",
+          "mode": "factual",
+          "priority": true
+        },
+        {
+          "id": "III.3",
+          "title": "General Information",
+          "mode": "factual"
+        },
+        {
+          "id": "III.4",
+          "title": "Capital Structure",
+          "mode": "factual",
+          "priority": true
+        },
+        {
+          "id": "III.5",
+          "title": "Objects of the Issue",
+          "mode": "factual",
+          "priority": true
+        },
+        {
+          "id": "III.6",
+          "title": "Basis for Issue Price",
+          "mode": "factual",
+          "priority": true
+        },
+        {
+          "id": "III.7",
+          "title": "Statement of Special Tax Benefits",
+          "mode": "boilerplate"
+        }
+      ]
+    },
+    {
+      "id": "IV",
+      "title": "Section IV — About the Company",
+      "chapters": [
+        {
+          "id": "IV.1",
+          "title": "Industry Overview",
+          "mode": "narrative",
+          "priority": true
+        },
+        {
+          "id": "IV.2",
+          "title": "Our Business",
+          "mode": "narrative",
+          "priority": true,
+          "must_cover": [
+            "business description",
+            "products/services",
+            "revenue model",
+            "capacity/operations",
+            "customers & concentration",
+            "competitive strengths",
+            "strategies"
+          ]
+        },
+        {
+          "id": "IV.3",
+          "title": "Key Regulations and Policies",
+          "mode": "boilerplate"
+        },
+        {
+          "id": "IV.4",
+          "title": "History and Certain Corporate Matters",
+          "mode": "narrative"
+        },
+        {
+          "id": "IV.5",
+          "title": "Our Management",
+          "mode": "factual",
+          "priority": true,
+          "must_cover": [
+            "board of directors",
+            "KMP",
+            "remuneration",
+            "corporate governance"
+          ]
+        },
+        {
+          "id": "IV.6",
+          "title": "Our Promoters and Promoter Group",
+          "mode": "factual"
+        },
+        {
+          "id": "IV.7",
+          "title": "Our Group Companies",
+          "mode": "factual"
+        },
+        {
+          "id": "IV.8",
+          "title": "Dividend Policy",
+          "mode": "boilerplate"
+        },
+        {
+          "id": "IV.9",
+          "title": "Our Subsidiaries",
+          "mode": "factual",
+          "corpus_evidence": "Present in 86% of the 14-document corpus. Distinct from group companies: a subsidiary is consolidated, a group company is not."
+        }
+      ]
+    },
+    {
+      "id": "V",
+      "title": "Section V — Financial Information",
+      "chapters": [
+        {
+          "id": "V.1",
+          "title": "Restated Financial Statements",
+          "mode": "factual",
+          "priority": true,
+          "must_cover": [
+            "restated P&L (3 yrs)",
+            "restated balance sheet (3 yrs)",
+            "restated cash flow (3 yrs)",
+            "accounting ratios (EPS, RoNW, NAV)",
+            "peer-reviewed auditor reference"
+          ]
+        },
+        {
+          "id": "V.2",
+          "title": "Management's Discussion and Analysis of Financial Condition and Results of Operations",
+          "mode": "narrative",
+          "priority": true
+        },
+        {
+          "id": "V.3",
+          "title": "Financial Indebtedness",
+          "mode": "factual"
+        }
+      ]
+    },
+    {
+      "id": "VI",
+      "title": "Section VI — Legal and Other Information",
+      "chapters": [
+        {
+          "id": "VI.1",
+          "title": "Outstanding Litigation and Material Developments",
+          "mode": "factual",
+          "priority": true,
+          "must_cover": [
+            "litigation against company/directors/promoters",
+            "tax matters",
+            "material developments"
+          ]
+        },
+        {
+          "id": "VI.2",
+          "title": "Government and Other Approvals",
+          "mode": "factual"
+        },
+        {
+          "id": "VI.3",
+          "title": "Other Regulatory and Statutory Disclosures",
+          "mode": "boilerplate"
+        }
+      ]
+    },
+    {
+      "id": "VII",
+      "title": "Section VII — Issue Related Information",
+      "chapters": [
+        {
+          "id": "VII.1",
+          "title": "Terms of the Issue",
+          "mode": "boilerplate"
+        },
+        {
+          "id": "VII.2",
+          "title": "Issue Structure",
+          "mode": "factual",
+          "priority": true
+        },
+        {
+          "id": "VII.3",
+          "title": "Issue Procedure",
+          "mode": "boilerplate"
+        },
+        {
+          "id": "VII.4",
+          "title": "Restrictions on Foreign Ownership of Indian Securities",
+          "mode": "boilerplate"
+        }
+      ]
+    },
+    {
+      "id": "VIII",
+      "title": "Section VIII — Main Provisions of the Articles of Association",
+      "chapters": [
+        {
+          "id": "VIII.1",
+          "title": "Main Provisions of the Articles of Association",
+          "mode": "boilerplate"
+        }
+      ]
+    },
+    {
+      "id": "IX",
+      "title": "Section IX — Other Information",
+      "chapters": [
+        {
+          "id": "IX.1",
+          "title": "Material Contracts and Documents for Inspection",
+          "mode": "factual"
+        },
+        {
+          "id": "IX.2",
+          "title": "Declaration",
+          "mode": "boilerplate"
+        }
+      ]
+    }
+  ],
+  "generation_policy": {
+    "factual": "Populate ONLY from issuer data (wizard + uploads). No invented numbers or names.",
+    "narrative": "LLM drafts in formal prospectus register, constrained by issuer data; source-linked; no new facts.",
+    "boilerplate": "Standard structural text with issuer-specific fields merged in; clearly marked as standard clauses for the merchant banker to finalise.",
+    "priority_for_demo": "Chapters flagged priority:true are fully generated for the demo; the rest render with proper headings + a structured placeholder so the full DRHP skeleton is visible and navigable."
+  }
+}

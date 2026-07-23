@@ -1,0 +1,34 @@
+# Line endings, settled once so they cannot drift per machine.
+#
+# Windows sets core.autocrlf=true by default, which rewrites LF to CRLF on
+# checkout. For source files that is harmless. For the git hooks it is not: a
+# shebang line ending in "\r" makes the kernel look for an interpreter literally
+# called "/bin/sh\r", and the hook dies with "bad interpreter". The guards would
+# stop running for the next person who clones, silently — which is the worst way
+# for a safety net to fail.
+
+# Normalise everything to LF in the repository, and check out LF everywhere.
+* text=auto eol=lf
+
+# Belt and braces for the executable scripts.
+*.sh          text eol=lf
+.githooks/*   text eol=lf
+
+# Binaries must be stored byte-for-byte. Without this, "text=auto" can mangle a
+# DOCX or PDF that happens to look textual to git's heuristics — and this repo
+# commits the generated sample offer document as evidence.
+*.pdf   binary
+*.docx  binary
+*.xlsx  binary
+*.png   binary
+*.jpg   binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+
+# Keep generated artefacts and the vendored corpus provenance out of diffs and
+# out of GitHub's language statistics, so the repository is reported as the
+# TypeScript project it is.
+package-lock.json          linguist-generated=true
+backtest_output/**         linguist-generated=true
+legacy_streamlit/**        linguist-vendored=true

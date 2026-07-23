@@ -1,0 +1,50 @@
+{
+  "name": "drafter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Drafter — SME IPO offer-document generation with regulatory-grade traceability. SEBI Securities Market TechSprint @ GFF 2026, Track 04.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prepare": "git config core.hooksPath .githooks || exit 0",
+    "typecheck": "tsc --noEmit",
+    "verify": "tsx scripts/verify-engine.ts",
+    "verify:eligibility": "tsx scripts/verify-eligibility.ts",
+    "verify:extract": "tsx scripts/verify-extract.ts",
+    "verify:watch": "tsx scripts/verify-watch.ts",
+    "verify:llm": "tsx scripts/verify-llm.ts",
+    "backtest": "tsx scripts/backtest.ts backtest_output/extract backtest_output",
+    "corpus": "tsx scripts/corpus-analyse.ts backtest_output/corpus backtest_output",
+    "coldtest": "tsx scripts/coldtest.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/groq": "^1.2.9",
+    "@langchain/core": "^1.2.3",
+    "@langchain/langgraph": "^1.4.8",
+    "@react-pdf/renderer": "^4.3.0",
+    "ai": "^4.3.16",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "docx": "^9.5.0",
+    "dotenv": "^17.4.2",
+    "lucide-react": "^0.511.0",
+    "next": "^15.3.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.0",
+    "unpdf": "^0.12.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

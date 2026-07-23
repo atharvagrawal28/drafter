@@ -1,0 +1,77 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+build/
+next-env.d.ts
+
+# environment — never commit API keys.
+# The dotless variants are deliberate: a file saved as "env.local" (no leading
+# dot) is a very easy mistake to make, is invisible to Next.js, and would
+# otherwise be committed with a live key inside it.
+.env
+.env.local
+.env*.local
+env.local
+env*.local
+*.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# python legacy prototype
+legacy_streamlit/__pycache__/
+legacy_streamlit/exports/*.docx
+*.pyc
+
+# Working notes that are not part of the deliverable.
+#
+# FINAL_BUILD_PROMPT.md is the internal brief this build was worked from. It is
+# useful to the team and irrelevant to a reader of the repository — the product,
+# the README and BACKTEST.md are what stand on their own. It stays on disk.
+FINAL_BUILD_PROMPT.md
+
+# Editor and agent configuration — local tooling, not project source.
+.claude/
+
+# os
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*
+
+# Backtest artefacts.
+#
+# The 17 corpus PDFs are ~130 MB of third-party regulatory filings and have no
+# business in this repository. But BACKTEST.md says the study is reproducible
+# and cites its results, so three things are deliberately KEPT:
+#
+#   sources.txt         the URL of every filing in the corpus, so a reader can
+#                       re-fetch exactly the same 17 documents
+#   corpus-result.json  the machine-readable output BACKTEST.md Part 1 quotes
+#   backtest-result.json  the same for Part 2
+#
+# The generated DOCX and PDF for the benchmark issuer are kept too (150 KB):
+# BACKTEST.md tells a reader to open them next to the real filing, and a judge
+# should be able to see the output without running anything.
+#
+# Excluding the provenance along with the PDFs would leave the strongest
+# evidence in the submission unverifiable.
+backtest_output/*
+!backtest_output/corpus/
+!backtest_output/corpus-result.json
+!backtest_output/backtest-result.json
+!backtest_output/Drafter_*.docx
+!backtest_output/Drafter_*.pdf
+backtest_output/corpus/*
+!backtest_output/corpus/sources.txt
+backtest_output/**/text-cache/

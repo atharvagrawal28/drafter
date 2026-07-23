@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Font stacks. Loaded and self-hosted by next/font in layout.tsx; these are
+       the offline fallbacks, so the app never depends on the network. */
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    --font-serif: "Newsreader", "Source Serif 4", Georgia, Cambria, "Times New Roman",
+      Times, serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+      Consolas, "Liberation Mono", monospace;
+
+    /* ----------------------------------------------------------------
+       Surfaces.
+       A faint warm cast rather than a cold blue-grey: paper, not screen.
+       The card sits a shade above the page so elevation reads without a
+       heavy shadow, which is what keeps a dense interface calm.
+       ---------------------------------------------------------------- */
+    --background: 40 22% 97.5%;
+    --foreground: 218 28% 13%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 218 28% 13%;
+
+    /* Deep regulatory ink — the Drafter brand colour. */
+    --primary: 218 46% 17%;
+    --primary-foreground: 40 30% 98%;
+
+    --secondary: 40 16% 93.5%;
+    --secondary-foreground: 218 38% 20%;
+
+    --muted: 40 16% 94.5%;
+    /* Darkened from 44% to clear WCAG AA comfortably rather than marginally:
+       muted text carries most of the explanatory copy in this product. */
+    --muted-foreground: 218 13% 39%;
+
+    /* Restrained brass. Used for the seal, the active rule and the standing
+       guardrail — never for ordinary emphasis, or it stops meaning anything. */
+    --accent: 36 52% 42%;
+    --accent-foreground: 40 30% 98%;
+
+    --destructive: 4 62% 44%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Hairlines. Low contrast on purpose: structure should be felt, not seen. */
+    --border: 40 14% 88%;
+    --input: 40 14% 86%;
+    --ring: 218 46% 30%;
+
+    --status-complete: 158 46% 31%;
+    --status-partial: 36 74% 42%;
+    --status-missing: 14 62% 46%;
+    --status-defect: 4 62% 42%;
+
+    --paper: 40 32% 99%;
+    --ink: 218 30% 12%;
+
+    --radius: 0.625rem;
+
+    /* ----------------------------------------------------------------
+       Elevation. Multi-layer, very low opacity, tinted with the ink hue
+       rather than pure black — a single hard shadow is the fastest way to
+       make an interface look unfinished.
+       ---------------------------------------------------------------- */
+    --shadow-xs: 0 1px 2px -1px hsl(218 30% 12% / 0.06), 0 1px 1px hsl(218 30% 12% / 0.04);
+    --shadow-sm: 0 1px 2px hsl(218 30% 12% / 0.04), 0 2px 6px -1px hsl(218 30% 12% / 0.06);
+    --shadow-md: 0 2px 4px hsl(218 30% 12% / 0.04), 0 6px 16px -4px hsl(218 30% 12% / 0.08);
+    --shadow-lg: 0 4px 8px hsl(218 30% 12% / 0.04), 0 16px 32px -8px hsl(218 30% 12% / 0.1);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    /* Inter's alternates: single-storey a is avoided, but the straight-tailed
+       l and disambiguated 1/I matter in a document full of clause numbers. */
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Figures line up in every column of every table without being asked. */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Headings are set tighter than body text at every size — the single
+     typographic move that most separates considered design from default. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.011em;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.18);
+  }
+
+  /* A visible, branded focus ring. Keyboard users are not second-class. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring) / 0.55);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* ------------------------------------------------------------------
+     Prospectus typography. Applied to the on-screen DRHP so the document
+     reads like a filed offer document rather than a web page.
+     ------------------------------------------------------------------ */
+  .prospectus {
+    @apply font-serif text-[15.5px] leading-[1.72] text-ink;
+    text-rendering: optimizeLegibility;
+    /* Newsreader carries a real optical-size axis: at body size the letterforms
+       thicken and open up, at display size they sharpen. Left to "none" the
+       browser would simply scale one master and the page would read flat. */
+    font-optical-sizing: auto;
+    font-variant-numeric: oldstyle-nums proportional-nums;
+  }
+
+  /* Figures inside tables stay lining and tabular — old-style numerals belong
+     in running prose, never in a column that has to be added up. */
+  .prospectus table {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .prospectus p {
+    @apply mb-4 text-justify;
+    hyphens: auto;
+  }
+
+  .prospectus p:last-child {
+    @apply mb-0;
+  }
+
+  .prospectus-h1 {
+    @apply font-serif text-[27px] font-semibold uppercase tracking-[0.07em] text-primary;
+    font-optical-sizing: auto;
+  }
+
+  .prospectus-h2 {
+    @apply font-serif text-[19px] font-semibold text-ink;
+  }
+
+  .prospectus-h3 {
+    @apply font-serif text-[16px] font-semibold text-ink;
+  }
+
+  /* Prospectus tables: ruled, tabular figures, right-aligned numerics. */
+  .prospectus-table {
+    @apply w-full border-collapse text-[13.5px];
+    font-variant-numeric: tabular-nums;
+  }
+
+  .prospectus-table th {
+    @apply border border-border bg-secondary px-3 py-2 text-left font-semibold text-secondary-foreground;
+  }
+
+  .prospectus-table td {
+    @apply border border-border px-3 py-2 align-top;
+  }
+
+  .prospectus-table td.numeric,
+  .prospectus-table th.numeric {
+    @apply text-right;
+  }
+
+  .prospectus-table tr.total-row td {
+    @apply bg-secondary/60 font-semibold;
+  }
+
+  /* Thin scrollbar for the sticky TOC. */
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

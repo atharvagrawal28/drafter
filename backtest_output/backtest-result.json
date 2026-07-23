@@ -1,0 +1,347 @@
+{
+  "issuer": "Himalayan Solar Limited",
+  "source": {
+    "document": "Draft Red Herring Prospectus dated 26 September 2025",
+    "platform": "NSE Emerge",
+    "url": "https://nsearchives.nseindia.com/emerge/corporates/content/Registration_27092025052000_DRHP_HimalayanSolar_NSE_26092025.pdf",
+    "pages": 365,
+    "words": 186553,
+    "retrieved": "2026-07-22",
+    "note": "Public regulatory filing. Only factual particulars are reproduced here — no drafting language from the filing is copied into Drafter's own output."
+  },
+  "structural": {
+    "hits": 32,
+    "total": 32,
+    "pct": 100
+  },
+  "disclosure": {
+    "evidenced": 59,
+    "total": 60,
+    "pct": 98,
+    "notEvidenced": [
+      "R10.2 Significant factors affecting the results of operations and any known "
+    ]
+  },
+  "generated": {
+    "totalChapters": 32,
+    "generatedChapters": 20,
+    "partialChapters": 9,
+    "skeletonChapters": 3,
+    "totalWords": 7633,
+    "totalTables": 14,
+    "placeholders": 22
+  },
+  "filed": {
+    "pages": 365,
+    "words": 186553
+  },
+  "gap": {
+    "coveragePct": 43,
+    "issuerCoveragePct": 46,
+    "counts": {
+      "total": 60,
+      "complete": 18,
+      "partial": 15,
+      "missing": 26,
+      "defect": 1,
+      "bankerDependent": 4,
+      "standardClause": 12
+    },
+    "findings": [
+      {
+        "code": "DR-CMP-001",
+        "severity": "high",
+        "category": "Compliance Issue",
+        "requirementId": "R4.3",
+        "title": "Mandatory auditor reference is absent"
+      },
+      {
+        "code": "DR-MIS-001",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R1.3",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-002",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R2.2",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-003",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R2.3",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-004",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R2.5",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-006",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R3.2",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-007",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R3.3",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-008",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R3.4",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-009",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R3.5",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-010",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R4.1",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-011",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R4.2",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-012",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R5.1",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-013",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R5.2",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-014",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R5.3",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-015",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R5.4",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-016",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R5.5",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-017",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R5.6",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-018",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R6.1",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-019",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R6.2",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-020",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R6.3",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-021",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R6.4",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-022",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R6.5",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-024",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R7.1",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-025",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R8.1",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-026",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R8.2",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-027",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R8.5",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-028",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R9.1",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-029",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R9.2",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-030",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R9.3",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-031",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R10.1",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-032",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R10.2",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-033",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R10.3",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-034",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R11.1",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-035",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R12.1",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-038",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R13.1",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-040",
+        "severity": "medium",
+        "category": "Missing Information",
+        "requirementId": "R14.2",
+        "title": "Disclosure supplied only in part"
+      },
+      {
+        "code": "DR-MIS-005",
+        "severity": "low",
+        "category": "Missing Information",
+        "requirementId": "R2.6",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-023",
+        "severity": "low",
+        "category": "Missing Information",
+        "requirementId": "R6.6",
+        "title": "Required disclosure not yet supplied"
+      },
+      {
+        "code": "DR-MIS-036",
+        "severity": "low",
+        "category": "Missing Information",
+        "requirementId": "R12.2",
+        "title": "Awaiting merchant-banker or auditor certification"
+      },
+      {
+        "code": "DR-MIS-037",
+        "severity": "low",
+        "category": "Missing Information",
+        "requirementId": "R12.3",
+        "title": "Awaiting merchant-banker or auditor certification"
+      },
+      {
+        "code": "DR-MIS-039",
+        "severity": "low",
+        "category": "Missing Information",
+        "requirementId": "R13.2",
+        "title": "Awaiting merchant-banker or auditor certification"
+      },
+      {
+        "code": "DR-MIS-041",
+        "severity": "low",
+        "category": "Missing Information",
+        "requirementId": "R15.1",
+        "title": "Awaiting merchant-banker or auditor certification"
+      }
+    ]
+  }
+}

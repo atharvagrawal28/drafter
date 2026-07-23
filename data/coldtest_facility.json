@@ -1,0 +1,204 @@
+{
+  "meta": {
+    "issuer_id": "coldtest-facility",
+    "case_name": "Sundaram Facility Services Limited",
+    "sector": "Facility management services",
+    "fictional": true,
+    "purpose": "COLD-START QUALITY FIXTURE — deliberately NOT tuned to Drafter. Written the way a first-time SME promoter would actually fill the intake: casual first-person prose rather than prospectus register, several fields left blank, customers typed as a run-on sentence, litigation described vaguely, and one realistic data-entry error (revenue keyed in lakh into a field labelled crore). NO defects are planted for the checker to find. Anything the checker reports here is either a genuine catch or a false positive, and both are informative.",
+    "what_this_tests": [
+      "Does the LLM lift casual promoter prose into prospectus register without inventing facts?",
+      "Does the sector-conditional gate correctly excuse a services business from manufacturing disclosures?",
+      "Does the checker produce false positives on honest but incomplete data?",
+      "Does it recognise a lakh/crore unit error, or just report a meaningless percentage?",
+      "Do blanks degrade into useful placeholders that name what is needed?"
+    ],
+    "planted_defects": []
+  },
+  "identity": {
+    "company_name": "Sundaram Facility Services Limited",
+    "cin": "U74999TN2016PLC112873",
+    "incorporation_date": "22 February 2016",
+    "incorporation_place": "Chennai, Tamil Nadu",
+    "registered_office": "3rd Floor, Kamala Towers, 18 Nungambakkam High Road, Chennai, Tamil Nadu 600034",
+    "corporate_office": "",
+    "website": "www.sundaramfacility.example",
+    "email": "info@sundaramfacility.example",
+    "phone": "+91 44 4200 8800",
+    "company_secretary": "",
+    "moa_objects": "To provide facility management, housekeeping, security and allied support services to commercial, industrial and institutional customers."
+  },
+  "business": {
+    "has_manufacturing": false,
+    "business_description": "We do housekeeping, security and facility upkeep for offices, hospitals and factories. We started in Chennai and now we also work in Bengaluru and Hyderabad. Right now around 1,850 people work through us at 74 sites.",
+    "products_services": "Housekeeping and cleaning, security manpower, pantry and front office staff, and basic upkeep like plumbing and electrical for the sites we manage.",
+    "revenue_model": "We sign yearly or two year contracts with clients and bill every month based on how many people are deployed plus a service margin. Some clients also pay separately for consumables.",
+    "industry": "Facility management services",
+    "industry_overview": "",
+    "revenue_stated": 4560,
+    "top_customers": "Our biggest is a Chennai IT park operator about 19 percent then a hospital chain around 14 percent, an auto ancillary group roughly 11 percent, one bank back office near 8 percent and a logistics company about 6 percent",
+    "customer_concentration_pct": 33,
+    "suppliers": "We mostly buy cleaning consumables and uniforms locally, nothing major.",
+    "plants_capacity": "",
+    "employees": "About 1,850 people are deployed at client sites and we have 46 people in our own offices for supervision, payroll and sales.",
+    "competitive_strengths": "Clients stay with us long, we have not lost a major client in four years. We do our own payroll and PF compliance in house which many small competitors outsource.",
+    "business_strategies": "Grow in Bengaluru and Hyderabad, add technical services like HVAC upkeep which earns better margin, and get more hospital clients since they pay on time.",
+    "mda_drivers": "Revenue went up because we added sites in Bengaluru and Hyderabad and a few big clients increased headcount. Margins are thin because minimum wages went up in Tamil Nadu and we could not pass all of it to clients immediately.",
+    "intellectual_property": "",
+    "immovable_properties": "All our offices are rented, we do not own any property.",
+    "internal_notes_for_checker": "One client in Hyderabad has not paid for about 7 months and we have sent them a legal notice through our advocate. Also there was an EPFO inspection last year and they raised some demand which our consultant is handling."
+  },
+  "financials": {
+    "years": [
+      "FY24",
+      "FY25",
+      "FY26"
+    ],
+    "revenue_3yr": [
+      31.2,
+      38.75,
+      45.6
+    ],
+    "pat_3yr": [
+      0.94,
+      1.36,
+      1.88
+    ],
+    "revenue_latest_year": 45.6,
+    "pat_latest_year": 1.88,
+    "eps": 4.7,
+    "eps_diluted": 4.7,
+    "eps_3yr": [
+      2.35,
+      3.4,
+      4.7
+    ],
+    "ronw_3yr": [
+      12.1,
+      14.3,
+      15.9
+    ],
+    "ronw_pct": 15.9,
+    "nav_per_share": 29.6,
+    "networth_3yr": [
+      7.76,
+      9.5,
+      11.83
+    ],
+    "ebitda_3yr": [
+      2.1,
+      2.94,
+      3.86
+    ],
+    "total_assets_3yr": [],
+    "borrowings_3yr": [],
+    "cash_flow_ops_3yr": [],
+    "auditor": "M/s Rangarajan & Co., Chartered Accountants",
+    "auditor_frn": "",
+    "audit_report_date": "",
+    "peer_comparison": "",
+    "contingent_liabilities": ""
+  },
+  "issue": {
+    "issue_type": "Fresh issue",
+    "face_value": 10,
+    "pre_issue_capital": 4000000,
+    "fresh_issue_shares": 1400000,
+    "issue_size": 12.6,
+    "issue_expenses": 0.9,
+    "net_proceeds": 11.7,
+    "price_band": "",
+    "price_floor": null,
+    "price_cap": null,
+    "market_maker": "",
+    "market_maker_reservation_shares": null,
+    "monitoring_agency": "",
+    "working_capital_basis": "",
+    "issue_expenses_breakup": [],
+    "objects_breakup": [
+      {
+        "purpose": "Working capital for new contracts",
+        "amount": 7.5,
+        "deployment": ""
+      },
+      {
+        "purpose": "Buying equipment and vehicles",
+        "amount": 2.2,
+        "deployment": ""
+      },
+      {
+        "purpose": "General corporate purposes",
+        "amount": 2,
+        "deployment": ""
+      }
+    ],
+    "has_offer_for_sale": false,
+    "offer_for_sale_size": null
+  },
+  "capital_structure": {
+    "authorised_capital": "",
+    "paid_up_capital": "",
+    "share_capital_history": [],
+    "shareholding_pattern": [],
+    "promoter_holding_pre_pct": 81,
+    "public_holding_pre_pct": 19
+  },
+  "management": {
+    "directors": "R. Sundaram is the Managing Director, he started the company. Lakshmi Sundaram is a Whole-time Director looking after HR and compliance. We have two independent directors, Mr. V. Krishnan who was a banker and Ms. Anjali Rao who is a company secretary in practice.",
+    "kmp": "",
+    "remuneration": "",
+    "related_parties": "We take our Chennai office on rent from the Managing Director's family trust.",
+    "group_companies": "",
+    "subsidiaries": "",
+    "corporate_governance_committees": ""
+  },
+  "promoters": {
+    "promoter_names": "R. Sundaram and Lakshmi Sundaram",
+    "promoter_details": "",
+    "promoter_shareholding_pct": 81,
+    "waca": null,
+    "promoter_contribution_pct": null,
+    "lock_in_confirmation": null,
+    "promoter_disqualification_confirmation": null
+  },
+  "legal": {
+    "litigation": "Nothing much. We sent a recovery notice to one client who has not paid.",
+    "litigation_matters": [],
+    "tax_matters": "",
+    "material_developments": "",
+    "approvals": "We have shops and establishment registration, PF and ESI registration, GST, and a private security agency licence under PSARA for the security business.",
+    "pending_approvals": ""
+  },
+  "indebtedness": {
+    "total_borrowings": 3.4,
+    "secured": 3.4,
+    "unsecured": 0,
+    "lenders": "We have a cash credit limit from Indian Bank against our receivables.",
+    "terms": ""
+  },
+  "dividend": {
+    "dividend_policy": "",
+    "dividend_history": ""
+  },
+  "tax": {
+    "special_tax_benefits_certificate": null
+  },
+  "issue_structure": {
+    "lead_manager": "",
+    "registrar": "",
+    "underwriter": "",
+    "banker": "",
+    "legal_advisor": "",
+    "listing_platform": "BSE SME",
+    "lead_manager_track_record": ""
+  },
+  "eligibility": {
+    "converted_from_firm": false,
+    "full_year_since_conversion": null,
+    "promoter_change_last_year": false,
+    "exchange_application": true,
+    "depository_agreement": true,
+    "no_partly_paid_shares": true,
+    "promoter_shares_demat": true,
+    "firm_financing_arrangements": true
+  }
+}

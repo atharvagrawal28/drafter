@@ -1,0 +1,339 @@
+{
+  "meta": {
+    "issuer_id": "autocomp",
+    "case_name": "Shreeji Auto Components Limited",
+    "sector": "Auto components",
+    "purpose": "Demo issuer for the Drafter prototype. All data is fictional. TWO defects are deliberately planted so the Gap & Consistency Checker can catch them live on stage.",
+    "fictional": true,
+    "planted_defects": [
+      {
+        "id": "DEFECT-1",
+        "type": "revenue_mismatch",
+        "where": "Our Business (Chapter IV.2) states FY26 revenue from operations of INR 82.50 crore, but the restated financial statements (Chapter V.1) show INR 78.90 crore.",
+        "should_be_caught_by": "R2.4 cross_section_numeric"
+      },
+      {
+        "id": "DEFECT-2",
+        "type": "undisclosed_litigation",
+        "where": "A pending GST input-credit demand is referenced in the business notes and in the related-party answer, but the Legal step answer says 'None pending', so it is never formally disclosed in Chapter VI.1.",
+        "should_be_caught_by": "R3.4 / R6.3 litigation_flag"
+      }
+    ]
+  },
+  "identity": {
+    "company_name": "Shreeji Auto Components Limited",
+    "cin": "U34300GJ2013PLC077412",
+    "incorporation_date": "14 March 2013",
+    "incorporation_place": "Rajkot, Gujarat",
+    "registered_office": "Plot 42, GIDC Industrial Estate, Rajkot, Gujarat 360003",
+    "corporate_office": "Plot 42, GIDC Industrial Estate, Rajkot, Gujarat 360003",
+    "website": "www.shreejiautocomponents.example",
+    "email": "investors@shreejiautocomponents.example",
+    "phone": "+91 281 240 0000",
+    "company_secretary": "Ms. Kavita Joshi, Company Secretary and Compliance Officer",
+    "moa_objects": "To manufacture and supply precision machined automotive components, forgings and sub-assemblies for two-wheeler and passenger-vehicle original equipment manufacturers and their tier-1 suppliers."
+  },
+  "business": {
+    "business_description": "Shreeji Auto Components Limited manufactures precision-machined engine and transmission components for two-wheeler and passenger-vehicle original equipment manufacturers. The Company operates two manufacturing facilities at Rajkot, Gujarat, with an aggregate installed capacity of 6.2 million components per annum.",
+    "products_services": "Machined camshafts, rocker arms, transmission shafts, hubs and forged sub-assemblies supplied to OEM and tier-1 customers, together with a replacement-market range distributed through regional dealers.",
+    "revenue_model": "Revenue is earned under annual rate contracts and long-term supply agreements with original equipment manufacturers and their tier-1 suppliers, billed on despatch, supplemented by a smaller aftermarket and replacement-parts channel sold through distributors.",
+    "industry": "Auto components manufacturing",
+    "industry_overview": "The Indian auto-component industry supplies both domestic vehicle assembly and the export replacement market. Demand for precision machined components is linked to two-wheeler and passenger-vehicle production volumes, to the pace of engine and transmission localisation by original equipment manufacturers, and to steel input prices. Industry participants in the precision machining segment typically compete on quality system certification, delivery reliability and the ability to co-develop components with the customer's engineering team.",
+    "revenue_stated": 82.5,
+    "top_customers": "1) Hero-tier supplier ABC Limited — 28% of revenue; 2) Rico-tier supplier DEF Limited — 22%; 3) GHI Forgings Limited — 14%; 4) JKL Motors Limited — 9%; 5) MNO Auto Private Limited — 6%.",
+    "customer_concentration_pct": 50,
+    "suppliers": "Forged blanks are sourced principally from Shreeji Forgings LLP, an entity owned by the promoters, and from two third-party forging houses in Rajkot. Alloy steel is procured from secondary steel distributors on spot terms.",
+    "plants_capacity": "Rajkot Plant I (Plot 42, GIDC Industrial Estate) — installed capacity 3.8 million components per annum, utilisation 81% in FY26. Rajkot Plant II (Plot 117, Metoda GIDC) — installed capacity 2.4 million components per annum, utilisation 68% in FY26.",
+    "employees": "312 permanent employees as at 31 March 2026, comprising 41 in engineering and quality, 236 in production and 35 in administration and support, together with contract labour engaged on a shift basis.",
+    "competitive_strengths": "IATF 16949 certified quality systems across both plants; an established supply relationship of over eight years with its two largest customers; in-house tool room reducing changeover time; proximity to the Rajkot forging cluster.",
+    "business_strategies": "Commission a third machining line at Rajkot Plant II to serve committed volumes; broaden the customer base to reduce concentration on the two largest accounts; increase the share of higher-margin transmission components; pursue approval as a direct-tier supplier to a passenger-vehicle original equipment manufacturer.",
+    "mda_drivers": "Revenue grew over the three-year period principally on higher despatch volumes to the two largest customers and the commissioning of additional machining capacity at Plant II. Margins were affected by alloy steel price movements, which are only partially passed through under annual rate contracts, and by a higher share of contract labour. Working capital remained elevated because OEM customers settle on 60 to 90 day terms while forging suppliers are paid within 45 days.",
+    "internal_notes_for_checker": "Customer concentration is high — the top two customers together account for 50% of revenue. A GST input-credit demand of INR 1.15 crore relating to FY 2023-24 is currently under appeal before the Appellate Authority. Forged blanks are purchased from Shreeji Forgings LLP, a promoter-owned entity.",
+    "intellectual_property": "The Company holds a registered trademark for its word mark in class 12 (registration granted 2019). It holds no patents. Tooling designs used on the machining lines are maintained as confidential know-how and are not separately registered.",
+    "immovable_properties": "Rajkot Plant I at Plot 42, GIDC Industrial Estate is held on a 99-year lease from the Gujarat Industrial Development Corporation, with 87 years remaining. Rajkot Plant II at Plot 117, Metoda GIDC is held on a 99-year lease with 91 years remaining. The registered office is situated within Plant I. The Company owns no freehold immovable property.",
+    "kpis": [
+      {
+        "name": "Revenue from operations (INR crore)",
+        "values": [
+          61.2,
+          70.4,
+          78.9
+        ]
+      },
+      {
+        "name": "EBITDA margin (%)",
+        "values": [
+          12.99,
+          13.67,
+          14.37
+        ]
+      },
+      {
+        "name": "Profit after tax margin (%)",
+        "values": [
+          6.73,
+          7.64,
+          8.68
+        ]
+      },
+      {
+        "name": "Capacity utilisation (%)",
+        "values": [
+          68,
+          74,
+          76
+        ]
+      },
+      {
+        "name": "Revenue from the top two customers (%)",
+        "values": [
+          54,
+          52,
+          50
+        ]
+      }
+    ],
+    "has_manufacturing": true
+  },
+  "financials": {
+    "years": [
+      "FY24",
+      "FY25",
+      "FY26"
+    ],
+    "revenue_3yr": [
+      61.2,
+      70.4,
+      78.9
+    ],
+    "ebitda_3yr": [
+      7.95,
+      9.62,
+      11.34
+    ],
+    "pat_3yr": [
+      4.12,
+      5.38,
+      6.85
+    ],
+    "networth_3yr": [
+      26.4,
+      31.78,
+      37.22
+    ],
+    "total_assets_3yr": [
+      52.1,
+      58.9,
+      66.4
+    ],
+    "borrowings_3yr": [
+      16.8,
+      17.4,
+      18.2
+    ],
+    "cash_flow_ops_3yr": [
+      3.6,
+      4.85,
+      5.92
+    ],
+    "revenue_latest_year": 78.9,
+    "pat_latest_year": 6.85,
+    "eps": 9.12,
+    "eps_diluted": 9.12,
+    "ronw_pct": 18.4,
+    "nav_per_share": 49.6,
+    "auditor": "M/s Patel & Associates, Chartered Accountants (peer-reviewed)",
+    "auditor_frn": "118342W",
+    "audit_report_date": "12 June 2026",
+    "peer_comparison": "The Company's board considers that no directly comparable listed peer of similar scale operates in the precision machined two-wheeler component segment on the SME platform. For reference, listed auto-component companies of substantially larger scale traded at a price-to-earnings multiple in the range of 18 to 26 times trailing earnings as at the date of this draft. Investors are cautioned that these companies differ materially in scale, product mix and customer profile.",
+    "source": "Issuer-entered (sample issuer). Replace by uploading restated audited financials.",
+    "eps_3yr": [
+      5.49,
+      7.17,
+      9.12
+    ],
+    "ronw_3yr": [
+      15.6,
+      16.9,
+      18.4
+    ],
+    "contingent_liabilities": "Contingent liabilities as at 31 March 2026 comprise the disputed GST input-credit demand of INR 1.15 crore for FY 2023-24, which is under appeal, and bank guarantees of INR 0.42 crore issued in favour of customers."
+  },
+  "issue": {
+    "issue_type": "Fresh issue, fixed price",
+    "face_value": 10,
+    "pre_issue_capital": 7500000,
+    "fresh_issue_shares": 2400000,
+    "issue_size": 24,
+    "issue_expenses": 1.5,
+    "net_proceeds": 22.5,
+    "price_band": "INR 95 to INR 100 per equity share",
+    "price_floor": 95,
+    "price_cap": 100,
+    "market_maker": "XYZ Securities Private Limited",
+    "market_maker_reservation_shares": 126000,
+    "objects_breakup": [
+      {
+        "purpose": "Setting up a third machining line at Rajkot Plant II",
+        "amount": 11.5,
+        "deployment": "FY27"
+      },
+      {
+        "purpose": "Funding incremental working capital requirements",
+        "amount": 7.5,
+        "deployment": "FY27 and FY28"
+      },
+      {
+        "purpose": "General corporate purposes",
+        "amount": 3.5,
+        "deployment": "FY27"
+      }
+    ],
+    "issue_expenses_breakup": [
+      {
+        "head": "Fees of the Lead Manager and Underwriter",
+        "amount": 0.62
+      },
+      {
+        "head": "Fees of the Registrar to the Issue",
+        "amount": 0.14
+      },
+      {
+        "head": "Fees of legal advisors and auditors",
+        "amount": 0.28
+      },
+      {
+        "head": "Advertising, printing and distribution",
+        "amount": 0.24
+      },
+      {
+        "head": "Regulatory, listing and depository fees",
+        "amount": 0.22
+      }
+    ],
+    "working_capital_basis": "The incremental working-capital requirement has been estimated on the basis of holding periods of 62 days for trade receivables, 48 days for inventory and 41 days for trade payables, consistent with the levels observed in FY26, applied to the revenue projected following commissioning of the third machining line. The computation has been certified by the statutory auditor.",
+    "monitoring_agency": "The Issue size does not exceed the threshold at which the appointment of a monitoring agency is mandatory under the ICDR Regulations. The Audit Committee will monitor the utilisation of the Net Proceeds and the Company will disclose any deviation in the manner required by the LODR Regulations.",
+    "has_offer_for_sale": false,
+    "offer_for_sale_size": null
+  },
+  "capital_structure": {
+    "authorised_capital": "INR 10,00,00,000 divided into 1,00,00,000 equity shares of INR 10 each",
+    "paid_up_capital": "INR 7,50,00,000 divided into 75,00,000 equity shares of INR 10 each",
+    "share_capital_history": [
+      {
+        "date": "14 March 2013",
+        "no_of_shares": 100000,
+        "face_value": 10,
+        "issue_price": 10,
+        "nature": "Subscription to the Memorandum of Association"
+      },
+      {
+        "date": "22 August 2016",
+        "no_of_shares": 1400000,
+        "face_value": 10,
+        "issue_price": 10,
+        "nature": "Preferential allotment to the promoters"
+      },
+      {
+        "date": "30 September 2019",
+        "no_of_shares": 2000000,
+        "face_value": 10,
+        "issue_price": 25,
+        "nature": "Private placement to non-promoter investors"
+      },
+      {
+        "date": "18 July 2023",
+        "no_of_shares": 4000000,
+        "face_value": 10,
+        "issue_price": 0,
+        "nature": "Bonus issue in the ratio 8:7"
+      }
+    ],
+    "shareholding_pattern": [
+      {
+        "name": "Rajesh Shah",
+        "category": "Promoter",
+        "shares": 2850000
+      },
+      {
+        "name": "Meena Shah",
+        "category": "Promoter",
+        "shares": 1650000
+      },
+      {
+        "name": "Shreeji Holdings Private Limited",
+        "category": "Promoter Group",
+        "shares": 1200000
+      },
+      {
+        "name": "Non-promoter body corporate and individual investors",
+        "category": "Public",
+        "shares": 1800000
+      }
+    ],
+    "promoter_holding_pre_pct": 76,
+    "public_holding_pre_pct": 24
+  },
+  "management": {
+    "directors": "Rajesh Shah (Managing Director, DIN 01234567, age 54, 28 years in auto-component manufacturing); Meena Shah (Whole-time Director, DIN 01234568, age 50, 19 years in operations and administration); Anil Kumar (Independent Director, DIN 02345678, age 61, former plant head at a tier-1 supplier); Priya Nair (Independent Director, DIN 03456789, age 47, chartered accountant in practice).",
+    "kmp": "Sanjay Mehta, Chief Financial Officer (appointed 2021); Kavita Joshi, Company Secretary and Compliance Officer (appointed 2024).",
+    "remuneration": "Managing Director INR 42.00 lakh per annum; Whole-time Director INR 24.00 lakh per annum; independent directors receive sitting fees of INR 25,000 per board meeting.",
+    "related_parties": "Shreeji Forgings LLP, an entity owned by the promoters, supplies raw forgings to the Company. Related-party purchases were approximately INR 6.40 crore in FY26. Shreeji Holdings Private Limited holds equity in the Company. A GST matter relating to input credit is under discussion with the authorities.",
+    "related_party_amount": 6.4,
+    "group_companies": "Shreeji Forgings LLP (promoter-owned, supplies forgings); Shreeji Holdings Private Limited (promoter holding company).",
+    "corporate_governance_committees": "Audit Committee (Priya Nair — Chairperson, Anil Kumar, Rajesh Shah); Nomination and Remuneration Committee (Anil Kumar — Chairperson, Priya Nair, Meena Shah); Stakeholders Relationship Committee (Anil Kumar — Chairperson, Rajesh Shah, Meena Shah). The board comprises four directors of whom two are independent.",
+    "subsidiaries": "The Company does not have any subsidiary as at the date of this Draft Red Herring Prospectus."
+  },
+  "promoters": {
+    "promoter_names": "Rajesh Shah and Meena Shah",
+    "promoter_details": "Rajesh Shah, aged 54, holds a diploma in mechanical engineering and has 28 years of experience in auto-component manufacturing. He founded the Company's predecessor proprietorship in 2007. Meena Shah, aged 50, holds a bachelor's degree in commerce and has 19 years of experience in operations and administration, and has been a director since incorporation.",
+    "promoter_shareholding_pct": 76,
+    "promoter_contribution_pct": 20,
+    "lock_in_confirmation": true,
+    "promoter_disqualification_confirmation": true,
+    "waca": 12.4
+  },
+  "legal": {
+    "litigation": "None pending.",
+    "litigation_matters": [],
+    "litigation_mentioned": true,
+    "litigation_disclosed": false,
+    "tax_matters": "",
+    "material_developments": "",
+    "approvals": "Factory licences for both Rajkot plants under the Factories Act 1948; Gujarat Pollution Control Board consent to operate; GST registration; Importer-Exporter Code; IATF 16949:2016 quality management system certification.",
+    "pending_approvals": "In-principle listing approval from the SME platform is yet to be applied for."
+  },
+  "indebtedness": {
+    "total_borrowings": 18.2,
+    "secured": 15.6,
+    "unsecured": 2.6,
+    "lenders": "Working capital facilities from HDFC Bank Limited (cash credit limit INR 9.00 crore) and a term loan from Bank of Baroda (outstanding INR 6.60 crore) secured by a first charge on movable and immovable fixed assets and a second charge on current assets. Unsecured loans of INR 2.60 crore are from the promoters and carry no fixed repayment schedule.",
+    "terms": "The term loan carries interest at the lender's marginal cost of funds based lending rate plus 210 basis points and is repayable in quarterly instalments up to FY30."
+  },
+  "dividend": {
+    "dividend_policy": "The Company has not declared any dividend in the three financial years preceding the date of this draft. The board has adopted a dividend policy under which any distribution will be determined having regard to the Company's earnings, capital expenditure commitments, working capital requirements and the terms of its financing arrangements.",
+    "dividend_history": "Nil for FY24, FY25 and FY26."
+  },
+  "tax": {
+    "special_tax_benefits_certificate": true
+  },
+  "issue_structure": {
+    "lead_manager": "Capital Bridge Merchant Bankers Private Limited",
+    "registrar": "Bigshare Services Private Limited",
+    "underwriter": "Capital Bridge Merchant Bankers Private Limited",
+    "banker": "HDFC Bank Limited",
+    "legal_advisor": "Mehta & Associates, Advocates, Ahmedabad",
+    "listing_platform": "NSE Emerge",
+    "lead_manager_track_record": "Capital Bridge Merchant Bankers Private Limited has handled three public issues in the three financial years preceding the date of this Draft Red Herring Prospectus. The price information of those issues, including the issue price, the closing price on the listing date and the closing price at the end of the 30th, 90th and 180th calendar day from listing, together with the summary statement prescribed for the purpose, has been furnished by the Lead Manager and is set out in this chapter."
+  },
+  "eligibility": {
+    "converted_from_firm": false,
+    "full_year_since_conversion": null,
+    "promoter_change_last_year": false,
+    "exchange_application": true,
+    "depository_agreement": true,
+    "no_partly_paid_shares": true,
+    "promoter_shares_demat": true,
+    "firm_financing_arrangements": true
+  }
+}

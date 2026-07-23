@@ -1,0 +1,62 @@
+name: verify
+
+# Runs the same gate a human would run, on every push and every pull request.
+#
+# The point is not ceremony. This project's correctness lives in data files and
+# regulation thresholds that are easy to edit and impossible to eyeball: a
+# ceiling changed from 15% to 25%, an evidence field renamed so a requirement
+# can never be discharged, a react-pdf layout that only fails once a section
+# grows. Each of those has actually happened here, and each is caught below.
+#
+# Nothing in this workflow needs a secret. The suites run without an API key by
+# design — the same property that lets the product be demonstrated offline.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # `npm ci` installs exactly what package-lock.json pins, and fails if the
+      # lockfile and package.json have drifted apart — which is itself a check
+      # worth having.
+      - name: Install
+        run: npm ci
+
+      - name: Types
+        run: npx tsc --noEmit
+
+      # Generation, the gap checker, both exporters, intake reachability,
+      # register normalisation, the drafting budget, the Chapter IX thresholds
+      # and the action-plan invariants.
+      - name: Engine
+        run: npm run verify
+
+      # Every eligibility condition in three states, each numeric threshold
+      # checked on both sides of the line.
+      - name: Eligibility gate
+        run: npm run verify:eligibility
+
+      - name: Financials extraction
+        run: npm run verify:extract
+
+      # Fixtures only. The live SEBI feed is deliberately not called from CI:
+      # a regulator's uptime must never decide whether this build is green.
+      - name: Regulation watch
+        run: npm run verify:watch
+
+      - name: Production build
+        run: npm run build

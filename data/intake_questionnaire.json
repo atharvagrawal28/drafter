@@ -1,0 +1,734 @@
+{
+  "title": "Drafter Guided Intake — Speak Business, Not Legalese",
+  "note": "Guided steps mirroring the SME offer-document structure. Each question is tagged to the disclosure requirement(s) it feeds and bound to a dotted path in the issuer data, so the on-screen coverage score moves as the promoter answers. In the demo, answers are pre-filled from the selected sample issuer so a full run takes under a minute on screen.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Eligibility & Standing",
+      "help": "Before anything is drafted: can this company make an SME IPO at all? These are gate conditions under Chapter IX — they are not disclosures, and no amount of drafting works around them.",
+      "feeds": [
+        "R12.3"
+      ],
+      "questions": [
+        {
+          "path": "eligibility.converted_from_firm",
+          "label": "Was the company converted from a proprietorship, partnership firm or LLP?",
+          "type": "confirm",
+          "help": "If it was incorporated as a company from the start, answer No."
+        },
+        {
+          "path": "eligibility.full_year_since_conversion",
+          "label": "If converted: has at least one full financial year passed since the conversion?",
+          "type": "confirm",
+          "help": "Regulation 229(4). The draft offer document cannot be filed before a full financial year has elapsed post-conversion."
+        },
+        {
+          "path": "eligibility.promoter_change_last_year",
+          "label": "In the last year, has there been a complete change of promoter, or have new promoters acquired more than 50% of the shareholding?",
+          "type": "confirm",
+          "help": "Regulation 229(5) imposes a one-year wait from the date of the final change."
+        },
+        {
+          "path": "eligibility.exchange_application",
+          "label": "Have you applied to an SME exchange for listing, and chosen a designated stock exchange?",
+          "type": "confirm",
+          "help": "Regulation 230(1)(a)."
+        },
+        {
+          "path": "eligibility.depository_agreement",
+          "label": "Is a depository agreement in place for dematerialisation of your shares?",
+          "type": "confirm",
+          "help": "Regulation 230(1)(b). The tripartite agreement with the depository and the registrar."
+        },
+        {
+          "path": "eligibility.no_partly_paid_shares",
+          "label": "Are all existing partly paid-up equity shares either fully paid up or forfeited?",
+          "type": "confirm",
+          "help": "Regulation 230(1)(c). Answer Yes if you have never issued partly paid shares."
+        },
+        {
+          "path": "eligibility.promoter_shares_demat",
+          "label": "Are all shares held by the promoters in dematerialised form?",
+          "type": "confirm",
+          "help": "Regulation 230(1)(d)."
+        },
+        {
+          "path": "eligibility.firm_financing_arrangements",
+          "label": "Do you have firm, verifiable financing arrangements for 75% of the project cost that the IPO is NOT funding?",
+          "type": "confirm",
+          "help": "Regulation 230(1)(e). Excludes the issue proceeds themselves and identifiable internal accruals. Sanction letters count; intent does not."
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Company Identity",
+      "help": "The basic identity of your company, exactly as it appears on your Certificate of Incorporation.",
+      "feeds": [
+        "R1.1",
+        "R1.2",
+        "R1.4"
+      ],
+      "questions": [
+        {
+          "path": "identity.company_name",
+          "label": "Registered company name",
+          "type": "text",
+          "help": "As on the Certificate of Incorporation, including 'Limited'."
+        },
+        {
+          "path": "identity.cin",
+          "label": "Corporate Identification Number (CIN)",
+          "type": "text",
+          "help": "The 21-character CIN issued by the MCA."
+        },
+        {
+          "path": "identity.incorporation_date",
+          "label": "Date of incorporation",
+          "type": "text"
+        },
+        {
+          "path": "identity.incorporation_place",
+          "label": "Place of incorporation",
+          "type": "text"
+        },
+        {
+          "path": "identity.registered_office",
+          "label": "Registered office address",
+          "type": "textarea"
+        },
+        {
+          "path": "identity.email",
+          "label": "Investor contact email",
+          "type": "text"
+        },
+        {
+          "path": "identity.company_secretary",
+          "label": "Company Secretary and Compliance Officer",
+          "type": "text",
+          "help": "Name and designation of the person who will handle investor grievances."
+        },
+        {
+          "path": "identity.moa_objects",
+          "label": "Main objects (as per your MOA, in plain words)",
+          "type": "textarea",
+          "help": "What your Memorandum of Association permits the company to do."
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Business Overview",
+      "help": "What your company does, how it makes money, and who its customers are. This feeds 'Our Business' and drives several risk factors.",
+      "feeds": [
+        "R2.1",
+        "R2.2",
+        "R2.3",
+        "R2.4",
+        "R2.5"
+      ],
+      "questions": [
+        {
+          "path": "business.business_description",
+          "label": "In one paragraph, what does your company make or do?",
+          "type": "textarea"
+        },
+        {
+          "path": "business.products_services",
+          "label": "What are your main products or services?",
+          "type": "textarea"
+        },
+        {
+          "path": "business.revenue_model",
+          "label": "How do you earn revenue?",
+          "type": "textarea"
+        },
+        {
+          "path": "business.industry",
+          "label": "Which industry / sector are you in?",
+          "type": "text"
+        },
+        {
+          "path": "business.industry_overview",
+          "label": "In a few sentences, describe your industry and what drives demand",
+          "type": "textarea",
+          "help": "Do not quote market-size or growth figures here unless you can cite a public source — those are added by your merchant banker."
+        },
+        {
+          "path": "business.revenue_stated",
+          "label": "Total revenue from operations last year (INR crore)",
+          "type": "number",
+          "help": "This must match your audited financials — Drafter cross-checks it."
+        },
+        {
+          "path": "business.top_customers",
+          "label": "List your five largest customers and the % of revenue each contributes",
+          "type": "textarea"
+        },
+        {
+          "path": "business.suppliers",
+          "label": "Who are your key suppliers, and do any belong to your promoter group?",
+          "type": "textarea",
+          "help": "Be candid about promoter-owned suppliers — an undisclosed one is a common cause of exchange objections."
+        },
+        {
+          "path": "business.plants_capacity",
+          "label": "Your plants / facilities and their installed capacity and utilisation",
+          "type": "textarea"
+        },
+        {
+          "path": "business.employees",
+          "label": "Employee strength",
+          "type": "textarea"
+        },
+        {
+          "path": "business.competitive_strengths",
+          "label": "Your main competitive strengths",
+          "type": "textarea"
+        },
+        {
+          "path": "business.business_strategies",
+          "label": "Your growth strategy",
+          "type": "textarea"
+        },
+        {
+          "path": "business.intellectual_property",
+          "label": "Trademarks, patents or designs you own or use, and their registration status",
+          "type": "textarea",
+          "help": "If you own none, say so — an express nil statement discharges the disclosure; silence does not."
+        },
+        {
+          "path": "business.immovable_properties",
+          "label": "Properties you own or lease, with tenure",
+          "type": "textarea",
+          "help": "Owned or leased, where, and on what tenure. Say if any is taken from a promoter or a promoter-connected party."
+        },
+        {
+          "path": "business.kpis",
+          "label": "Key performance indicators of your business, for each of the last three years",
+          "type": "textarea",
+          "help": "The operating metrics you actually run the business on — order book, capacity utilisation, revenue per site, realisation per unit. These must be certified and approved by your audit committee."
+        },
+        {
+          "path": "business.mda_drivers",
+          "label": "What drove the change in your revenue and margins over the last three years?",
+          "type": "textarea",
+          "help": "Plain-language reasons — feeds the Management Discussion & Analysis chapter."
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Financials & Objects of the Issue",
+      "help": "Upload your audited financials, or key in the summary figures. Then say what the IPO money is for.",
+      "feeds": [
+        "R4.1",
+        "R4.2",
+        "R4.3",
+        "R4.5",
+        "R5.3",
+        "R9.6",
+        "R10.1"
+      ],
+      "questions": [
+        {
+          "path": "financials.upload",
+          "label": "Upload audited financials (Excel / CSV / PDF)",
+          "type": "upload",
+          "help": "Drafter reads the three-year series and the year headings automatically — revenue, profit, net worth, EPS, RoNW and operating cash flow — and fills the table below. Optional, but it discharges five disclosures at once."
+        },
+        {
+          "path": "financials.years",
+          "label": "Three-year restated financial series",
+          "type": "series",
+          "help": "An offer document is a three-year document: the restated statements, the capitalisation statement and the weighted-average EPS and RoNW all need the series, not just the latest year. Operating profit also decides eligibility under Regulation 229(6). Upload above to fill this automatically.",
+          "rows": [
+            {
+              "path": "financials.revenue_3yr",
+              "label": "Revenue from operations (INR cr)"
+            },
+            {
+              "path": "financials.pat_3yr",
+              "label": "Profit after tax (INR cr)"
+            },
+            {
+              "path": "financials.ebitda_3yr",
+              "label": "Operating profit / EBITDA (INR cr)"
+            },
+            {
+              "path": "financials.networth_3yr",
+              "label": "Net worth (INR cr)"
+            },
+            {
+              "path": "financials.cash_flow_ops_3yr",
+              "label": "Net cash from operations (INR cr)"
+            },
+            {
+              "path": "financials.eps_3yr",
+              "label": "Earnings per share (INR)"
+            },
+            {
+              "path": "financials.ronw_3yr",
+              "label": "Return on net worth (%)"
+            }
+          ]
+        },
+        {
+          "path": "financials.revenue_latest_year",
+          "label": "Latest-year revenue from operations (INR crore)",
+          "type": "number"
+        },
+        {
+          "path": "financials.pat_latest_year",
+          "label": "Latest-year profit after tax (INR crore)",
+          "type": "number"
+        },
+        {
+          "path": "financials.eps",
+          "label": "Earnings per share (INR)",
+          "type": "number"
+        },
+        {
+          "path": "financials.ronw_pct",
+          "label": "Return on net worth (%)",
+          "type": "number"
+        },
+        {
+          "path": "financials.nav_per_share",
+          "label": "Net asset value per share (INR)",
+          "type": "number"
+        },
+        {
+          "path": "financials.auditor",
+          "label": "Name of your peer-reviewed statutory auditor",
+          "type": "text",
+          "help": "Mandatory. A missing auditor reference is one of the three patterns the exchange returns drafts for."
+        },
+        {
+          "path": "financials.auditor_frn",
+          "label": "Auditor's firm registration number (FRN)",
+          "type": "text"
+        },
+        {
+          "path": "financials.peer_comparison",
+          "label": "Listed companies comparable to yours, with their key ratios",
+          "type": "textarea",
+          "help": "If no directly comparable listed peer exists, say exactly that — it is an accepted disclosure and Drafter will render it as one."
+        },
+        {
+          "path": "issue.objects_breakup",
+          "label": "What will you use the IPO money for? (purpose + amount in INR crore)",
+          "type": "objects",
+          "help": "The amounts must add up to your net proceeds — Drafter reconciles them."
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "title": "The Issue & Capital Structure",
+      "help": "The shape of the offering and your share capital before and after it.",
+      "feeds": [
+        "R5.1",
+        "R5.2",
+        "R5.5",
+        "R5.6",
+        "R5.7",
+        "R5.8",
+        "R5.10",
+        "R8.1",
+        "R8.2"
+      ],
+      "questions": [
+        {
+          "path": "issue.issue_type",
+          "label": "Type of issue",
+          "type": "text",
+          "help": "e.g. Fresh issue, fixed price."
+        },
+        {
+          "path": "issue.face_value",
+          "label": "Face value per share (INR)",
+          "type": "number"
+        },
+        {
+          "path": "issue.pre_issue_capital",
+          "label": "Equity shares outstanding before the IPO",
+          "type": "number"
+        },
+        {
+          "path": "issue.fresh_issue_shares",
+          "label": "New equity shares to be issued in the IPO",
+          "type": "number"
+        },
+        {
+          "path": "issue.issue_size",
+          "label": "Gross issue size (INR crore)",
+          "type": "number"
+        },
+        {
+          "path": "issue.issue_expenses",
+          "label": "Estimated issue expenses (INR crore)",
+          "type": "number"
+        },
+        {
+          "path": "issue.net_proceeds",
+          "label": "Net proceeds (INR crore)",
+          "type": "number",
+          "help": "Gross issue size minus issue expenses. Drafter checks this bridge."
+        },
+        {
+          "path": "issue.price_band",
+          "label": "Indicative price band per share (INR)",
+          "type": "text"
+        },
+        {
+          "path": "issue.has_offer_for_sale",
+          "label": "Does the issue include an offer for sale by existing shareholders?",
+          "type": "confirm",
+          "help": "Since 8 March 2025 an offer for sale in an SME issue is capped at 20% of the total issue size, and no selling shareholder may offer more than half of their pre-issue holding."
+        },
+        {
+          "path": "issue.offer_for_sale_size",
+          "label": "Size of the offer for sale component (INR crore)",
+          "type": "number",
+          "help": "Leave blank if the issue is a fresh issue only."
+        },
+        {
+          "path": "issue.market_maker",
+          "label": "Appointed market maker",
+          "type": "text"
+        },
+        {
+          "path": "issue.market_maker_reservation_shares",
+          "label": "Shares reserved for the market maker",
+          "type": "number",
+          "help": "Mandatory on both SME platforms. This portion is deducted from the issue to arrive at the net issue to the public."
+        },
+        {
+          "path": "issue.monitoring_agency",
+          "label": "Monitoring agency for the deployment of issue proceeds",
+          "type": "text",
+          "help": "If your issue size does not require one, write that no monitoring agency is required and why."
+        },
+        {
+          "path": "issue.working_capital_basis",
+          "label": "How did you arrive at the working-capital amount you are raising?",
+          "type": "textarea",
+          "help": "The assumptions and holding periods you relied on — debtor days, inventory days, creditor days. An unexplained working-capital object is a standard exchange query."
+        },
+        {
+          "path": "issue.issue_expenses_breakup",
+          "label": "Break-up of your estimated issue expenses",
+          "type": "rows",
+          "help": "By category. Drafter checks the total against the issue expenses figure above.",
+          "columns": [
+            {
+              "key": "head",
+              "label": "Expense head",
+              "type": "text"
+            },
+            {
+              "key": "amount",
+              "label": "Amount (INR cr)",
+              "type": "number",
+              "width": "9rem"
+            }
+          ],
+          "totalKey": "amount"
+        },
+        {
+          "path": "capital_structure.share_capital_history",
+          "label": "History of your equity share capital",
+          "type": "rows",
+          "help": "Every allotment since incorporation — subscription to the MOA, preferential allotments, private placements, bonus and rights issues.",
+          "columns": [
+            {
+              "key": "date",
+              "label": "Date",
+              "type": "text",
+              "width": "9rem"
+            },
+            {
+              "key": "no_of_shares",
+              "label": "Shares",
+              "type": "number",
+              "width": "8rem"
+            },
+            {
+              "key": "face_value",
+              "label": "Face value",
+              "type": "number",
+              "width": "6.5rem"
+            },
+            {
+              "key": "issue_price",
+              "label": "Issue price",
+              "type": "number",
+              "width": "6.5rem"
+            },
+            {
+              "key": "nature",
+              "label": "Nature of allotment",
+              "type": "text"
+            }
+          ],
+          "totalKey": "no_of_shares"
+        },
+        {
+          "path": "capital_structure.shareholding_pattern",
+          "label": "Pre-issue shareholding pattern",
+          "type": "rows",
+          "help": "Every shareholder and their category. Drafter reconciles the total against the shares outstanding before the IPO.",
+          "columns": [
+            {
+              "key": "name",
+              "label": "Shareholder",
+              "type": "text"
+            },
+            {
+              "key": "category",
+              "label": "Category",
+              "type": "text",
+              "width": "11rem"
+            },
+            {
+              "key": "shares",
+              "label": "Shares held",
+              "type": "number",
+              "width": "9rem"
+            }
+          ],
+          "totalKey": "shares"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "title": "Management & Governance",
+      "help": "Your board, key managerial personnel, and any dealings with entities connected to your promoters.",
+      "feeds": [
+        "R6.1",
+        "R6.2",
+        "R6.4",
+        "R6.5",
+        "R6.6",
+        "R6.7",
+        "R9.5",
+        "R12.1",
+        "R12.2",
+        "R12.3"
+      ],
+      "questions": [
+        {
+          "path": "management.directors",
+          "label": "Directors and their particulars",
+          "type": "textarea",
+          "help": "Name, designation, age and experience of each director."
+        },
+        {
+          "path": "management.kmp",
+          "label": "Key managerial personnel (CFO, Company Secretary)",
+          "type": "textarea"
+        },
+        {
+          "path": "management.remuneration",
+          "label": "Remuneration paid to directors and key managerial personnel",
+          "type": "textarea",
+          "help": "For the last financial year, per person. Include sitting fees paid to independent directors."
+        },
+        {
+          "path": "management.related_parties",
+          "label": "Related-party transactions (dealings with promoter-owned or group entities)",
+          "type": "textarea",
+          "help": "If you buy from, sell to, or lease from a promoter-connected party, say so here. Declaring 'Nil' while describing such a dealing elsewhere is a red flag Drafter catches."
+        },
+        {
+          "path": "management.group_companies",
+          "label": "Group companies",
+          "type": "textarea"
+        },
+        {
+          "path": "management.subsidiaries",
+          "label": "Subsidiaries, if any",
+          "type": "textarea",
+          "help": "Name, holding and financial position of each. If you have none, write that you have none — the express statement is the disclosure."
+        },
+        {
+          "path": "management.corporate_governance_committees",
+          "label": "Board committees (Audit, NRC, Stakeholders Relationship)",
+          "type": "textarea"
+        },
+        {
+          "path": "promoters.promoter_names",
+          "label": "Name(s) of your promoter(s)",
+          "type": "text",
+          "help": "As they will appear on the cover page."
+        },
+        {
+          "path": "promoters.promoter_details",
+          "label": "Promoter particulars (name, age, experience)",
+          "type": "textarea"
+        },
+        {
+          "path": "promoters.promoter_shareholding_pct",
+          "label": "Promoter shareholding before the IPO (%)",
+          "type": "number"
+        },
+        {
+          "path": "promoters.waca",
+          "label": "Weighted average cost of acquisition of your promoters' shares (INR per share)",
+          "type": "number",
+          "help": "What the promoters actually paid per share on average. It is compared against the issue price, and a wide gap must be explained."
+        },
+        {
+          "path": "promoters.promoter_contribution_pct",
+          "label": "Minimum promoter contribution, post-issue (%)",
+          "type": "number",
+          "help": "The portion of post-issue capital your promoters will hold and lock in."
+        },
+        {
+          "path": "promoters.lock_in_confirmation",
+          "label": "Do you confirm the promoter contribution will be locked in for the prescribed period, and the balance pre-issue capital for the shorter period?",
+          "type": "confirm",
+          "help": "Answer 'Not yet confirmed' if this has not been settled with your merchant banker — Drafter will report it as outstanding rather than assume it."
+        },
+        {
+          "path": "promoters.promoter_disqualification_confirmation",
+          "label": "Do you confirm that the company, its promoters and its directors are not debarred from accessing the capital markets, and none is a wilful defaulter or a fugitive economic offender?",
+          "type": "confirm",
+          "help": "This confirmation is an eligibility condition for the issue itself, not a formality."
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "title": "Legal & Statutory",
+      "help": "Any pending disputes, tax demands or regulatory matters, and the approvals you hold. Complete disclosure here is what keeps the draft clean.",
+      "feeds": [
+        "R6.3",
+        "R3.4",
+        "R11.1",
+        "R13.2"
+      ],
+      "questions": [
+        {
+          "path": "legal.litigation",
+          "label": "Pending litigation against the company, its directors or promoters",
+          "type": "textarea",
+          "help": "Include tax demands and regulatory notices. If a matter is mentioned anywhere in your answers, it must appear here — Drafter cross-checks."
+        },
+        {
+          "path": "tax.special_tax_benefits_certificate",
+          "label": "Has your statutory auditor issued the statement of special tax benefits available to the company and its shareholders?",
+          "type": "confirm",
+          "help": "A separate certificate from your auditor. It is a mandatory annexure, and it is commonly left until the end."
+        },
+        {
+          "path": "legal.tax_matters",
+          "label": "Outstanding direct and indirect tax matters",
+          "type": "textarea"
+        },
+        {
+          "path": "legal.material_developments",
+          "label": "Material developments since your last audited accounts",
+          "type": "textarea"
+        },
+        {
+          "path": "legal.approvals",
+          "label": "Key regulatory approvals and licences held",
+          "type": "textarea"
+        },
+        {
+          "path": "legal.pending_approvals",
+          "label": "Approvals applied for or still required",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "title": "Indebtedness & Dividend",
+      "help": "Your borrowings and your dividend record.",
+      "feeds": [
+        "R10.3",
+        "R13.1"
+      ],
+      "questions": [
+        {
+          "path": "indebtedness.total_borrowings",
+          "label": "Total borrowings (INR crore)",
+          "type": "number"
+        },
+        {
+          "path": "indebtedness.lenders",
+          "label": "Principal lenders and the security you have given them",
+          "type": "textarea"
+        },
+        {
+          "path": "indebtedness.terms",
+          "label": "Material terms of your borrowings (interest, tenor, covenants)",
+          "type": "textarea"
+        },
+        {
+          "path": "dividend.dividend_policy",
+          "label": "Your dividend policy",
+          "type": "textarea"
+        },
+        {
+          "path": "dividend.dividend_history",
+          "label": "Dividends declared in the last three years",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "title": "Issue Structure & Intermediaries",
+      "help": "The intermediaries you have appointed. These appear on the cover page.",
+      "feeds": [
+        "R1.3",
+        "R8.5",
+        "R11.4"
+      ],
+      "questions": [
+        {
+          "path": "issue_structure.lead_manager",
+          "label": "Lead manager / merchant banker",
+          "type": "text"
+        },
+        {
+          "path": "issue_structure.registrar",
+          "label": "Registrar to the issue",
+          "type": "text"
+        },
+        {
+          "path": "issue_structure.underwriter",
+          "label": "Underwriter",
+          "type": "text"
+        },
+        {
+          "path": "issue_structure.banker",
+          "label": "Banker to the issue",
+          "type": "text"
+        },
+        {
+          "path": "issue_structure.legal_advisor",
+          "label": "Legal advisor to the issue",
+          "type": "text"
+        },
+        {
+          "path": "issue_structure.listing_platform",
+          "label": "Listing platform",
+          "type": "text",
+          "help": "NSE Emerge or BSE SME."
+        },
+        {
+          "path": "issue_structure.lead_manager_track_record",
+          "label": "Price information of past issues handled by your lead manager",
+          "type": "textarea",
+          "help": "Your lead manager supplies this — the issues they have handled and how those shares have traded since listing. Ask them for it early; it is a common late item."
+        }
+      ]
+    }
+  ]
+}
