@@ -15,7 +15,7 @@ import {
   Upload,
 } from "lucide-react";
 import { useDrafter } from "@/lib/store";
-import { questionnaire, getRequirement } from "@/lib/data";
+import { BLANK_ISSUER_ID, questionnaire, getRequirement } from "@/lib/data";
 import { isPresent } from "@/lib/engine/utils";
 import { cn } from "@/lib/utils";
 import {
@@ -77,8 +77,9 @@ function ownedPaths(question: Question): string[] {
 }
 
 export function IntakeWizard() {
-  const { issuerData, updateField, getField, generate, generating, gapReport, resetIssuer, applyExtraction, uploadNote } =
+  const { issuerData, updateField, getField, generate, generating, gapReport, resetIssuer, startNewIssuer, applyExtraction, uploadNote, issuerId } =
     useDrafter();
+  const isNewIssuer = issuerId === BLANK_ISSUER_ID;
   const [active, setActive] = React.useState(0);
   const step = STEPS[active];
 
@@ -107,9 +108,30 @@ export function IntakeWizard() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={resetIssuer} title="Reset to the sample issuer">
-            <RotateCcw /> Reset sample
-          </Button>
+          {isNewIssuer ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={startNewIssuer}
+              title="Clear every answer and start again"
+            >
+              <RotateCcw /> Clear all answers
+            </Button>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" onClick={resetIssuer} title="Reload the sample issuer's answers">
+                <RotateCcw /> Reset sample
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={startNewIssuer}
+                title="Start from a blank form for your own company"
+              >
+                <Plus /> New company
+              </Button>
+            </>
+          )}
           <Button onClick={generate} disabled={generating} size="sm">
             {generating ? <Loader2 className="animate-spin" /> : <Sparkles />}
             Generate draft

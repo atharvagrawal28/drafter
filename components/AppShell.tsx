@@ -16,7 +16,7 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
-import { sampleIssuers } from "@/lib/data";
+import { BLANK_ISSUER_ID, sampleIssuers } from "@/lib/data";
 import { useDrafter } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { Badge, Button, Segmented, Select } from "@/components/ui/primitives";
@@ -76,6 +76,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   {issuer.name} · {issuer.sector}
                 </option>
               ))}
+              {/* The escape hatch from the demo. Without this the product can
+                  only ever be pointed at the two bundled samples. */}
+              <option value={BLANK_ISSUER_ID}>+ Start a new company…</option>
             </Select>
           </div>
 

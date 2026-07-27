@@ -67,6 +67,94 @@ export function cloneIssuerData(data: IssuerData): IssuerData {
 }
 
 // ---------------------------------------------------------------------------
+// A blank issuer — the starting point for a real company
+// ---------------------------------------------------------------------------
+
+/**
+ * Build an empty issuer record from the questionnaire itself.
+ *
+ * Deriving this rather than hand-writing it is the whole point. A hand-written
+ * skeleton would silently rot the moment a question is added: the new field
+ * would be absent from the object, the wizard would still write to it, and the
+ * two would disagree in ways nobody notices until a demo. Reading the same
+ * questionnaire the wizard renders means the blank issuer is correct by
+ * construction, for every question that exists today and every one added later.
+ *
+ * The empty VALUES matter as much as the keys:
+ *
+ *  - `""` for text — `isPresent("")` is false, so the requirement reads Missing.
+ *  - `[]` for series, tables and objects — an empty array is honestly empty.
+ *  - `null` for numbers and confirmations — NOT `0` and NOT `false`. Zero is a
+ *    figure the issuer might genuinely mean, and `false` is a denial. Both must
+ *    be distinguishable from "not answered yet", because the eligibility gate
+ *    reports an unanswered confirmation as an open question rather than a fail.
+ */
+export function buildBlankIssuerData(): IssuerData {
+  const data: IssuerData = {};
+
+  const emptyFor = (type: string): unknown => {
+    switch (type) {
+      case "number":
+        return null;
+      case "confirm":
+        return null;
+      case "series":
+      case "rows":
+      case "objects":
+        return [];
+      default:
+        return "";
+    }
+  };
+
+  const put = (path: string, value: unknown) => {
+    const parts = path.split(".");
+    let node = data;
+    for (let i = 0; i < parts.length - 1; i += 1) {
+      node[parts[i]] = node[parts[i]] ?? {};
+      node = node[parts[i]];
+    }
+    node[parts[parts.length - 1]] = value;
+  };
+
+  for (const step of (questionnaire as any).steps ?? []) {
+    for (const question of step.questions ?? []) {
+      // `upload` is a control, not a field — it writes into financials.* itself.
+      if (question.type === "upload") continue;
+      put(question.path, emptyFor(question.type));
+      for (const row of question.rows ?? []) put(row.path, []);
+    }
+  }
+
+  // Fields the engine reads that no question asks for directly. Without these
+  // the generator would hit `undefined` on a brand-new issuer.
+  data.meta = {
+    issuer_id: "new-issuer",
+    case_name: "",
+    sector: "",
+    purpose: "Issuer created in Drafter.",
+    fictional: false,
+    planted_defects: [],
+  };
+  data.financials = { ...(data.financials ?? {}), ebitda_3yr: [], total_assets_3yr: [], borrowings_3yr: [] };
+  data.identity = { ...(data.identity ?? {}), corporate_office: "", website: "", phone: "" };
+  data.legal = { ...(data.legal ?? {}), litigation_matters: [] };
+  data.capital_structure = {
+    ...(data.capital_structure ?? {}),
+    authorised_capital: "",
+    paid_up_capital: "",
+    promoter_holding_pre_pct: null,
+    public_holding_pre_pct: null,
+  };
+  data.issue = { ...(data.issue ?? {}), price_floor: null, price_cap: null };
+
+  return data;
+}
+
+/** The blank issuer, presented alongside the samples in the picker. */
+export const BLANK_ISSUER_ID = "new";
+
+// ---------------------------------------------------------------------------
 // Registry helpers
 // ---------------------------------------------------------------------------
 

@@ -889,6 +889,18 @@ function runConsistencyCheck(
       const missing = fields.filter((field) => !isPresent(getPath(data, field)));
       if (missing.length === 0) return { failed: false };
 
+      // The finding is "financials are presented WITHOUT naming the auditor",
+      // which is only true once there are financials to present. On an issuer
+      // who has not started — every field empty — it is not a defect, it is one
+      // of sixty missing fields, and reporting it as a high-severity compliance
+      // issue makes the report cry wolf on the promoter's first screen. The
+      // ordinary Missing status still records it; `depends_on` names the
+      // evidence whose presence makes the omission meaningful.
+      const dependsOn = (spec.depends_on as string[]) ?? [];
+      if (dependsOn.length > 0 && !dependsOn.some((field) => isPresent(getPath(data, field)))) {
+        return { failed: false };
+      }
+
       return {
         failed: true,
         finding: {

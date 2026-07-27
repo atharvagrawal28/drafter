@@ -14,7 +14,7 @@
  */
 
 import * as React from "react";
-import { cloneIssuerData, getSampleIssuer, sampleIssuers } from "./data";
+import { BLANK_ISSUER_ID, buildBlankIssuerData, cloneIssuerData, getSampleIssuer, sampleIssuers } from "./data";
 import { buildActionPlan, type ActionPlan } from "./engine/actionPlan";
 import { runEligibility, type EligibilityReport } from "./engine/eligibility";
 import { runGapCheck } from "./engine/gapCheck";
@@ -64,6 +64,8 @@ interface DrafterContextValue extends SessionState {
   setBankerEdit: (chapterId: string, blockIndex: number, original: string, edited: string) => void;
   clearBankerEdit: (chapterId: string, blockIndex: number) => void;
   resetIssuer: () => void;
+  /** Discard the loaded issuer and start a blank one for a real company. */
+  startNewIssuer: () => void;
 }
 
 const DrafterContext = React.createContext<DrafterContextValue | null>(null);
@@ -174,7 +176,27 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
     setState((current) => ({ ...current, role }));
   }, []);
 
+  /**
+   * Start a real company from nothing.
+   *
+   * Deliberately a separate action from `selectIssuer`, which always loads a
+   * bundled sample. Without this, Drafter can only ever be pointed at the two
+   * demo issuers — which is the difference between a product and a showcase.
+   */
+  const startNewIssuer = React.useCallback(() => {
+    setState({
+      role: "promoter",
+      issuerId: BLANK_ISSUER_ID,
+      issuerData: buildBlankIssuerData(),
+      document: null,
+      bankerEdits: {},
+      uploadNote: null,
+    });
+    setGenerationError(null);
+  }, []);
+
   const selectIssuer = React.useCallback((issuerId: string) => {
+    if (issuerId === BLANK_ISSUER_ID) return startNewIssuer();
     const issuer = getSampleIssuer(issuerId);
     setState({
       role: "promoter",
@@ -185,7 +207,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       uploadNote: null,
     });
     setGenerationError(null);
-  }, []);
+  }, [startNewIssuer]);
 
   const updateField = React.useCallback((path: string, value: any) => {
     setState((current) => {
@@ -297,6 +319,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
     setBankerEdit,
     clearBankerEdit,
     resetIssuer,
+    startNewIssuer,
   };
 
   return <DrafterContext.Provider value={value}>{children}</DrafterContext.Provider>;

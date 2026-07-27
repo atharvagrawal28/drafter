@@ -411,7 +411,13 @@
               "financials.auditor",
               "financials.auditor_frn"
             ],
-            "exchange_pattern": "Omission of the peer-reviewed auditor reference and firm registration number is a standard exchange observation and blocks pre-check clearance."
+            "exchange_pattern": "Omission of the peer-reviewed auditor reference and firm registration number is a standard exchange observation and blocks pre-check clearance.",
+            "depends_on": [
+              "financials.revenue_3yr",
+              "financials.revenue_latest_year",
+              "financials.pat_latest_year",
+              "financials.years"
+            ]
           }
         },
         {

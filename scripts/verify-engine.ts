@@ -188,6 +188,86 @@ async function main() {
   }
   console.log("");
 
+  // ---- A brand-new issuer must behave, not just not crash --------------
+  // Every real user starts here: a blank form. It is the state most likely to
+  // be reached in a demo and the least likely to be tested, and getting it
+  // wrong is loud — a coverage score that flatters, or a page of red findings
+  // before a single question is answered.
+  console.log(`${BOLD}Blank issuer${RESET}`);
+  {
+    const { buildBlankIssuerData } = await import("../lib/data");
+    const { runEligibility } = await import("../lib/engine/eligibility");
+    const { buildActionPlan } = await import("../lib/engine/actionPlan");
+
+    const blank = buildBlankIssuerData();
+    const report = runGapCheck(blank, { issuerId: "blank" });
+
+    // The single most important property. On an empty form everything is
+    // missing; reporting any of it as a high-severity DEFECT would be crying
+    // wolf, and would teach a first-time promoter to ignore the report.
+    assert(
+      report.findingCounts.high === 0,
+      "no high-severity findings before a single question is answered",
+      report.findings.filter((f) => f.severity === "high").map((f) => `${f.code} ${f.requirementId}`).join(", "),
+    );
+    assert(report.counts.defect === 0, `no requirement reads Defect (${report.counts.defect})`);
+    assert(
+      report.coveragePct < 25,
+      `coverage is honestly low, not flattering (${report.coveragePct}%)`,
+    );
+    assert(report.verdict.level === "not-ready", `verdict is not-ready (${report.verdict.level})`);
+
+    // No sample data may leak into a new company.
+    const asText = JSON.stringify(blank);
+    assert(
+      !/Shreeji|Aarna|Rajesh|Meena|U29130GJ/i.test(asText),
+      "carries no trace of the bundled sample issuers",
+    );
+
+    // Eligibility must ask, never assume.
+    const eligibility = runEligibility(blank);
+    assert(
+      eligibility.verdict.level === "indeterminate",
+      `eligibility is indeterminate, not a pass or a fail (${eligibility.verdict.level})`,
+    );
+    assert(
+      eligibility.counts.notMet === 0 && eligibility.counts.met === 0,
+      "nothing is judged either way on no evidence",
+    );
+
+    // The plan is what turns an empty form into a route forward.
+    const plan = buildActionPlan(report);
+    assert(plan.actions.length >= 5, `the action plan has real work in it (${plan.actions.length} steps)`);
+    assert(
+      plan.projectedCoverage > plan.currentCoverage + 40,
+      `and shows substantial headroom (${plan.currentCoverage}% -> ${plan.projectedCoverage}%)`,
+    );
+
+    // And it must still produce a document rather than throwing.
+    const doc = await generateDocument(blank, { issuerId: "blank", useLlm: false });
+    assert(
+      doc.chapters.length === flatChapters.length && doc.stats.placeholders > 20,
+      `generates the full structure as placeholders (${doc.chapters.length} chapters, ${doc.stats.placeholders} placeholders)`,
+    );
+
+    // The blank record must cover every field the wizard can write, or a
+    // question would have nowhere to store its answer.
+    const { questionnaire } = await import("../lib/data");
+    const { getPath } = await import("../lib/engine/utils");
+    const orphans: string[] = [];
+    for (const step of (questionnaire as any).steps ?? []) {
+      for (const question of step.questions ?? []) {
+        if (question.type === "upload") continue;
+        for (const path of [question.path, ...(question.rows ?? []).map((r: any) => r.path)]) {
+          if (getPath(blank, path) === undefined) orphans.push(path);
+        }
+      }
+    }
+    assert(orphans.length === 0, "every wizard field exists on the blank record", orphans.join(", "));
+  }
+
+  console.log("");
+
   // ---- The drafting budget must degrade, not hang ----------------------
   // Serverless platforms kill a request at a fixed ceiling (60s on Vercel
   // Hobby). The refine loop is bounded in iterations but not in time, because a
