@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   TrendingUp,
 } from "lucide-react";
-import { registry, sampleIssuers } from "@/lib/data";
+import { problemStatement, registry, sampleIssuers } from "@/lib/data";
 import { Badge, Card, CardContent } from "@/components/ui/primitives";
 
 export default function AboutPage() {
@@ -19,6 +19,7 @@ export default function AboutPage() {
     (total, section) => total + section.requirements.length,
     0,
   );
+  const metCount = problemStatement.clauses.filter((c) => c.status === "met").length;
 
   return (
     <div className="mx-auto max-w-[1100px] px-4 py-10 sm:px-6">
@@ -37,6 +38,80 @@ export default function AboutPage() {
         removing the intermediary&apos;s review and certification. Drafter is built to exactly that
         brief.
       </p>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Clause-by-clause conformance                                        */}
+      {/*                                                                     */}
+      {/* The most useful thing this page can do is let a reader check the    */}
+      {/* claim instead of believing it. SEBI's words on the left; the file   */}
+      {/* and the measured number on the right. Two clauses are honestly      */}
+      {/* partial — a table of thirteen green ticks would not be credible to  */}
+      {/* a securities-markets jury, and would not deserve to be.             */}
+      {/* ------------------------------------------------------------------ */}
+      <Card className="mt-8">
+        <CardContent className="p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="font-serif text-[20px] font-bold text-primary">
+                Clause-by-clause conformance
+              </h2>
+              <p className="mt-1 text-[12.5px] text-muted-foreground">
+                {problemStatement.source} — &ldquo;{problemStatement.title}&rdquo;
+              </p>
+            </div>
+            <Badge variant="secondary">
+              {metCount} of {problemStatement.clauses.length} met · {problemStatement.clauses.length - metCount} partial
+            </Badge>
+          </div>
+
+          <div className="mt-5 space-y-3">
+            {problemStatement.clauses.map((clause) => (
+              <div
+                key={clause.id}
+                className="rounded-md border border-border bg-card p-4 transition-[border-color] duration-200 ease-smooth hover:border-input"
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-[11px] font-medium text-muted-foreground">
+                    {clause.id}
+                  </span>
+                  <Badge variant={clause.status === "met" ? "complete" : "partial"}>
+                    {clause.status === "met" ? "met" : "partial — see evidence"}
+                  </Badge>
+                  <span className="text-[10.5px] uppercase tracking-[0.12em] text-muted-foreground">
+                    {clause.origin}
+                  </span>
+                </div>
+
+                {/* SEBI's own words, marked as a quotation so there is never a
+                    question about which text is theirs and which is ours. */}
+                <blockquote className="mt-2.5 border-l-2 border-accent/50 pl-3 font-serif text-[14px] italic leading-relaxed text-foreground">
+                  &ldquo;{clause.text}&rdquo;
+                </blockquote>
+
+                <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
+                  {clause.discharged_by}
+                </p>
+
+                <p className="mt-2 text-[12.5px] leading-relaxed text-muted-foreground">
+                  <span className="font-semibold text-foreground">Evidence — </span>
+                  {clause.evidence}
+                </p>
+
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  {clause.files.map((file) => (
+                    <code
+                      key={file}
+                      className="rounded border border-border bg-secondary px-1.5 py-0.5 font-mono text-[10.5px] text-muted-foreground"
+                    >
+                      {file}
+                    </code>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* The wedge */}
       <Card className="mt-8">

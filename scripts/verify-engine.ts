@@ -492,6 +492,59 @@ async function main() {
 
   console.log("");
 
+  // ---- The conformance claim must stay true as the code moves ----------
+  // The Impact page tells a judge, clause by clause, which file discharges
+  // which sentence of SEBI's problem statement. That mapping is the most
+  // load-bearing prose in the repository and the easiest to falsify by
+  // accident: rename one file and the page keeps confidently pointing at
+  // something that is no longer there. So the citations are checked, not
+  // trusted — the same treatment every other claim here gets.
+  console.log(`${BOLD}Problem-statement conformance${RESET}`);
+  {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { problemStatement } = await import("../lib/data");
+
+    const root = path.resolve(__dirname, "..");
+    const broken: string[] = [];
+    let citations = 0;
+    for (const clause of problemStatement.clauses) {
+      for (const file of clause.files) {
+        citations += 1;
+        if (!fs.existsSync(path.join(root, file))) broken.push(`${clause.id} -> ${file}`);
+      }
+    }
+    assert(
+      broken.length === 0,
+      `every file cited against a SEBI clause exists (${citations} citations across ${problemStatement.clauses.length} clauses)`,
+      broken.join(", "),
+    );
+
+    // A clause with no evidence is a slogan. Requiring the field to be
+    // substantial is crude, but it is enough to stop an empty string shipping.
+    const thin = problemStatement.clauses.filter(
+      (clause) => !clause.evidence || clause.evidence.trim().length < 60,
+    );
+    assert(thin.length === 0, "every clause carries substantive evidence", thin.map((c) => c.id).join(", "));
+
+    // The honest-limits property. If every clause ever reads "met", either the
+    // product became perfect or someone quietly upgraded the two clauses we
+    // cannot yet prove — reducing preparation time, which needs a measured
+    // drafting cycle, and full registry coverage, which needs the whole of
+    // Schedule VI verified. This fails loudly rather than letting that slide.
+    const partial = problemStatement.clauses.filter((clause) => clause.status === "partial");
+    assert(
+      partial.length >= 2,
+      `the known limits are still disclosed (${partial.length} clauses marked partial: ${partial.map((c) => c.id).join(", ")})`,
+    );
+    assert(
+      partial.every((clause) => /honest limit/i.test(clause.evidence)),
+      "and each partial clause states what is missing, not just that something is",
+    );
+  }
+
+  console.log("");
+
   // ---- Register normalisation must never move a figure -----------------
   // The normaliser rewrites issuer prose unattended, so its safety property is
   // asserted here rather than trusted. A changed pronoun is presentation; a

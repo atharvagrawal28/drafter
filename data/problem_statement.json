@@ -1,0 +1,181 @@
+{
+  "_comment": [
+    "The SEBI problem statement, recorded verbatim and split into the clauses that",
+    "actually impose a requirement. Everything Drafter claims about conformance is",
+    "stated here once, next to the file that discharges it and the number that",
+    "proves it — so the claim can be checked rather than believed.",
+    "",
+    "`status` is deliberately not all 'met'. Two clauses are honestly partial, and",
+    "saying so is worth more than a table of green ticks that a jury of",
+    "securities-markets people will not believe."
+  ],
+  "source": "SEBI Securities Market TechSprint @ GFF 2026 — Track 04: Fund Raising",
+  "title": "Simplifying IPO Offer Document Preparation for SMEs",
+  "recorded_at": "2026-07-28",
+  "clauses": [
+    {
+      "id": "PS-1",
+      "origin": "The need",
+      "text": "allows SME issuers to capture their business, financial, and legal particulars",
+      "status": "met",
+      "discharged_by": "An eight-step plain-language wizard. Business and legal particulars are typed; financials are read out of the issuer's own audited workbook or PDF, so three years of figures arrive without re-keying.",
+      "files": [
+        "data/intake_questionnaire.json",
+        "components/intake/IntakeWizard.tsx",
+        "app/api/extract/route.ts"
+      ],
+      "evidence": "Every scored evidence field in the registry has an intake control — 125 references, asserted by `npm run verify`. No disclosure requirement is uncollectable. Extraction reads 9 three-year series and reports year labels rather than inventing them."
+    },
+    {
+      "id": "PS-2",
+      "origin": "The need",
+      "text": "and generate a well-organised, disclosure-ready draft offer document",
+      "status": "met",
+      "discharged_by": "The full SME DRHP tree — 34 chapters across Sections I to IX — assembled in prospectus register, exported as Word and PDF with a cover page, table of contents, numbered sections, ruled tables and page furniture.",
+      "files": [
+        "data/drhp_structure.json",
+        "lib/engine/generate.ts",
+        "lib/export/docx.ts",
+        "lib/export/pdf.tsx"
+      ],
+      "evidence": "9,975 words across 34 chapters and 26 tables for the first sample issuer; renders to a 49KB DOCX and a 140KB PDF. Asserted every run by `npm run verify`."
+    },
+    {
+      "id": "PS-3",
+      "origin": "The need",
+      "text": "The solution must be accessible to promoters without specialist knowledge",
+      "status": "met",
+      "discharged_by": "The promoter is never asked to write like a lawyer. Questions are plain ('Do you have any court cases?'), and a deterministic normaliser lifts the answer into offer-document register — 'We do housekeeping for offices' becomes 'The Company provides housekeeping services to offices.'",
+      "files": [
+        "lib/engine/register.ts",
+        "data/intake_questionnaire.json"
+      ],
+      "evidence": "The normaliser is figure-safe by construction: it compares the digits before and after and returns the original if any moved. `npm run verify` asserts no figure moved across 258 issuer free-text fields, and that the transform is idempotent."
+    },
+    {
+      "id": "PS-4",
+      "origin": "The need",
+      "text": "maintain appropriate checks for accuracy and completeness",
+      "status": "met",
+      "discharged_by": "Two separate mechanisms, because these are two different failures. Completeness is a weighted coverage score over 76 disclosure requirements, each reading Complete, Partial or Missing. Accuracy is 11 consistency check types that read across chapters — revenue in the business chapter against the restated financials, stated objects against net proceeds, related-party dealings described in one answer but declared nil in another.",
+      "files": [
+        "data/requirement_registry.json",
+        "lib/engine/gapCheck.ts"
+      ],
+      "evidence": "The samples carry planted defects and `npm run verify` asserts the EXACT high-severity count — 2 and 4 — so a false positive fails the build as loudly as a miss. The two issuers fail on entirely different requirements, which proves the checker is driven by the registry and not hardcoded to the demo."
+    },
+    {
+      "id": "PS-5",
+      "origin": "The need",
+      "text": "and preserve the role of authorised intermediaries in review and certification before any regulatory submission",
+      "status": "met",
+      "discharged_by": "Drafter stops where a signature is required. Seven blocks in the draft are placeholders, and every one of them sits at a point where the law needs a named professional: the auditor's tax-benefits certificate and examination report, counsel's tax-proceedings particulars, the lock-in computation, the verbatim Articles, and the executed declaration page. A non-dismissible banner on every screen states the draft is not for filing.",
+      "files": [
+        "components/AppShell.tsx",
+        "lib/engine/dueDiligence.ts",
+        "knowledge_base/section_templates.json"
+      ],
+      "evidence": "The banker workspace carries a 14-item due-diligence checklist assigned by owner — 6 issuer, 4 auditor, 4 lead manager, 1 legal counsel — ending at DD-14, Certification. Drafter never certifies anything."
+    },
+    {
+      "id": "PS-6",
+      "origin": "Expected outcome",
+      "text": "enables an SME promoter to generate a substantially complete draft IPO offer document",
+      "status": "met",
+      "discharged_by": "Coverage is computed, not asserted: a weighted mean over the requirements that actually apply to this issuer, with Complete counting 1 and Partial counting 0.5.",
+      "files": [
+        "lib/engine/gapCheck.ts",
+        "lib/engine/actionPlan.ts"
+      ],
+      "evidence": "97% and 95% coverage on the two sample issuers. On a blank form it reports 14% — the score moves with the evidence, which is what makes the high number mean anything."
+    },
+    {
+      "id": "PS-7",
+      "origin": "Expected outcome",
+      "text": "significantly reducing preparation time",
+      "status": "partial",
+      "discharged_by": "Generation of all 34 chapters is effectively instant, and the ranked action plan tells the promoter which unanswered questions buy the most coverage, so the remaining effort is spent in the right order.",
+      "files": [
+        "lib/engine/actionPlan.ts",
+        "app/api/generate/route.ts"
+      ],
+      "evidence": "Honest limit: the draft is produced in seconds, but Drafter has NOT been measured against a real merchant-banker drafting cycle. Claiming 'months to days' would need a controlled study with issuers and bankers that this prototype has not run."
+    },
+    {
+      "id": "PS-8",
+      "origin": "Expected outcome",
+      "text": "lowering dependence on intermediaries at the early drafting stage",
+      "status": "met",
+      "discharged_by": "The promoter and banker views are separate roles, and the split falls exactly where SEBI puts it. The promoter reaches a complete structured draft alone; the banker receives it already mapped to requirement IDs and begins at review, not at transcription.",
+      "files": [
+        "lib/store.tsx",
+        "app/banker/page.tsx",
+        "lib/engine/eligibility.ts"
+      ],
+      "evidence": "The eligibility gate runs before any fee is committed: 8 Chapter IX conditions under Reg 228, 229 and 230, so a promoter learns they do not qualify from a free tool rather than from an invoice."
+    },
+    {
+      "id": "PS-9",
+      "origin": "Expected outcome",
+      "text": "making the path to public listing more accessible for smaller enterprises",
+      "status": "met",
+      "discharged_by": "The first question an SME actually has is 'may I list at all?', and it is normally answered only after engaging advisers. Drafter answers it first, against the post-8-March-2025 Chapter IX thresholds.",
+      "files": [
+        "lib/engine/eligibility.ts",
+        "scripts/verify-eligibility.ts"
+      ],
+      "evidence": "Reg 229(6) — operating profit of at least ₹1 crore in 2 of the last 3 years — is the condition that disqualifies most aspirants, and it is checked with worked figures including the boundary case (exactly ₹1.00 crore counts; ₹0.99 crore does not round up)."
+    },
+    {
+      "id": "PS-10",
+      "origin": "Expected outcome",
+      "text": "produce a well-structured draft covering all material disclosure requirements under SEBI's SME IPO framework",
+      "status": "partial",
+      "discharged_by": "A versioned requirement registry — 76 requirements, each mapped to the chapters it lands in and the evidence fields that satisfy it, stamped with the regulation set it was built against.",
+      "files": [
+        "data/requirement_registry.json",
+        "lib/circulars/relevance.ts"
+      ],
+      "evidence": "Structure validated against a corpus of 17 real filed SME DRHPs (14 NSE Emerge, 3 BSE SME, 6,765 pages). Honest limit: the registry is curated rather than exhaustive. 12 requirements cite a regulation by number and were checked against the consolidated ICDR text; the rest cite Schedule VI headings and are corpus-derived."
+    },
+    {
+      "id": "PS-11",
+      "origin": "Expected outcome",
+      "text": "flag gaps or inconsistencies in the information provided",
+      "status": "met",
+      "discharged_by": "Both words are handled separately. Gaps: every requirement reads Complete, Partial or Missing, and the action plan ranks what to answer next by the coverage it would add. Inconsistencies: findings carry a code, a severity, the exact chapters involved, and the exchange return pattern that would bounce the draft.",
+      "files": [
+        "lib/engine/gapCheck.ts",
+        "lib/engine/actionPlan.ts",
+        "app/gaps/page.tsx"
+      ],
+      "evidence": "Findings name their location: 'Figures do not reconcile across chapters — IV.2 Our Business; V.1 Restated Financial Statements'. The action plan is arithmetically honest — working down the list arrives exactly at the projected coverage, asserted every run."
+    },
+    {
+      "id": "PS-12",
+      "origin": "Expected outcome",
+      "text": "be simple enough for a first-time issuer to engage with",
+      "status": "met",
+      "discharged_by": "A first-time issuer starts from a blank form for their own company, not from a demo record — and that first screen must not be a wall of red. Findings are suppressed until there is enough evidence for them to mean something.",
+      "files": [
+        "lib/data.ts",
+        "lib/store.tsx",
+        "components/intake/IntakeWizard.tsx"
+      ],
+      "evidence": "On an untouched form: zero high-severity findings, zero requirements reading Defect, coverage honestly reported as 14% rather than flattered, eligibility 'indeterminate' rather than a false pass, and an 8-step plan showing the route from 14% to 95%. Eleven assertions in `npm run verify` hold this."
+    },
+    {
+      "id": "PS-13",
+      "origin": "Expected outcome",
+      "text": "broadening the pipeline of SMEs that can confidently pursue a public listing",
+      "status": "met",
+      "discharged_by": "Confidence is the operative word. It comes from knowing where you stand: which conditions you meet, which you fail, which are still unanswered, and what each remaining answer is worth.",
+      "files": [
+        "lib/engine/eligibility.ts",
+        "lib/engine/actionPlan.ts",
+        "components/circulars/RegulationWatch.tsx"
+      ],
+      "evidence": "Every condition is three-state — met, not met, or unknown — and an unknown never reads as a pass. Each unknown states exactly what would resolve it. Regulation Watch names the date the rules were built against and flags SEBI circulars published since, so the promoter knows whether the answer is still current."
+    }
+  ]
+}

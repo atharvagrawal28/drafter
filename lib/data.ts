@@ -13,6 +13,7 @@ import questionnaireJson from "@/data/intake_questionnaire.json";
 import templatesJson from "@/knowledge_base/section_templates.json";
 import autocompJson from "@/data/sample_company_autocomp.json";
 import specchemJson from "@/data/sample_company_specchem.json";
+import problemStatementJson from "@/data/problem_statement.json";
 
 import type {
   DrhpStructure,
@@ -27,6 +28,34 @@ export const structure = structureJson as unknown as DrhpStructure;
 export const registry = registryJson as unknown as RequirementRegistry;
 export const questionnaire = questionnaireJson as any;
 export const sectionTemplates = templatesJson as any;
+
+/**
+ * SEBI's Track 04 problem statement, verbatim, split into the clauses that
+ * impose a requirement — each next to the files that discharge it and the
+ * number that proves it.
+ *
+ * Kept as data rather than prose in a page so the conformance claim has exactly
+ * one home. A claim written into JSX gets copied into the README, then the two
+ * drift, and the drifted one is the one a judge reads.
+ */
+export interface ProblemStatementClause {
+  id: string;
+  origin: string;
+  text: string;
+  status: "met" | "partial";
+  discharged_by: string;
+  files: string[];
+  evidence: string;
+}
+
+export interface ProblemStatement {
+  source: string;
+  title: string;
+  recorded_at: string;
+  clauses: ProblemStatementClause[];
+}
+
+export const problemStatement = problemStatementJson as unknown as ProblemStatement;
 
 // ---------------------------------------------------------------------------
 // Sample issuers

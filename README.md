@@ -17,6 +17,35 @@ by postgraduates in Securities Markets, NISM.
 
 ---
 
+## What SEBI asked for, clause by clause
+
+The Track 04 problem statement is recorded verbatim in
+[`data/problem_statement.json`](data/problem_statement.json), split into the thirteen clauses that
+impose a requirement. Each one names the files that discharge it and the number that proves it, and
+`npm run verify` asserts that every cited file still exists — so this table cannot quietly rot.
+
+| # | SEBI's words | Discharged by | Proof |
+|---|---|---|---|
+| PS-1 | capture their business, financial, **and legal** particulars | 8-step wizard; financials read out of the issuer's own workbook | **125** evidence-field references, all reachable — nothing in the registry is uncollectable |
+| PS-2 | generate a **well-organised, disclosure-ready** draft offer document | 34 chapters, Sections I–IX; prospectus-formatted DOCX + PDF | 9,975 words, 26 tables, 49KB DOCX, 140KB PDF |
+| PS-3 | accessible to promoters **without specialist knowledge** | Plain questions + a register normaliser that lifts them into prospectus prose | No figure moved across **258** free-text fields; transform is idempotent |
+| PS-4 | checks for **accuracy and completeness** | Two mechanisms: weighted coverage over 76 requirements; 11 cross-chapter consistency checks | Planted defects surface with the **exact** high-severity count (2 and 4) — a false positive fails the build |
+| PS-5 | **preserve the role of authorised intermediaries** in review and certification | 7 placeholders sitting exactly at signature points; 14-item DD checklist ending at DD-14 Certification | Standing non-dismissible "not for filing" banner on every screen |
+| PS-6 | a **substantially complete** draft | Coverage computed as a weighted mean over applicable requirements | 97% / 95% on the samples, **14%** on a blank form — the score moves with the evidence |
+| PS-7 | significantly **reducing preparation time** | Instant generation + an action plan that ranks what to answer next | ⚠️ **Partial** — not measured against a real drafting cycle |
+| PS-8 | lowering dependence on intermediaries **at the early drafting stage** | Promoter and banker are separate roles; the split falls where SEBI puts it | Eligibility answered before any fee is committed |
+| PS-9 | more accessible **for smaller enterprises** | The Chapter IX gate answers "may I list at all?" first | Reg 229(6) checked at the boundary — ₹1.00cr counts, ₹0.99cr does not round up |
+| PS-10 | **all material disclosure requirements** under SEBI's SME IPO framework | Versioned registry, stamped with the regulation set it was built against | ⚠️ **Partial** — 76 requirements, curated not exhaustive; structure validated against 17 real filed DRHPs |
+| PS-11 | flag **gaps or inconsistencies** | Both, separately: Complete/Partial/Missing + coded findings with exact chapter locations | Working down the action plan arrives *exactly* at the projected coverage |
+| PS-12 | simple enough for a **first-time issuer** | Start a new company from a blank form; findings suppressed until they mean something | **Zero** high-severity findings on an untouched form |
+| PS-13 | broadening the pipeline of SMEs that can **confidently** pursue a listing | Three-state conditions — met, not met, or unknown; an unknown never reads as a pass | Every unknown states exactly what would resolve it |
+
+Two clauses are marked partial on purpose, and `npm run verify` fails if that ever silently becomes
+thirteen green ticks. A jury of securities-markets people would not believe a perfect score, and it
+would not deserve to be believed.
+
+---
+
 ## Quick start
 
 ```bash
