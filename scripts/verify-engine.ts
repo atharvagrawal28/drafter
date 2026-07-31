@@ -649,6 +649,120 @@ async function main() {
 
   console.log("");
 
+  // ---- Model fallback chain ---------------------------------------------
+  // The free tier meters each model separately, so exhausting llama-3.3-70b's
+  // 100,000-token day says nothing about gpt-oss-120b's. Drafting templates
+  // while three untouched daily budgets sit unused on the same key is the
+  // failure this chain exists to prevent.
+  //
+  // The distinction that carries the weight: a DAY cap takes the model out of
+  // rotation, a MINUTE bucket does not. Confusing the two either benches a model
+  // for an hour over a transient blip, or hammers a model that has nothing left.
+  console.log(`${BOLD}Model fallback chain${RESET}`);
+  {
+    const {
+      MODEL_CHAIN,
+      getModelChain,
+      availableModels,
+      firstAvailableModel,
+      markExhausted,
+      isExhausted,
+      isDailyCap,
+      parseRetryDuration,
+      resetModelHealth,
+    } = await import("../lib/engine/llm");
+    const { draftConcurrencyFor } = await import("../lib/engine/refineGraph");
+    const { MAX_COMPLETION_TOKENS } = await import("../lib/engine/llm");
+
+    const savedModel = process.env.GROQ_MODEL;
+    resetModelHealth();
+    delete process.env.GROQ_MODEL;
+
+    assert(MODEL_CHAIN.length >= 2, `the chain has somewhere to fall (${MODEL_CHAIN.length} models)`);
+    assert(
+      new Set(MODEL_CHAIN).size === MODEL_CHAIN.length,
+      "no model appears twice — a duplicate would be retried against a quota already known spent",
+    );
+
+    // An explicit GROQ_MODEL is a preference, not an exclusion. Honouring it by
+    // discarding the fallbacks would make pinning a model strictly worse than
+    // not pinning one.
+    process.env.GROQ_MODEL = "openai/gpt-oss-20b";
+    const pinned = getModelChain();
+    assert(pinned[0] === "openai/gpt-oss-20b", `an explicit GROQ_MODEL leads the chain (${pinned[0]})`);
+    assert(
+      pinned.length === MODEL_CHAIN.length,
+      `and does not drop the fallbacks or duplicate itself (${pinned.length} of ${MODEL_CHAIN.length})`,
+    );
+
+    process.env.GROQ_MODEL = "some-model-we-have-never-heard-of";
+    assert(
+      getModelChain().length === MODEL_CHAIN.length + 1,
+      "an unknown pinned model is tried first and the known chain still backs it up",
+    );
+    delete process.env.GROQ_MODEL;
+
+    // Day caps bench a model; minute buckets must not.
+    const dayCap = new Error(
+      "Rate limit reached for model `llama-3.3-70b-versatile` ... on tokens per day (TPD): Limit 100000, Used 99963, Requested 556. Please try again in 9m45.6s.",
+    );
+    const minuteCap = new Error(
+      "Rate limit reached ... on tokens per minute (TPM): Limit 12000. Please try again in 27.4s.",
+    );
+    assert(isDailyCap(dayCap), "a tokens-per-day rejection is recognised as a day cap");
+    assert(
+      !isDailyCap(minuteCap),
+      "a tokens-per-minute rejection is NOT — it must not bench the model for an hour",
+    );
+
+    assert(parseRetryDuration("try again in 27.4s") === 27_400, "parses plain seconds");
+    assert(parseRetryDuration("try again in 9m45.6s") === 585_600, "parses minutes and seconds");
+    assert(parseRetryDuration("try again in 7h3m47.52s") === 25_427_520, "parses hours");
+    assert(parseRetryDuration("no duration here") === null, "and reports nothing rather than zero");
+
+    // Benching and recovery.
+    const t0 = 1_000_000;
+    markExhausted("llama-3.3-70b-versatile", 600_000, t0);
+    assert(isExhausted("llama-3.3-70b-versatile", t0 + 1), "an exhausted model is out of rotation");
+    assert(
+      !isExhausted("openai/gpt-oss-120b", t0 + 1),
+      "and its siblings are untouched — the quotas are separate",
+    );
+    assert(
+      !isExhausted("llama-3.3-70b-versatile", t0 + 600_001),
+      "and it returns once the quoted window has passed",
+    );
+
+    // The load-bearing integration: benching the primary must move both the
+    // model AND the concurrency, because the substitute has a smaller bucket.
+    resetModelHealth();
+    const primary = firstAvailableModel(t0);
+    const primaryConcurrency = draftConcurrencyFor(primary, MAX_COMPLETION_TOKENS);
+    markExhausted(primary, 600_000, t0);
+    const substitute = firstAvailableModel(t0 + 1);
+    assert(substitute !== primary, `the chain moves off the spent model (${primary} -> ${substitute})`);
+    assert(
+      draftConcurrencyFor(substitute, MAX_COMPLETION_TOKENS) <= primaryConcurrency,
+      "and re-sizes the fan-out to the substitute's own bucket rather than the spent model's",
+    );
+
+    // Everything spent must still produce a real attempt and a real error.
+    resetModelHealth();
+    for (const model of getModelChain()) markExhausted(model, 600_000, t0);
+    const all = availableModels(t0 + 1);
+    assert(all.length === 1, `with every model spent, one is still attempted (${all.length})`);
+    assert(
+      typeof firstAvailableModel(t0 + 1) === "string",
+      "so the caller gets a provider error, never a silent no-op",
+    );
+
+    resetModelHealth();
+    if (savedModel === undefined) delete process.env.GROQ_MODEL;
+    else process.env.GROQ_MODEL = savedModel;
+  }
+
+  console.log("");
+
   // ---- Nothing may declare a fixed width wider than a phone -------------
   // An SME promoter in India is as likely to be on a 375px phone as at a desk,
   // and SEBI's clause asks for something "simple enough for a first-time issuer

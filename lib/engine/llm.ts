@@ -55,6 +55,114 @@ export function isLlmAvailable(): boolean {
   return getGroqKey() !== null;
 }
 
+/**
+ * Models to try, in order, when the one above runs out of quota.
+ *
+ * The free tier meters each model SEPARATELY: llama-3.3-70b-versatile has its
+ * own 100,000-token day, and exhausting it says nothing about the others. A
+ * single-model configuration therefore throws away three quarters of the daily
+ * budget the same key already grants, and hands the user templates while paid-up
+ * capacity sits unused.
+ *
+ * Order is capability first, then cost. 70b writes the best prose. gpt-oss-120b
+ * is the strongest measured substitute — drafting Our Business in 3.2 seconds
+ * against 70b's 6-12, and passing the figure validator on the same issuer data.
+ * 8b-instant is last: it is the weakest writer, but a weak drafted chapter that
+ * clears the validator still beats a template.
+ *
+ * Falling down this chain is safe precisely because quality is enforced on the
+ * OUTPUT rather than assumed from the model. gpt-oss-120b was observed rounding
+ * INR 78.90 crore to "79" exactly as 70b does, and was rejected for it exactly
+ * as 70b is. The guarantee is a property of the validator, not of the model.
+ */
+export const MODEL_CHAIN = [
+  "llama-3.3-70b-versatile",
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
+  "llama-3.1-8b-instant",
+] as const;
+
+/**
+ * The chain to attempt, honouring an explicit GROQ_MODEL by promoting it to the
+ * front rather than by discarding the fallbacks. Someone pinning a model wants
+ * that model preferred; they do not want the request to fail when it is spent.
+ */
+export function getModelChain(): string[] {
+  const configured = (process.env.GROQ_MODEL ?? "").trim();
+  if (!configured) return [...MODEL_CHAIN];
+  return [configured, ...MODEL_CHAIN.filter((model) => model !== configured)];
+}
+
+/**
+ * Models known to be out of quota, and when they are worth trying again.
+ *
+ * A daily-cap rejection is not transient — Groq reports waits of minutes to
+ * hours — so re-attempting the same exhausted model for every one of five
+ * chapters wastes a round trip and a slice of the deadline each time. Recording
+ * the exhaustion converts that into one wasted call per model per process.
+ *
+ * This is an optimisation and never a correctness requirement. Serverless
+ * instances are recycled and this map goes with them; the only consequence is
+ * one more probing call on a cold start, which then re-learns the same fact.
+ */
+const exhaustedUntil = new Map<string, number>();
+
+/** Parse "9m45.6s", "7h3m47.52s" or "27.4s" into milliseconds. */
+export function parseRetryDuration(message: string): number | null {
+  const match = message.match(/try again in ((?:\d+h)?(?:\d+m)?[\d.]+s?)/i);
+  if (!match) return null;
+  const parts = match[1].match(/(?:(\d+)h)?(?:(\d+)m)?([\d.]+)s?/);
+  if (!parts) return null;
+  const hours = Number(parts[1] ?? 0);
+  const minutes = Number(parts[2] ?? 0);
+  const seconds = Number(parts[3] ?? 0);
+  const ms = ((hours * 60 + minutes) * 60 + seconds) * 1000;
+  return Number.isFinite(ms) && ms > 0 ? ms : null;
+}
+
+/** True when the 429 is the per-DAY cap rather than the per-minute bucket. */
+export function isDailyCap(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return /tokens per day|TPD|requests per day|RPD/i.test(message);
+}
+
+export function markExhausted(model: string, forMs: number, now: number = Date.now()): void {
+  exhaustedUntil.set(model, now + forMs);
+}
+
+export function isExhausted(model: string, now: number = Date.now()): boolean {
+  const until = exhaustedUntil.get(model);
+  if (until === undefined) return false;
+  if (now >= until) {
+    exhaustedUntil.delete(model);
+    return false;
+  }
+  return true;
+}
+
+/** Tests must not inherit another test's exhaustion state. */
+export function resetModelHealth(): void {
+  exhaustedUntil.clear();
+}
+
+/**
+ * The chain minus anything known to be spent.
+ *
+ * Never returns empty: if every model is in cooldown the first is returned
+ * anyway, so the caller makes a real attempt and gets a real error rather than
+ * silently drafting nothing on stale bookkeeping.
+ */
+export function availableModels(now: number = Date.now()): string[] {
+  const chain = getModelChain();
+  const live = chain.filter((model) => !isExhausted(model, now));
+  return live.length > 0 ? live : [chain[0]];
+}
+
+/** The model a drafting pass should size its concurrency against. */
+export function firstAvailableModel(now: number = Date.now()): string {
+  return availableModels(now)[0];
+}
+
 const SYSTEM_PROMPT = `You are a securities-markets document specialist drafting chapters of an Indian SME IPO offer document (a Draft Red Herring Prospectus for the NSE Emerge or BSE SME platform), working to SEBI (ICDR) Regulations, 2018.
 
 ABSOLUTE CONSTRAINTS — these override every other instruction:
@@ -138,6 +246,12 @@ export interface DraftResult {
   rateLimited?: boolean;
   /** True when the model ran into the completion ceiling and was cut off. */
   truncated?: boolean;
+  /** Which model produced (or failed to produce) this chapter. */
+  model?: string;
+  /** True when this model's daily cap is spent, not merely its minute bucket. */
+  exhausted?: boolean;
+  /** True when every model in the chain was tried and none had quota. */
+  chainExhausted?: boolean;
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -227,23 +341,19 @@ function buildRevisionBlock(feedback: RevisionFeedback): string {
 }
 
 /**
- * Draft one narrative chapter. Returns null on any failure so the caller falls
- * back to the deterministic template — the demo must never surface an error in
- * place of a chapter.
+ * Draft one chapter with ONE named model. The chain walk lives in its caller.
  */
-export async function draftChapter(
+async function draftWithModel(
   request: NarrativeRequest,
-  feedback?: RevisionFeedback,
-  deadlineAt?: number,
+  model: string,
+  feedback: RevisionFeedback | undefined,
+  deadlineAt: number | undefined,
+  key: string,
 ): Promise<DraftResult> {
-  const key = getGroqKey();
-  if (!key) return { text: null, error: "no key configured" };
-
   const { generateText } = await import("ai");
   const { createGroq } = await import("@ai-sdk/groq");
 
   const groq = createGroq({ apiKey: key });
-  const model = getModel();
 
   const prompt = [
     `CHAPTER TO DRAFT: ${request.chapterTitle}`,
@@ -294,17 +404,33 @@ export async function draftChapter(
       if (offenders.length > 0) {
         // Fail closed. An unverifiable figure in an offer document is a defect,
         // and the deterministic template is a perfectly good chapter.
-        return { text: null, rejected: offenders, error: "unsupported figures in model output" };
+        return {
+          text: null,
+          model,
+          rejected: offenders,
+          error: "unsupported figures in model output",
+        };
       }
 
-      return { text };
+      return { text, model };
     } catch (error) {
+      // A day-cap rejection is not worth waiting out — Groq quotes minutes to
+      // hours — and not worth re-attempting per chapter. Record it and hand
+      // straight to the next model in the chain.
+      if (isDailyCap(error)) {
+        const message = error instanceof Error ? error.message : String(error);
+        markExhausted(model, parseRetryDuration(message) ?? 60 * 60 * 1000);
+        return { text: null, model, rateLimited: true, exhausted: true, error: message };
+      }
+
       if (isRateLimit(error) && attempt < maxQuotaRetries) {
         const wait = retryAfterMs(error, attempt);
         if (!canAffordRetry(wait, deadlineAt)) {
-          // Abandon to the template rather than sleep through the deadline.
+          // Abandon rather than sleep through the deadline. The caller may still
+          // try a different model, which costs a round trip rather than a nap.
           return {
             text: null,
+            model,
             rateLimited: true,
             error: `rate limited; ${Math.round(wait / 1000)}s retry window does not fit the remaining budget`,
           };
@@ -314,11 +440,60 @@ export async function draftChapter(
       }
       return {
         text: null,
+        model,
         rateLimited: isRateLimit(error),
         error: error instanceof Error ? error.message : "generation failed",
       };
     }
   }
 
-  return { text: null, rateLimited: true, error: "rate limited after retries" };
+  return { text: null, model, rateLimited: true, error: "rate limited after retries" };
+}
+
+/**
+ * Draft one narrative chapter, falling down the model chain on quota failures.
+ *
+ * Returns null text on any failure so the caller falls back to the deterministic
+ * template — the demo must never surface an error in place of a chapter.
+ *
+ * What does and does not advance to the next model matters:
+ *
+ *   quota / transport failure -> ADVANCE. The model never judged the content, so
+ *       another model is a clean attempt at the same work.
+ *   unsupported figures       -> STOP. The model produced a specific, nameable
+ *       defect, and the revision pass repairs that far more reliably by naming
+ *       the offending figure back to the same model. Silently re-rolling on a
+ *       different model would also make the refine trace incomprehensible.
+ *   truncated at the ceiling  -> STOP. A length problem is about our reservation,
+ *       not the model; every model in the chain gets the same ceiling.
+ *   too short                 -> STOP. Same reasoning.
+ */
+export async function draftChapter(
+  request: NarrativeRequest,
+  feedback?: RevisionFeedback,
+  deadlineAt?: number,
+): Promise<DraftResult> {
+  const key = getGroqKey();
+  if (!key) return { text: null, error: "no key configured" };
+
+  const chain = availableModels();
+  let last: DraftResult = { text: null, rateLimited: true, error: "no model attempted" };
+
+  for (const model of chain) {
+    // Each hop costs a round trip. Spending the budget discovering that four
+    // models are all rate-limited leaves nothing to assemble the document with.
+    if (deadlineAt !== undefined && Date.now() + RETRY_HEADROOM_MS >= deadlineAt) {
+      return { ...last, error: `${last.error ?? "quota"}; budget exhausted before trying ${model}` };
+    }
+
+    const result = await draftWithModel(request, model, feedback, deadlineAt, key);
+    if (result.text !== null) return result;
+
+    // A judgement about the content, not about availability. Do not re-roll.
+    if (result.rejected?.length || result.truncated || !result.rateLimited) return result;
+
+    last = result;
+  }
+
+  return { ...last, chainExhausted: true };
 }

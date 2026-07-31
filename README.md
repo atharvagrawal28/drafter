@@ -157,6 +157,32 @@ before the next draft finishes. `npm run verify` asserts the burst fits — **an
 concurrency of 3 which actually failed is rejected**, so the check cannot quietly become vacuous if
 either number is raised later.
 
+**Quota is spread across four models, because the free tier meters each one separately.** Exhausting
+`llama-3.3-70b-versatile`'s 100,000-token day says nothing about `gpt-oss-120b`'s, so a single-model
+configuration hands the user templates while three untouched daily budgets sit unused on the same
+key. Drafting falls down a chain — 70b, then `gpt-oss-120b`, then `gpt-oss-20b`, then
+`llama-3.1-8b-instant` — and only on **quota** failures. An unsupported figure does not advance the
+chain: that is a specific, nameable defect the revision pass repairs by naming the figure back to the
+same model, and silently re-rolling elsewhere would make the refine trace unreadable.
+
+Measured with 70b's daily cap genuinely exhausted:
+
+| | chapters drafted by a model | fell back to template |
+|---|---|---|
+| single model | 0 of 5 | 5 |
+| fallback chain | 3–4 of 5 | 1–2 |
+
+A day cap benches a model for the window Groq quotes; a *minute* bucket does not, or a transient blip
+would sideline a model for an hour. The chain re-sizes its own fan-out when it moves, because the
+substitute's bucket is smaller (8,000, not 12,000). Each chapter records which model wrote it, and
+the loop's log says so — a reader comparing two chapters' prose deserves to know they had different
+authors.
+
+Falling down the chain is only safe because quality is enforced on the **output** rather than assumed
+from the model. `gpt-oss-120b` was observed rounding INR 78.90 crore to "79" exactly as 70b does, and
+was rejected for it exactly as 70b is. The no-hallucination guarantee is a property of the validator,
+not of the model — which is what makes substituting models a cost decision rather than a safety one.
+
 Quota retries are deadline-aware for the same reason. Groq answers a 429 with "please try again in
 27.4s"; honouring that up to four times took measured runs to 82–96 seconds against a 45-second
 budget, which on a 60-second ceiling is a 504. A retry is now only taken when the wait still leaves

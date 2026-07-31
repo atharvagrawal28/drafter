@@ -53,7 +53,12 @@
 import { END, START, StateGraph, Annotation } from "@langchain/langgraph";
 import { generateDocument, type GenerateOptions, type NarrativeRequest } from "./generate";
 import { runGapCheck } from "./gapCheck";
-import { draftChapter, MAX_COMPLETION_TOKENS, type RevisionFeedback } from "./llm";
+import {
+  draftChapter,
+  firstAvailableModel,
+  MAX_COMPLETION_TOKENS,
+  type RevisionFeedback,
+} from "./llm";
 import { sectionTemplates } from "../data";
 import type { DrhpDocument, GapReport, IssuerData } from "../types";
 import { containsAny } from "./utils";
@@ -75,6 +80,14 @@ export interface ChapterAttempt {
   missingTopics: string[];
   /** True when the last failure was a provider quota limit, not a content problem. */
   rateLimited?: boolean;
+  /**
+   * Which model actually drafted this chapter.
+   *
+   * Worth recording rather than inferring: when the primary model's day is spent
+   * the chain silently substitutes another, and a reader comparing two chapters'
+   * prose deserves to know they were not written by the same model.
+   */
+  model?: string;
   /** Accepted prose, if any. */
   text: string | null;
 }
@@ -381,7 +394,10 @@ export function buildRefineGraph() {
     // Fan out. The deadline is re-checked as each slot is picked up rather than
     // once up front, so a budget that expires mid-flight still stops the
     // chapters that have not started.
-    const concurrency = draftConcurrencyFor(state.llmModel ?? "", MAX_COMPLETION_TOKENS);
+    // Size the fan-out against the model that will actually be used. If the
+    // configured model's day is already spent, the chain has moved on and its
+    // 12,000-token bucket is not the one we are drawing against.
+    const concurrency = draftConcurrencyFor(firstAvailableModel(), MAX_COMPLETION_TOKENS);
     const outcomes = await mapWithConcurrency(jobs, concurrency, async (job) => {
       if (outOfTime(state)) return { skipped: true as const };
       return { skipped: false as const, result: await draftChapter(job.request, undefined, state.deadlineAt) };
@@ -411,6 +427,7 @@ export function buildRefineGraph() {
         outcome: "fell-back-to-template",
         rejectedFigures: [],
         missingTopics: [],
+        model: result.model,
         text: null,
       };
 
@@ -421,7 +438,9 @@ export function buildRefineGraph() {
           record.outcome = "accepted";
           record.text = result.text;
           drafts[job.chapterId] = result.text;
-          log.push(`${job.chapterId}: accepted on first pass.`);
+          log.push(
+            `${job.chapterId}: accepted on first pass${result.model ? ` (${result.model})` : ""}.`,
+          );
         } else {
           pending.push(job.chapterId);
           log.push(
@@ -435,9 +454,11 @@ export function buildRefineGraph() {
         log.push(
           result.rejected?.length
             ? `${job.chapterId}: first pass used unsupported figure(s) ${result.rejected.join(", ")} — queued for revision.`
-            : result.rateLimited
-              ? `${job.chapterId}: provider rate limit hit — queued for retry.`
-              : `${job.chapterId}: first pass failed (${result.error ?? "unknown"}) — queued for revision.`,
+            : result.chainExhausted
+              ? `${job.chapterId}: every model in the fallback chain is out of quota — queued for retry.`
+              : result.rateLimited
+                ? `${job.chapterId}: provider rate limit hit — queued for retry.`
+                : `${job.chapterId}: first pass failed (${result.error ?? "unknown"}) — queued for revision.`,
         );
       }
 
@@ -471,7 +492,10 @@ export function buildRefineGraph() {
     // Revisions fan out too. This is where the loop earns its place — a measured
     // 30% of chapter-drafts are recovered here — so making it cheap in wall
     // clock is what lets it run at all inside a 60-second platform ceiling.
-    const concurrency = draftConcurrencyFor(state.llmModel ?? "", MAX_COMPLETION_TOKENS);
+    // Size the fan-out against the model that will actually be used. If the
+    // configured model's day is already spent, the chain has moved on and its
+    // 12,000-token bucket is not the one we are drawing against.
+    const concurrency = draftConcurrencyFor(firstAvailableModel(), MAX_COMPLETION_TOKENS);
     const outcomes = await mapWithConcurrency(jobs, concurrency, async (job) => {
       if (outOfTime(state)) return { skipped: true as const };
       const feedback: RevisionFeedback = {
@@ -497,6 +521,7 @@ export function buildRefineGraph() {
         ...previous,
         attempts: previous.attempts + 1,
         rejectedFigures: [...previous.rejectedFigures],
+        model: result.model ?? previous.model,
       };
 
       if (result.text) {
@@ -506,7 +531,9 @@ export function buildRefineGraph() {
           record.outcome = "accepted-after-revision";
           record.text = result.text;
           drafts[chapterId] = result.text;
-          log.push(`${chapterId}: recovered on revision ${record.attempts}.`);
+          log.push(
+            `${chapterId}: recovered on revision ${record.attempts}${result.model ? ` (${result.model})` : ""}.`,
+          );
         } else {
           stillPending.push(chapterId);
           log.push(`${chapterId}: revision ${record.attempts} still omits ${missing.length} topic(s).`);
