@@ -37,6 +37,10 @@ const DRAFTING_BUDGET_MS = 45_000;
  *   3. `template` — deterministic templates (no key, or anything above threw).
  */
 export async function POST(request: NextRequest) {
+  // Absolute, and taken once: if the refine path burns time and then throws,
+  // single-pass drafting inherits what is left rather than starting a fresh 45s.
+  const deadlineAt = Date.now() + DRAFTING_BUDGET_MS;
+
   let body: any;
   try {
     body = await request.json();
@@ -74,7 +78,7 @@ export async function POST(request: NextRequest) {
   const rejections: { chapterId: string; figures: string[] }[] = [];
   const draftNarrative = useLlm
     ? async (narrativeRequest: NarrativeRequest) => {
-        const result = await draftChapter(narrativeRequest);
+        const result = await draftChapter(narrativeRequest, undefined, deadlineAt);
         if (result.rejected?.length) {
           rejections.push({ chapterId: narrativeRequest.chapterId, figures: result.rejected });
         }

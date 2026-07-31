@@ -492,6 +492,104 @@ async function main() {
 
   console.log("");
 
+  // ---- Concurrency must not cost determinism or isolation ---------------
+  // The draft and revise nodes now fan out. Two properties make that safe, and
+  // both are silent when broken: results must come back in INPUT order (the
+  // refine trace is shown to the user, and a log whose lines reorder run to run
+  // makes a reproducible pipeline look nondeterministic), and one chapter
+  // throwing must not take its siblings down.
+  console.log(`${BOLD}Draft concurrency${RESET}`);
+  {
+    const { mapWithConcurrency } = await import("../lib/engine/refineGraph");
+
+    // Deliberately inverted delays: the last item finishes first.
+    const delays = [60, 45, 30, 15, 1];
+    const started: number[] = [];
+    let inFlight = 0;
+    let peak = 0;
+
+    const results = await mapWithConcurrency(delays, 3, async (ms, index) => {
+      inFlight += 1;
+      peak = Math.max(peak, inFlight);
+      started.push(index);
+      await new Promise((resolve) => setTimeout(resolve, ms));
+      inFlight -= 1;
+      return index;
+    });
+
+    assert(
+      results.join(",") === "0,1,2,3,4",
+      `results come back in input order despite inverted completion order (${results.join(",")})`,
+    );
+    assert(peak <= 3, `never exceeds the concurrency limit (peak ${peak} in flight)`);
+    assert(peak > 1, `and does actually run concurrently (peak ${peak})`);
+
+    // A limit above the item count must not spawn idle workers or hang.
+    const small = await mapWithConcurrency([1, 2], 10, async (n) => n * 2);
+    assert(small.join(",") === "2,4", `a limit above the item count is safe (${small.join(",")})`);
+    assert((await mapWithConcurrency([], 3, async () => 1)).length === 0, "an empty list returns empty");
+
+    // Isolation: losing four good drafts because the fifth threw would be worse
+    // than the sequential code this replaced.
+    const mixed = await mapWithConcurrency([1, 2, 3], 2, async (n) => {
+      if (n === 2) throw new Error("chapter blew up");
+      return n;
+    });
+    const failed = mixed.filter((r) => r !== null && typeof r === "object" && "__error" in (r as any));
+    assert(failed.length === 1, `one failure is isolated (${failed.length} failed of ${mixed.length})`);
+    assert(mixed[0] === 1 && mixed[2] === 3, "and its siblings still return their results");
+  }
+
+  console.log("");
+
+  // ---- A quota retry must never outlive the request budget --------------
+  // Groq's free tier answers a 429 with "please try again in 27.4s", and the
+  // retry loop used to honour that unconditionally — four times over. Measured
+  // runs on a throttled key took 82-96s against a 45s budget, which on Vercel's
+  // 60s ceiling is a 504: the promoter gets an error page instead of a document
+  // made of templates. Waiting is only correct while there is time left to draft
+  // afterwards, so the negative case is the one that matters here.
+  console.log(`${BOLD}Retry deadline${RESET}`);
+  {
+    const { canAffordRetry, retryAfterMs, RETRY_HEADROOM_MS } = await import("../lib/engine/llm");
+
+    const now = 1_000_000;
+    assert(
+      canAffordRetry(5_000, now + 5_000 + RETRY_HEADROOM_MS, now),
+      "a wait that leaves exactly the drafting headroom is affordable",
+    );
+    assert(
+      !canAffordRetry(5_000, now + 5_000 + RETRY_HEADROOM_MS - 1, now),
+      "one millisecond less is not — the retry is abandoned to the template",
+    );
+    assert(
+      !canAffordRetry(27_400, now + 30_000, now),
+      "Groq's real 27.4s backoff is refused inside 30s remaining",
+    );
+    assert(
+      !canAffordRetry(1_000, now - 1, now),
+      "a deadline already past refuses even a one-second wait",
+    );
+    assert(
+      canAffordRetry(600_000, undefined, now),
+      "no declared deadline means the caller owns the clock (scripts, tests)",
+    );
+
+    // The wait being budgeted is the one the API actually asks for.
+    const quota = new Error("Rate limit reached ... Please try again in 27.397s. Visit ...");
+    const asked = retryAfterMs(quota, 0);
+    assert(
+      asked >= 27_398 && asked <= 28_400,
+      `the parsed backoff is Groq's own figure, not a guess (${asked}ms)`,
+    );
+    assert(
+      retryAfterMs(new Error("connection reset"), 3) <= 15_000,
+      "an unparseable error still backs off within the 15s cap",
+    );
+  }
+
+  console.log("");
+
   // ---- Nothing may declare a fixed width wider than a phone -------------
   // An SME promoter in India is as likely to be on a 375px phone as at a desk,
   // and SEBI's clause asks for something "simple enough for a first-time issuer

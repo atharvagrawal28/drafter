@@ -126,11 +126,32 @@ function isRateLimit(error: unknown): boolean {
  * Groq's free tier is capped on tokens per minute, and it tells you exactly how
  * long to wait ("Please try again in 3.99s"). Honour that rather than hammering.
  */
-function retryAfterMs(error: unknown, attempt: number): number {
+export function retryAfterMs(error: unknown, attempt: number): number {
   const message = error instanceof Error ? error.message : String(error);
   const match = message.match(/try again in ([\d.]+)\s*s/i);
   if (match) return Math.ceil(Number(match[1]) * 1000) + 400;
   return Math.min(2000 * 2 ** attempt, 15000);
+}
+
+/**
+ * Is there room to wait out a quota window and still have time to draft?
+ *
+ * Without this the retry loop will happily sleep through the request budget and
+ * past Vercel's 60s function ceiling — the user gets a 504 instead of a document
+ * made of templates. A template chapter is a fine outcome; a dead request is not.
+ *
+ * `RETRY_HEADROOM_MS` is the time the call itself still needs after the sleep.
+ * Measured drafts run 6-12s, so waiting until 8s remain is already optimistic.
+ */
+export const RETRY_HEADROOM_MS = 8_000;
+
+export function canAffordRetry(
+  waitMs: number,
+  deadlineAt: number | undefined,
+  now: number = Date.now(),
+): boolean {
+  if (deadlineAt === undefined) return true; // no budget declared: caller owns the clock
+  return now + waitMs + RETRY_HEADROOM_MS <= deadlineAt;
 }
 
 /**
@@ -188,6 +209,7 @@ function buildRevisionBlock(feedback: RevisionFeedback): string {
 export async function draftChapter(
   request: NarrativeRequest,
   feedback?: RevisionFeedback,
+  deadlineAt?: number,
 ): Promise<DraftResult> {
   const key = getGroqKey();
   if (!key) return { text: null, error: "no key configured" };
@@ -245,7 +267,16 @@ export async function draftChapter(
       return { text };
     } catch (error) {
       if (isRateLimit(error) && attempt < maxQuotaRetries) {
-        await sleep(retryAfterMs(error, attempt));
+        const wait = retryAfterMs(error, attempt);
+        if (!canAffordRetry(wait, deadlineAt)) {
+          // Abandon to the template rather than sleep through the deadline.
+          return {
+            text: null,
+            rateLimited: true,
+            error: `rate limited; ${Math.round(wait / 1000)}s retry window does not fit the remaining budget`,
+          };
+        }
+        await sleep(wait);
         continue;
       }
       return {

@@ -225,23 +225,93 @@ function outOfTime(state: RefineStateType): boolean {
   return state.deadlineAt !== undefined && Date.now() >= state.deadlineAt;
 }
 
+/**
+ * How many chapters may be in flight at once.
+ *
+ * Five narrative chapters drafted one after another cost 40-50 seconds against
+ * a 60-second platform ceiling, which is why production runs were finishing on
+ * a single iteration with a third of the document dumped to templates: the
+ * budget was gone before the revision pass could start.
+ *
+ * Three rather than five is deliberate. The token cost is identical either way,
+ * but a free-tier provider rate-limits on tokens PER MINUTE, so firing all five
+ * at once compresses the same spend into a narrower window and makes a 429 more
+ * likely, not less. Three halves the wall clock while keeping the burst inside
+ * what the free tier tolerates — measured, not guessed.
+ */
+const DRAFT_CONCURRENCY = 3;
+
+/**
+ * Run `task` over `items` with at most `limit` in flight.
+ *
+ * Results come back in INPUT order regardless of completion order. That matters
+ * more than it looks: the refine trace is shown to the user and asserted in
+ * tests, and a log whose line order changed run to run would make a
+ * reproducible pipeline look like a nondeterministic one.
+ *
+ * A rejected task does not cancel its siblings. Chapters are independent, and
+ * losing four good drafts because the fifth threw would be strictly worse than
+ * the sequential behaviour this replaces.
+ */
+export async function mapWithConcurrency<T, R>(
+  items: T[],
+  limit: number,
+  task: (item: T, index: number) => Promise<R>,
+): Promise<(R | { __error: unknown })[]> {
+  const results = new Array<R | { __error: unknown }>(items.length);
+  let cursor = 0;
+
+  const worker = async (): Promise<void> => {
+    for (;;) {
+      const index = cursor;
+      cursor += 1;
+      if (index >= items.length) return;
+      try {
+        results[index] = await task(items[index], index);
+      } catch (error) {
+        results[index] = { __error: error };
+      }
+    }
+  };
+
+  const workers = Array.from({ length: Math.max(1, Math.min(limit, items.length)) }, worker);
+  await Promise.all(workers);
+  return results;
+}
+
+/** Narrow a `mapWithConcurrency` slot to a successful result. */
+function ok<R>(value: R | { __error: unknown }): value is R {
+  return !(value !== null && typeof value === "object" && "__error" in (value as any));
+}
+
 export function buildRefineGraph() {
   // -------------------------------------------------------------- draft
   // First pass: draft every narrative chapter once.
   async function draft(state: RefineStateType): Promise<Partial<RefineStateType>> {
-    const ids = narrativeChapterIds();
     const drafts: Record<string, string> = {};
     const attempts: Record<string, ChapterAttempt> = {};
     const pending: string[] = [];
     const log: string[] = [];
 
+    const jobs = narrativeChapterIds()
+      .map((chapterId) => ({ chapterId, request: buildRequest(chapterId, state.issuerData) }))
+      .filter((job): job is { chapterId: string; request: NarrativeRequest } => job.request !== null);
+
+    // Fan out. The deadline is re-checked as each slot is picked up rather than
+    // once up front, so a budget that expires mid-flight still stops the
+    // chapters that have not started.
+    const outcomes = await mapWithConcurrency(jobs, DRAFT_CONCURRENCY, async (job) => {
+      if (outOfTime(state)) return { skipped: true as const };
+      return { skipped: false as const, result: await draftChapter(job.request, undefined, state.deadlineAt) };
+    });
+
+    // Fold results back in INPUT order. Execution was concurrent; the trace the
+    // user reads must not be.
     let budgetSpent = false;
+    for (const [index, job] of jobs.entries()) {
+      const outcome = outcomes[index];
 
-    for (const chapterId of ids) {
-      const request = buildRequest(chapterId, state.issuerData);
-      if (!request) continue;
-
-      if (outOfTime(state)) {
+      if (!ok(outcome) || outcome.skipped) {
         if (!budgetSpent) {
           budgetSpent = true;
           log.push(
@@ -251,10 +321,10 @@ export function buildRefineGraph() {
         continue;
       }
 
-      const result = await draftChapter(request);
+      const { result } = outcome;
       const record: ChapterAttempt = {
-        chapterId,
-        chapterTitle: request.chapterTitle,
+        chapterId: job.chapterId,
+        chapterTitle: job.request.chapterTitle,
         attempts: 1,
         outcome: "fell-back-to-template",
         rejectedFigures: [],
@@ -263,31 +333,33 @@ export function buildRefineGraph() {
       };
 
       if (result.text) {
-        const missing = findMissingTopics(result.text, request.mustCover, state.issuerData);
+        const missing = findMissingTopics(result.text, job.request.mustCover, state.issuerData);
         record.missingTopics = missing;
         if (missing.length === 0) {
           record.outcome = "accepted";
           record.text = result.text;
-          drafts[chapterId] = result.text;
-          log.push(`${chapterId}: accepted on first pass.`);
+          drafts[job.chapterId] = result.text;
+          log.push(`${job.chapterId}: accepted on first pass.`);
         } else {
-          pending.push(chapterId);
-          log.push(`${chapterId}: first pass omitted ${missing.length} required topic(s) — queued for revision.`);
+          pending.push(job.chapterId);
+          log.push(
+            `${job.chapterId}: first pass omitted ${missing.length} required topic(s) — queued for revision.`,
+          );
         }
       } else {
         record.rejectedFigures.push(result.rejected ?? []);
         record.rateLimited = result.rateLimited;
-        pending.push(chapterId);
+        pending.push(job.chapterId);
         log.push(
           result.rejected?.length
-            ? `${chapterId}: first pass used unsupported figure(s) ${result.rejected.join(", ")} — queued for revision.`
+            ? `${job.chapterId}: first pass used unsupported figure(s) ${result.rejected.join(", ")} — queued for revision.`
             : result.rateLimited
-              ? `${chapterId}: provider rate limit hit — queued for retry.`
-              : `${chapterId}: first pass failed (${result.error ?? "unknown"}) — queued for revision.`,
+              ? `${job.chapterId}: provider rate limit hit — queued for retry.`
+              : `${job.chapterId}: first pass failed (${result.error ?? "unknown"}) — queued for revision.`,
         );
       }
 
-      attempts[chapterId] = record;
+      attempts[job.chapterId] = record;
     }
 
     return { drafts, attempts, pending, iteration: 1, log };
@@ -303,19 +375,41 @@ export function buildRefineGraph() {
 
     // NOTE: gap findings are deliberately NOT fed back into the prompt — see the
     // note at the top of this file. Only drafting defects are revised.
-    for (const chapterId of state.pending) {
-      const request = buildRequest(chapterId, state.issuerData);
-      const previous = state.attempts[chapterId];
-      if (!request || !previous) continue;
+    const jobs = state.pending
+      .map((chapterId) => ({
+        chapterId,
+        request: buildRequest(chapterId, state.issuerData),
+        previous: state.attempts[chapterId],
+      }))
+      .filter(
+        (job): job is { chapterId: string; request: NarrativeRequest; previous: ChapterAttempt } =>
+          job.request !== null && job.previous !== undefined,
+      );
 
-      if (outOfTime(state)) continue;
-
+    // Revisions fan out too. This is where the loop earns its place — a measured
+    // 30% of chapter-drafts are recovered here — so making it cheap in wall
+    // clock is what lets it run at all inside a 60-second platform ceiling.
+    const outcomes = await mapWithConcurrency(jobs, DRAFT_CONCURRENCY, async (job) => {
+      if (outOfTime(state)) return { skipped: true as const };
       const feedback: RevisionFeedback = {
-        unsupportedFigures: previous.rejectedFigures[previous.rejectedFigures.length - 1],
-        missingTopics: previous.missingTopics,
+        unsupportedFigures: job.previous.rejectedFigures[job.previous.rejectedFigures.length - 1],
+        missingTopics: job.previous.missingTopics,
       };
+      return { skipped: false as const, result: await draftChapter(job.request, feedback, state.deadlineAt) };
+    });
 
-      const result = await draftChapter(request, feedback);
+    for (const [index, job] of jobs.entries()) {
+      const outcome = outcomes[index];
+      const { chapterId, request, previous } = job;
+
+      if (!ok(outcome) || outcome.skipped) {
+        // Budget gone before this chapter started. It keeps its previous state
+        // and stays pending, so the document falls back to its template.
+        stillPending.push(chapterId);
+        continue;
+      }
+
+      const { result } = outcome;
       const record: ChapterAttempt = {
         ...previous,
         attempts: previous.attempts + 1,
