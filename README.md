@@ -178,9 +178,9 @@ commit does not land.
 | 6 | **Regulation Watch** | States the registry version and the date its rules were built against, then reads SEBI's public RSS feed and flags what has been published since. Rule-based classification, mapped to requirement IDs, with the matched terms shown. |
 | 7 | **Impact** | Clause-by-clause conformance against SEBI's problem statement, with the file and measured number behind each claim, plus an honest scope statement. |
 
-Exports: **DOCX** and **PDF** of the full prospectus (34 pages, cover page, TOC, numbered sections,
-ruled tables, headers/footers, page numbers) and the **gap report as a standalone compliance
-checklist**.
+Exports: **DOCX** and **PDF** of the full prospectus — 34 chapters over **36 PDF pages** (Word
+paginates tighter, around 27), with a cover page, TOC, numbered sections, ruled tables,
+headers/footers and page numbers — plus the **gap report as a standalone compliance checklist**.
 
 ---
 
@@ -311,56 +311,102 @@ checker. See the note at the top of `lib/engine/refineGraph.ts`.
 
 ---
 
-## 5-minute demo script
+## Demo script
 
-**0:00 — The problem (Overview screen).**
+Roughly **7 minutes** as written. Two beats are marked **[cut for 5]** — drop them and the story
+still lands. Every figure below is real output, asserted by `npm run verify`; if one has drifted the
+verify run will say so before a judge does.
+
+**0:00 — The problem (Overview).**
 "SEBI's Track 04 problem is that preparing the IPO offer document is so complex and costly that SMEs
-depend on intermediaries from day one. Months of merchant-banker, legal and compliance effort, at a
+depend on intermediaries from day one — months of merchant-banker, legal and compliance effort, at a
 cost disproportionate to the capital raised." Point at the headline: *everyone else checks a DRHP
-that already exists; Drafter writes the first one.* Note the live coverage panel — **91%**, computed
-across 60 disclosure requirements, not hardcoded.
-→ *Maps to: the SEBI problem statement; Market Impact.*
+that already exists; Drafter writes the first one.* Note the coverage panel — **97%**, a computed
+weighted mean over **76** disclosure requirements, not a hardcoded number.
+→ *The problem statement; Market Impact.*
 
-**0:45 — Guided Intake.**
-Open **Guided Intake**. Scroll one step. "Plain language — 'what does your company make', not
-'Schedule VI Part A clause 3'. Every field is tagged with the requirement it feeds." Show the
-per-step progress in the left rail. Drop `sample_uploads/Shreeji_Restated_Financials.csv` on the
-upload box in Step 3 — it reads six figures out of the spreadsheet and states which ones. Note it
-populates the **audited** side only; it deliberately does not overwrite what the promoter asserted,
-because reconciling those two is the point.
-→ *Expected outcome #3 (simple enough for a first-time issuer); document intelligence.*
+**0:30 — "May I list at all?" (Gap & Consistency → the eligibility gate).**
+Before anything else, the gate. "This is the question an SME actually asks first, and today it gets
+answered only after they have engaged advisers." Eight Chapter IX conditions under Reg 228, 229 and
+230, each **met / not met / unknown** — and an unknown never reads as a pass; it states exactly what
+would resolve it. Call out **Reg 229(6)** — operating profit of at least ₹1 crore in two of the last
+three years, inserted 8 March 2025. "This is the condition that disqualifies most aspirants, and
+Drafter checks it before a rupee of fees is committed."
+→ *Expected outcome: accessible for smaller enterprises; broadening the pipeline.*
 
-**1:45 — The draft (Draft DRHP).**
-Click **Generate draft**, open **Draft DRHP**. Scroll the cover page — CIN, the issue, general risk,
-both responsibility statements. Use the sticky TOC to jump to **III.4 Capital Structure**: real
-tables — share capital build-up totalling back to the pre-issue capital, pre/post-issue shareholding
-with computed percentages. "No invented numbers: factual chapters are built only from issuer data."
-Point at the requirement chips under any chapter heading. Toggle **Show disclosure trail** — every
-block reveals its source and the requirement IDs it discharges.
-→ *Expected outcome #1; Technology Stack (traceability, not raw generation); SEBI supervision.*
+**1:15 — Guided Intake.**
+"Plain language — 'do you have any court cases', not 'Schedule VI Part A clause 11'. Every field is
+tagged with the requirement it feeds." Show the per-step progress in the left rail. Drop
+`sample_uploads/Shreeji_Restated_Financials.csv` on the upload box: it reads the column headers
+(FY24, FY25, FY26), then **11 fields including 5 three-year series** — revenue, EBITDA, PAT, EPS and
+return on net worth — and prints the label it matched for each, so nothing is silently guessed.
+
+Land the setup for the money shot: **"the audited sheet says revenue of ₹78.90 crore."** The
+extractor populates the **audited** side only and deliberately does not overwrite what the promoter
+asserted elsewhere — because reconciling those two is exactly what the next-but-one screen does.
+→ *Capturing business, financial and legal particulars; document intelligence.*
+
+**2:00 — The draft (Draft DRHP).**
+**Generate draft**, then open it. Scroll the cover page — CIN, the issue, general risk, both
+responsibility statements. Jump via the sticky TOC to **III.4 Capital Structure**: share capital
+build-up totalling back to the pre-issue capital, pre/post-issue shareholding with computed
+percentages. "No invented numbers — factual chapters are built only from issuer data." Toggle
+**Show disclosure trail**: every block reveals its provenance and the requirement IDs it discharges.
+Then scroll to a **placeholder** and land the line: *"There are seven of these, and every one sits
+where the law needs a named professional to sign — the auditor's examination report, counsel's tax
+particulars, the executed declaration page. Drafter stops exactly there."*
+→ *A well-organised, disclosure-ready draft; preserving the intermediary; traceability over raw generation.*
 
 **3:00 — The trust layer (Gap & Consistency).** *(the money shot)*
-Open **Gap & Consistency**. "This is deliberately modelled on a BSE-style pre-check report, because
-that is exactly what this draft has to survive next." Read the verdict: *2 issues would return this
-draft at pre-check*. Walk **DR-INC-001**: business chapter says INR 82.50 crore, restated financials
-say INR 78.90 crore — 4.6% apart, with both chapter locations linked. Then **DR-RFL-001**: the Legal
-chapter says "None pending", but Drafter found a GST appeal referenced in the promoter's own business
-notes. "The promoter never ticked a box. The checker read the narrative and caught the contradiction."
-→ *Expected outcome #2; investor protection; the upstream-of-BSE positioning.*
+"Deliberately modelled on a BSE-style pre-check report, because that is what this draft has to
+survive next." Verdict: **2 issues would return this draft at pre-check**.
+- **DR-INC-001** — Our Business (IV.2) states **₹82.50 crore**; Restated Financials (V.1) shows
+  **₹78.90 crore** — the figure that came off the spreadsheet two minutes ago. A gap of **₹3.60
+  crore (4.6%)**, both chapters linked.
+- **DR-RFL-001** — the Legal chapter says *"None pending"*, but Drafter found a matter *"currently
+  under appeal before the Appellate Authority"* in the promoter's own business notes. **"The
+  promoter never ticked a box. The checker read the narrative and caught the contradiction."**
 
-**4:00 — Switch issuer (proves it is not hardcoded).**
-Change the issuer selector to **Aarna Specialty Chemicals**. Same engine, different sector, and it
-now fails on **three entirely different** requirements: objects short of net proceeds by INR 1.25
-crore, related parties declared "Nil" while the business notes describe a promoter-owned tolling
-arrangement, and a missing auditor reference. "One knowledge base, any issuer."
+Then the **action plan**: what to answer next, ranked by the coverage each answer buys — and working
+down the list arrives *exactly* at the projected number.
+→ *Flagging gaps AND inconsistencies; investor protection; upstream of BSE's own pre-check.*
+
+**4:15 — Switch issuer (proves it is data-driven).** **[cut for 5]**
+Selector → **Aarna Specialty Chemicals**. Same engine, different sector, **four entirely different**
+failures: objects aggregating ₹19.75 crore against ₹21.00 crore of net proceeds (**₹1.25 crore
+unallocated**); related parties declared "Nil" while the notes describe a promoter-owned tolling
+arrangement; a missing auditor reference; and **₹6.00 crore to general corporate purposes — 26.7% of
+a ₹22.50 crore issue, against a Reg 230(2) ceiling of ₹3.38 crore**. Read that last one out: it
+shows the regulation, the arithmetic and which limb binds. "One knowledge base, any issuer."
 → *Scalability; Feasibility.*
 
-**4:30 — Merchant Banker + exports.**
-Open **Merchant Banker**. "The intermediary is preserved, not removed." Show documents provided vs
-outstanding, the chapter→requirement mapping, and the risk flags. Back on the draft, hit **DOCX** and
-**PDF** — a 34-page prospectus-formatted document, plus the gap report as a standalone compliance
-checklist. Close on **Impact**.
-→ *Expected outcome #4; the honest scope statement.*
+**4:55 — Observation Replay (the outside check).**
+"Everything so far is self-referential — the registry says the draft is complete because the registry
+says so. This is the one check that comes from outside." Paste an exchange observation letter; each
+observation is mapped to the requirement and chapter that would have raised it first. Point at the
+**registry gap** — an observation nothing in the registry covers — and say the important part out
+loud: *"it counts against our own score. Dropping it would have made the number look better."*
+Note the client-side guarantee: the letter never leaves the browser.
+→ *All material disclosure requirements — measured against ground truth, not asserted.*
+
+**5:45 — Start a new company (this is a product, not a demo).** **[cut for 5]**
+Issuer selector → **+ Start a new company**. A blank form for a real issuer — and note what it does
+*not* do: no wall of red. **Zero** high-severity findings before a single question is answered,
+coverage honestly **14%**, eligibility *indeterminate* rather than a false pass. Answer two or three
+fields and the **preparation-time meter** starts: active effort, the time each coverage milestone was
+crossed, the time to first draft. Open "what exactly is being measured?" — *"pauses are counted at
+the cap, so this figure overstates our own effort. And it measures drafting inside Drafter, not the
+auditor's restatement or the banker's due diligence."*
+→ *Simple enough for a first-time issuer; reducing preparation time, measured rather than claimed.*
+
+**6:30 — Merchant Banker, exports, close.**
+Open **Merchant Banker**: "the intermediary is preserved, not removed." Documents provided vs
+outstanding across a **14-item due-diligence checklist assigned by owner** — 6 issuer, 4 auditor,
+4 lead manager, 1 legal counsel — ending at DD-14, Certification. Export **DOCX** and **PDF**:
+34 chapters, 36 PDF pages, prospectus formatting, plus the gap report as a standalone compliance
+checklist. Close on **Impact** — the clause-by-clause conformance table, and the two clauses marked
+**partial** on purpose. *"Eleven of thirteen met. We are telling you which two aren't, and why."*
+→ *The honest scope statement — and the reason to believe the other eleven.*
 
 ---
 
@@ -371,12 +417,19 @@ diligence and certification. No tool produces that unaided, and a securities-mar
 What Drafter actually delivers, and what it does not:
 
 **What is real**
-- All 32 chapters of the SME DRHP tree are generated and navigable; the 13 priority chapters are
-  fully drafted, the rest carry proper headings and structured placeholders.
+- All 34 chapters of the SME DRHP tree are generated and navigable; the 14 priority chapters are
+  fully drafted, the rest carry proper headings and structured placeholders. The remaining
+  placeholders — 7 for the first sample issuer, 8 for the second — each sit where the law requires a
+  named professional to sign: the auditor's examination report and tax-benefits certificate,
+  counsel's tax particulars, the lock-in computation, the verbatim Articles, the executed
+  declaration page.
 - Factual chapters contain only issuer-supplied or arithmetically derived numbers.
-- The gap checker computes coverage from evidence fields and catches all five planted defects across
-  two issuers with zero false positives (`npm run verify`).
-- DOCX and PDF exports are real 34-page prospectus-formatted documents.
+- The gap checker computes coverage from evidence fields and catches all six planted defects across
+  two issuers with the **exact** high-severity counts — 2 and 4 — so a false positive fails the
+  build as loudly as a miss (`npm run verify`).
+- DOCX and PDF exports are real prospectus-formatted documents: 34 chapters over 36 PDF pages.
+- Preparation time is **measured**, not asserted, and the measurement is biased against our own
+  claim (pauses counted at the cap).
 
 **What is scoped for the prototype**
 - Two **fictional** sample issuers. No real issuer data is used anywhere.
@@ -398,6 +451,15 @@ What Drafter actually delivers, and what it does not:
   conditions. It does **not** test the SME exchange's own track-record and net-worth criteria under
   Reg 229(3), and it is a pre-screen rather than a clearance: eligibility is confirmed by the merchant
   banker in due diligence. An unanswered condition is reported as a question, never as a pass.
+- **Observation Replay** works on any letter a merchant banker pastes, but the letter shipped behind
+  "Load a representative letter" is **fictional**. Exchange observation letters are not public
+  documents; the wording follows the patterns that recur across the 17-DRHP corpus and the exchanges'
+  published SME checklists, and the issuer is invented. Say so if asked. The number that would
+  actually mean something comes from a real letter, and the tool is built to accept one.
+- The **preparation-time meter** measures active promoter effort inside Drafter — from the first
+  answer, with pauses over 120s counted at the cap so the figure overstates rather than flatters. It
+  is not a measurement of the full offer-document preparation cycle, most of which is the auditor's
+  restatement, counsel's litigation review and the banker's due diligence.
 - Narrative quality with a Groq key is good but is prose *around* verified data; it is drafting
   assistance, not legal advice.
 - Session-scoped storage (browser localStorage). No multi-user accounts, no audit log persistence.
