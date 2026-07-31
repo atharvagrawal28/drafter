@@ -165,12 +165,22 @@ key. Drafting falls down a chain — 70b, then `gpt-oss-120b`, then `gpt-oss-20b
 chain: that is a specific, nameable defect the revision pass repairs by naming the figure back to the
 same model, and silently re-rolling elsewhere would make the refine trace unreadable.
 
-Measured with 70b's daily cap genuinely exhausted:
+Measured with 70b's daily cap genuinely exhausted — the condition under which the single-model build
+drafts nothing at all:
 
 | | chapters drafted by a model | fell back to template |
 |---|---|---|
 | single model | 0 of 5 | 5 |
-| fallback chain | 3–4 of 5 | 1–2 |
+| fallback chain, local | 3–4 of 5 | 1–2 |
+| fallback chain, production | **5 of 5** | 0 |
+
+The production run drew on all three fallbacks in a single document — `gpt-oss-120b` for Risk Factors
+and Industry Overview, `gpt-oss-20b` for History and Certain Corporate Matters,
+`llama-3.1-8b-instant` for Our Business and Management's Discussion and Analysis — and Our Business,
+which the smallest model returned as a stub on its first pass, was recovered by the revision pass
+rather than dropped. The spread between the local and production rows is the per-minute bucket's
+refill state at the moment of the run, not a difference in build: a second production run minutes
+later scored 3 of 5.
 
 A day cap benches a model for the window Groq quotes; a *minute* bucket does not, or a transient blip
 would sideline a model for an hour. The chain re-sizes its own fan-out when it moves, because the

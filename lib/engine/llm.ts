@@ -387,14 +387,14 @@ async function draftWithModel(
       });
 
       const text = (result.text ?? "").trim();
-      if (text.length < 200) return { text: null, error: "response too short" };
+      if (text.length < 200) return { text: null, model, error: "response too short" };
 
       // A chapter that hit the token ceiling stops mid-sentence. It would clear
       // every other check here — it is long enough, and its figures are drawn
       // from the issuer data — so without this it lands in the document as a
       // truncated paragraph. Prefer the complete deterministic template.
       if (result.finishReason === "length") {
-        return { text: null, truncated: true, error: "model output hit the token ceiling" };
+        return { text: null, model, truncated: true, error: "model output hit the token ceiling" };
       }
 
       const allowed = new Set<string>();
@@ -465,8 +465,13 @@ async function draftWithModel(
  *       the offending figure back to the same model. Silently re-rolling on a
  *       different model would also make the refine trace incomprehensible.
  *   truncated at the ceiling  -> STOP. A length problem is about our reservation,
- *       not the model; every model in the chain gets the same ceiling.
- *   too short                 -> STOP. Same reasoning.
+ *       not the model; every model in the chain gets the same ceiling, so the
+ *       next one down would be cut off at exactly the same place.
+ *   too short                 -> STOP, but for a different reason: the revision
+ *       pass is the recovery path for a model that returned a stub, and it
+ *       demonstrably works — a chapter the smallest model stubbed on the first
+ *       pass came back accepted on revision 2. Advancing the chain here would
+ *       spend a second model's quota on work the loop already recovers.
  */
 export async function draftChapter(
   request: NarrativeRequest,
