@@ -233,13 +233,47 @@ function outOfTime(state: RefineStateType): boolean {
  * a single iteration with a third of the document dumped to templates: the
  * budget was gone before the revision pass could start.
  *
- * Three rather than five is deliberate. The token cost is identical either way,
- * but a free-tier provider rate-limits on tokens PER MINUTE, so firing all five
- * at once compresses the same spend into a narrower window and makes a 429 more
- * likely, not less. Three halves the wall clock while keeping the burst inside
- * what the free tier tolerates — measured, not guessed.
+ * The ceiling on this number is the free tier's per-minute token bucket, and
+ * the arithmetic is not the obvious one. Groq's limiter charges the RESERVATION,
+ * not the completion: a request carrying max_tokens 4000 over a 40-token prompt
+ * is billed "Requested 4042" against the bucket even if the model writes twenty
+ * words. So a chapter costs its prompt plus MAX_COMPLETION_TOKENS in full,
+ * regardless of how long the chapter turns out to be.
+ *
+ * Measured against the bundled issuer (prompt tokens per chapter, plus the 2,400
+ * reserved), and a 12,000-token bucket:
+ *
+ *     II.1  ~2,033 + 2,400 = 4,433      three in flight = ~12,300  EXCEEDS
+ *     IV.2  ~1,629 + 2,400 = 4,029      two   in flight = ~ 8,500  fits
+ *     IV.1  ~1,454 + 2,400 = 3,854
+ *     V.2   ~1,262 + 2,400 = 3,662
+ *
+ * Three was the first guess and it is wrong: the third chapter of every burst
+ * was 429ing, which is why runs came back with two chapters drafted and the rest
+ * on templates. Two fits the bucket with roughly 3,500 tokens of headroom — the
+ * bucket refills at ~200/second, so that gap is refilled inside the time one
+ * draft takes, and the pipeline stays saturated without ever queueing on quota.
+ *
+ * `verify-engine.ts` asserts this fits. Raising either this number or
+ * MAX_COMPLETION_TOKENS without re-doing the arithmetic will fail the gate.
  */
-const DRAFT_CONCURRENCY = 3;
+const DRAFT_CONCURRENCY = 2;
+
+/** The per-minute token bucket on Groq's free tier, read from its own headers. */
+export const FREE_TIER_TPM_BUCKET = 12_000;
+
+/** The largest prompt among the narrative chapters, measured, rounded up. */
+export const WORST_CASE_PROMPT_TOKENS = 2_100;
+
+export function burstTokenCost(concurrency: number, maxCompletionTokens: number): number {
+  return concurrency * (WORST_CASE_PROMPT_TOKENS + maxCompletionTokens);
+}
+
+export function burstFitsFreeTier(concurrency: number, maxCompletionTokens: number): boolean {
+  return burstTokenCost(concurrency, maxCompletionTokens) <= FREE_TIER_TPM_BUCKET;
+}
+
+export const DRAFT_CONCURRENCY_FOR_TESTS = DRAFT_CONCURRENCY;
 
 /**
  * Run `task` over `items` with at most `limit` in flight.

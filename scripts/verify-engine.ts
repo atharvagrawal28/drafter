@@ -538,6 +538,31 @@ async function main() {
     const failed = mixed.filter((r) => r !== null && typeof r === "object" && "__error" in (r as any));
     assert(failed.length === 1, `one failure is isolated (${failed.length} failed of ${mixed.length})`);
     assert(mixed[0] === 1 && mixed[2] === 3, "and its siblings still return their results");
+
+    // The concurrency limit is not a free parameter. Groq's limiter charges the
+    // RESERVATION, not the completion, so a burst costs concurrency x (prompt +
+    // MAX_COMPLETION_TOKENS) against a 12,000-token bucket. Three in flight
+    // exceeded it, which is why bursts came back with the first two chapters
+    // drafted and the rest on templates. Anyone raising either number without
+    // re-doing that arithmetic should be stopped here rather than by a 429 in
+    // front of an audience.
+    const { burstFitsFreeTier, burstTokenCost, DRAFT_CONCURRENCY_FOR_TESTS, FREE_TIER_TPM_BUCKET } =
+      await import("../lib/engine/refineGraph");
+    const { MAX_COMPLETION_TOKENS } = await import("../lib/engine/llm");
+
+    const cost = burstTokenCost(DRAFT_CONCURRENCY_FOR_TESTS, MAX_COMPLETION_TOKENS);
+    assert(
+      burstFitsFreeTier(DRAFT_CONCURRENCY_FOR_TESTS, MAX_COMPLETION_TOKENS),
+      `a full burst fits the free tier's per-minute bucket (${cost} of ${FREE_TIER_TPM_BUCKET} tokens at concurrency ${DRAFT_CONCURRENCY_FOR_TESTS})`,
+    );
+    assert(
+      !burstFitsFreeTier(3, MAX_COMPLETION_TOKENS),
+      "and the check is not vacuous — the concurrency of 3 that actually 429'd is rejected",
+    );
+    assert(
+      !burstFitsFreeTier(DRAFT_CONCURRENCY_FOR_TESTS, 4000),
+      "raising the completion ceiling to 4000 is rejected at the current concurrency",
+    );
   }
 
   console.log("");

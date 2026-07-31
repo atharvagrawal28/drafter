@@ -139,6 +139,31 @@ the budget already spent the full 34-chapter document still returns in well unde
 labels itself template mode rather than claiming drafting it did not do. `npm run verify` asserts
 this.
 
+**The token budget is measured against the provider's own limiter, not estimated.** Two things about
+Groq's free tier are not the obvious thing, and both were found by reading its headers and its 429
+bodies rather than by assuming:
+
+1. The limiter charges the **reservation, not the completion**. A 40-token prompt sent with
+   `max_tokens: 4000` is billed `Requested 4042` even if the model writes twenty words. So a chapter
+   costs its prompt plus `MAX_COMPLETION_TOKENS` in full, every time, whatever its length.
+2. The binding cap is **tokens per day (100,000)**, not the per-minute bucket — a run can fail on
+   quota while `x-ratelimit-remaining-tokens` reads a comfortable 12,000.
+
+Together those set the drafting concurrency. Measured prompts run 1,262–2,033 tokens per chapter, so
+a burst costs `concurrency x (prompt + 2,400)` against a 12,000-token bucket: three in flight comes
+to ~12,300 and 429s the third chapter, which is exactly why runs were returning two drafted chapters
+and the rest on templates. Two fits at ~8,500 with headroom the bucket refills (~200 tokens/second)
+before the next draft finishes. `npm run verify` asserts the burst fits — **and asserts that the
+concurrency of 3 which actually failed is rejected**, so the check cannot quietly become vacuous if
+either number is raised later.
+
+Quota retries are deadline-aware for the same reason. Groq answers a 429 with "please try again in
+27.4s"; honouring that up to four times took measured runs to 82–96 seconds against a 45-second
+budget, which on a 60-second ceiling is a 504. A retry is now only taken when the wait still leaves
+time to draft afterwards. The same throttled key that produced 82–96s now returns in 44–47s, on
+templates where it must. Falling back to a deterministic chapter is an acceptable outcome; a dead
+request in front of an audience is not.
+
 No environment variable is required to deploy. The app is fully functional without a key.
 
 > Do not run `npm run build` while `npm run dev` is running — both write to `.next` and the dev

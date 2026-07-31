@@ -18,6 +18,23 @@ import type { NarrativeRequest } from "./generate";
 
 export const DEFAULT_MODEL = "llama-3.3-70b-versatile";
 
+/**
+ * Ceiling on a single chapter's generated length.
+ *
+ * This is not only a length cap, it is a price. Groq's rate limiter charges the
+ * RESERVATION rather than the tokens actually generated — a 40-token prompt sent
+ * with max_tokens 4000 is billed "Requested 4042" — so every chapter costs this
+ * whole number against both the per-minute bucket and the 100,000-token daily
+ * cap, whether the model writes two thousand tokens or two hundred.
+ *
+ * It therefore cannot be raised in isolation: `DRAFT_CONCURRENCY` multiplied by
+ * this must stay inside the free tier's per-minute bucket, which the engine
+ * verification asserts. Lowering it is not free either — a chapter truncated
+ * mid-sentence still passes the 200-character floor and the figure check, so the
+ * defect would reach the document silently.
+ */
+export const MAX_COMPLETION_TOKENS = 2400;
+
 export function getGroqKey(): string | null {
   const key = (process.env.GROQ_API_KEY ?? "").trim();
   if (!key || key === "your_groq_key_here") return null;
@@ -247,7 +264,7 @@ export async function draftChapter(
         system: SYSTEM_PROMPT,
         prompt,
         temperature: 0.2,
-        maxTokens: 2400,
+        maxTokens: MAX_COMPLETION_TOKENS,
         maxRetries: 1, // our own backoff below is quota-aware; don't double up
       });
 
