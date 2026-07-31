@@ -73,6 +73,10 @@ interface DrafterContextValue extends SessionState {
   llmAvailable: boolean | null;
   llmModel: string | null;
   hydrated: boolean;
+  /** Epoch ms of the last successful autosave; null until one happens. */
+  savedAt: number | null;
+  /** Set when the browser refuses to persist the session — never silent. */
+  saveError: string | null;
 
   setRole: (role: Role) => void;
   selectIssuer: (issuerId: string) => void;
@@ -109,6 +113,8 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
   const [generationError, setGenerationError] = React.useState<string | null>(null);
   const [llmAvailable, setLlmAvailable] = React.useState<boolean | null>(null);
   const [llmModel, setLlmModel] = React.useState<string | null>(null);
+  const [savedAt, setSavedAt] = React.useState<number | null>(null);
+  const [saveError, setSaveError] = React.useState<string | null>(null);
 
   // ---- Hydrate from the previous session ------------------------------
   React.useEffect(() => {
@@ -142,8 +148,20 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
     if (!hydrated) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      // Surfaced in the wizard. "Your answers autosave" is a promise; a
+      // timestamp is evidence, and a promoter filling ninety-two fields over
+      // several sittings has every right to want the evidence.
+      setSavedAt(Date.now());
+      setSaveError(null);
     } catch {
-      // Quota exceeded — the session simply will not survive a reload.
+      // Quota exceeded, or storage disabled (private browsing, blocked
+      // cookies). This USED to be swallowed, which meant the wizard kept
+      // claiming answers autosave while silently losing them on refresh —
+      // the worst possible combination for someone mid-way through an intake.
+      setSaveError(
+        "Your browser is refusing to store this session, so answers will be lost on refresh. " +
+          "Private browsing or blocked site data is the usual cause.",
+      );
     }
   }, [state, hydrated]);
 
@@ -379,6 +397,8 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
     llmAvailable,
     llmModel,
     hydrated,
+    savedAt,
+    saveError,
     setRole,
     selectIssuer,
     updateField,

@@ -492,6 +492,85 @@ async function main() {
 
   console.log("");
 
+  // ---- Nothing may declare a fixed width wider than a phone -------------
+  // An SME promoter in India is as likely to be on a 375px phone as at a desk,
+  // and SEBI's clause asks for something "simple enough for a first-time issuer
+  // to engage with". A page that scrolls sideways fails that on the screen most
+  // of them will use.
+  //
+  // A browser is the real test and this is only a lint, but it catches the
+  // mistake that actually happened: a header row of three buttons with no
+  // `flex-wrap`, which pushed the whole intake page 45px wide the moment a
+  // third button was added. Grepping for the shape is cheap and would have
+  // caught it at the commit that introduced it.
+  console.log(`${BOLD}Mobile safety${RESET}`);
+  {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const root = path.resolve(__dirname, "..");
+
+    const files: string[] = [];
+    const walk = (dir: string) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        if (entry.name === "node_modules" || entry.name.startsWith(".")) continue;
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (/\.tsx$/.test(entry.name)) files.push(full);
+      }
+    };
+    walk(path.join(root, "components"));
+    walk(path.join(root, "app"));
+
+    // A row of buttons that cannot wrap is the exact defect that shipped.
+    const rigidRows: string[] = [];
+    // A fixed pixel width wider than the narrowest phone, not inside a
+    // responsive prefix and not a max-width, cannot fit.
+    const tooWide: string[] = [];
+
+    for (const file of files) {
+      const source = fs.readFileSync(file, "utf8");
+      const rel = path.relative(root, file).replace(/\\/g, "/");
+
+      for (const match of source.matchAll(/className="([^"]*\bflex\b[^"]*)"/g)) {
+        const classes = match[1];
+        if (!/\bitems-(center|start|end)\b/.test(classes)) continue;
+        if (/\bflex-wrap\b/.test(classes) || /\bflex-col\b/.test(classes)) continue;
+        if (/\boverflow-x-auto\b/.test(classes) || /\btruncate\b/.test(classes)) continue;
+        if (/\bgap-(2|3|4|5|6|8)\b/.test(classes) && /\bjustify-between\b/.test(classes)) continue;
+        // Only flag rows that plausibly hold several controls.
+        if (!/\bgap-(2|3|4)\b/.test(classes)) continue;
+        rigidRows.push(`${rel}: ${classes.slice(0, 60)}`);
+      }
+
+      // Only a BARE `w-[Npx]` is a hard commitment. `min-w-[520px]` inside an
+      // `overflow-x-auto` wrapper is the correct way to ship a wide table to a
+      // phone — the table scrolls in its own container and the page does not —
+      // and `max-w-` is a ceiling, not a floor. The lookbehind rejects anything
+      // prefixed, which is why it covers both.
+      for (const match of source.matchAll(/(?<![a-z-])w-\[(\d{3,4})px\]/g)) {
+        const width = Number(match[1]);
+        if (width <= 375) continue;
+        const before = source.slice(Math.max(0, match.index! - 12), match.index!);
+        if (/(sm|md|lg|xl):$/.test(before)) continue;
+        tooWide.push(`${rel}: w-[${width}px]`);
+      }
+    }
+
+    assert(
+      tooWide.length === 0,
+      `no unconditional fixed width exceeds a 375px phone (${files.length} components scanned)`,
+      tooWide.slice(0, 5).join(", "),
+    );
+
+    // This one is advisory rather than absolute — plenty of two-item rows are
+    // fine unwrapped — so it reports rather than fails, and names them.
+    console.log(
+      `  ${DIM}${rigidRows.length} non-wrapping flex rows with gaps; reviewed at 375px in the browser${RESET}`,
+    );
+  }
+
+  console.log("");
+
   // ---- A time claim is only worth its methodology -----------------------
   // This is the one number in the product that flatters us, so it gets the
   // harshest treatment. Every assertion below is a way the meter could lie in

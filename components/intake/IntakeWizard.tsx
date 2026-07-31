@@ -18,6 +18,7 @@ import { useDrafter } from "@/lib/store";
 import { BLANK_ISSUER_ID, questionnaire, getRequirement } from "@/lib/data";
 import { isPresent } from "@/lib/engine/utils";
 import { EffortMeter } from "./EffortMeter";
+import { RequirementExplainer } from "./RequirementExplainer";
 import { cn } from "@/lib/utils";
 import {
   Badge,
@@ -108,7 +109,10 @@ export function IntakeWizard() {
             the DRHP chapter and disclosure requirement it feeds, and your answers autosave.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        {/* Wraps, because three buttons do not fit across a 375px phone and an
+            SME promoter is as likely to be on one as at a desk. Without this the
+            whole page scrolls sideways to reach "Generate draft". */}
+        <div className="flex flex-wrap items-center gap-2">
           {isNewIssuer ? (
             <Button
               variant="ghost"
@@ -218,18 +222,13 @@ export function IntakeWizard() {
             <CardContent className="p-6">
               <div className="mb-4 flex items-start justify-between gap-4">
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
                     <Badge variant="secondary">Step {step.step} of {STEPS.length}</Badge>
                     <span className="text-[11px] text-muted-foreground">Feeds:</span>
-                    {step.feeds.map((id) => (
-                      <span
-                        key={id}
-                        className="rounded border border-border bg-secondary px-1.5 py-0.5 font-mono text-[10px] font-medium"
-                        title={getRequirement(id)?.requirement}
-                      >
-                        {id}
-                      </span>
-                    ))}
+                    {/* Tap a citation to find out what it is. A bare "R5.9" with
+                        a hover tooltip is not accessible to a promoter without
+                        specialist knowledge — and on a phone there is no hover. */}
+                    <RequirementExplainer ids={step.feeds} />
                   </div>
                   <h2 className="mt-2 font-serif text-[20px] font-bold text-primary">{step.title}</h2>
                   <p className="mt-1 text-[13px] text-muted-foreground">{step.help}</p>

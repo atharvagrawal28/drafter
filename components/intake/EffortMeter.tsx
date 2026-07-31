@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Clock, Info } from "lucide-react";
+import { AlertTriangle, Check, Clock, Info } from "lucide-react";
 import { useDrafter } from "@/lib/store";
 import { formatEffort } from "@/lib/engine/effort";
 import { Badge } from "@/components/ui/primitives";
@@ -13,26 +13,70 @@ import { Badge } from "@/components/ui/primitives";
  * over pre-filled demo answers would produce an impressive number that means
  * nothing, and the first person to notice would be a judge.
  */
+/** "Saved 2 minutes ago" — evidence for a promise the wizard already makes. */
+function SaveState() {
+  const { savedAt, saveError } = useDrafter();
+  const [, tick] = React.useReducer((n: number) => n + 1, 0);
+
+  // Re-render on a timer so "just now" does not stay "just now" for an hour.
+  React.useEffect(() => {
+    const timer = setInterval(tick, 30_000);
+    return () => clearInterval(timer);
+  }, []);
+
+  if (saveError) {
+    return (
+      <span className="inline-flex items-start gap-1.5 text-[11.5px] leading-relaxed text-[hsl(var(--status-defect))]">
+        <AlertTriangle className="mt-px h-3 w-3 shrink-0" />
+        {saveError}
+      </span>
+    );
+  }
+
+  if (savedAt === null) return null;
+
+  const seconds = Math.max(0, Math.round((Date.now() - savedAt) / 1000));
+  const label =
+    seconds < 45
+      ? "just now"
+      : seconds < 3600
+        ? `${Math.round(seconds / 60)} min ago`
+        : `${Math.round(seconds / 3600)}h ago`;
+
+  return (
+    <span className="inline-flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
+      <Check className="h-3 w-3 text-[hsl(var(--status-complete))]" />
+      Saved {label} — in this browser only
+    </span>
+  );
+}
+
 export function EffortMeter() {
   const { effortSummary, isRealIssuer, gapReport } = useDrafter();
   const [showMethod, setShowMethod] = React.useState(false);
 
   if (!isRealIssuer) {
     return (
-      <p className="text-[11.5px] leading-relaxed text-muted-foreground">
-        <Clock className="mr-1 inline h-3 w-3 -translate-y-px" />
-        Preparation time is measured for your own company only — this is a pre-filled sample
-        issuer, so timing it would measure reading speed, not drafting.
-      </p>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+        <p className="text-[11.5px] leading-relaxed text-muted-foreground">
+          <Clock className="mr-1 inline h-3 w-3 -translate-y-px" />
+          Preparation time is measured for your own company only — this is a pre-filled sample
+          issuer, so timing it would measure reading speed, not drafting.
+        </p>
+        <SaveState />
+      </div>
     );
   }
 
   if (!effortSummary.measured) {
     return (
-      <p className="text-[11.5px] leading-relaxed text-muted-foreground">
-        <Clock className="mr-1 inline h-3 w-3 -translate-y-px" />
-        Preparation time starts on your first answer.
-      </p>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+        <p className="text-[11.5px] leading-relaxed text-muted-foreground">
+          <Clock className="mr-1 inline h-3 w-3 -translate-y-px" />
+          Preparation time starts on your first answer.
+        </p>
+        <SaveState />
+      </div>
     );
   }
 
@@ -54,6 +98,9 @@ export function EffortMeter() {
         {effortSummary.firstDraftLabel ? (
           <Badge variant="complete">first draft at {effortSummary.firstDraftLabel}</Badge>
         ) : null}
+        <span className="ml-auto">
+          <SaveState />
+        </span>
       </div>
 
       {effortSummary.milestones.length > 0 ? (

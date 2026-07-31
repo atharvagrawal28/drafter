@@ -35,9 +35,29 @@ export function RegulationWatch() {
     setLoading(true);
     try {
       const response = await fetch("/api/circulars", { cache: "no-store" });
+      if (!response.ok) throw new Error(`The circulars route returned ${response.status}.`);
       setWatch(await response.json());
     } catch (error) {
-      setWatch(null);
+      // Never leave this null. The route itself fails soft — it returns 200
+      // with an `error` string rather than throwing — so the only way to reach
+      // here is a network failure or an offline browser. Setting null used to
+      // render NOTHING below the rule-set card: no spinner, no error, no empty
+      // state, because every one of those branches requires `watch`. A blank
+      // panel during a demo reads as a broken product, which is worse than the
+      // failure it is hiding. Synthesise a result that says what happened.
+      setWatch({
+        fetchedAt: new Date().toISOString(),
+        registryVersion: registry.registry_version,
+        regulationSetAsAt: (registry as any).regulation_set_as_at ?? "2025-03-08",
+        source: "SEBI RSS (sebi.gov.in/sebirss.xml)",
+        items: [],
+        filteredOut: 0,
+        totalFetched: 0,
+        error:
+          error instanceof Error
+            ? `${error.message} This is a network failure between your browser and Drafter, not a problem with the rule set.`
+            : "The feed could not be reached from this browser.",
+      });
     } finally {
       setLoading(false);
     }
