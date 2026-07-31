@@ -16,6 +16,15 @@
 import * as React from "react";
 import { BLANK_ISSUER_ID, buildBlankIssuerData, cloneIssuerData, getSampleIssuer, sampleIssuers } from "./data";
 import { buildActionPlan, type ActionPlan } from "./engine/actionPlan";
+import {
+  emptyEffort,
+  recordActivity,
+  recordCoverage,
+  recordDraft,
+  summariseEffort,
+  type EffortLog,
+  type EffortSummary,
+} from "./engine/effort";
 import { runEligibility, type EligibilityReport } from "./engine/eligibility";
 import { runGapCheck } from "./engine/gapCheck";
 import { generateDocument } from "./engine/generate";
@@ -43,12 +52,22 @@ interface SessionState {
   bankerEdits: Record<string, BankerEdit>;
   /** Provenance note for uploaded financials, shown next to extracted figures. */
   uploadNote: string | null;
+  /**
+   * How long this issuer has actually taken. Only accrues for a real company —
+   * see `lib/engine/effort.ts` for why timing a pre-filled sample would be a
+   * flattering lie rather than a measurement.
+   */
+  effort: EffortLog;
 }
 
 interface DrafterContextValue extends SessionState {
   gapReport: GapReport;
   eligibility: EligibilityReport;
   actionPlan: ActionPlan;
+  /** Measured preparation time, or `measured: false` when there is nothing to report. */
+  effortSummary: EffortSummary;
+  /** Whether the loaded issuer is a real company rather than a bundled sample. */
+  isRealIssuer: boolean;
   generating: boolean;
   generationError: string | null;
   llmAvailable: boolean | null;
@@ -79,6 +98,7 @@ function initialState(): SessionState {
     document: null,
     bankerEdits: {},
     uploadNote: null,
+    effort: emptyEffort(),
   };
 }
 
@@ -105,6 +125,9 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
             document: parsed.document ?? null,
             bankerEdits: parsed.bankerEdits ?? {},
             uploadNote: parsed.uploadNote ?? null,
+            // A session saved before the meter existed has no log. Starting a
+            // fresh one is right: we cannot retro-measure time we did not watch.
+            effort: parsed.effort ?? emptyEffort(),
           }));
         }
       }
@@ -171,6 +194,26 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
   /** What to do next, ranked — derived from the same report the score is. */
   const actionPlan = React.useMemo(() => buildActionPlan(gapReport), [gapReport]);
 
+  const isRealIssuer = state.issuerId === BLANK_ISSUER_ID;
+
+  /**
+   * Stamp coverage milestones as they are crossed.
+   *
+   * Separate from `updateField` on purpose. The time is accrued when the
+   * promoter acts; the coverage is stamped once the gap check has recomputed —
+   * and running a full gap check inside every keystroke handler to get the
+   * number a moment earlier would make typing perceptibly slower for no gain.
+   */
+  React.useEffect(() => {
+    if (!hydrated || !isRealIssuer) return;
+    setState((current) => {
+      const next = recordCoverage(current.effort, gapReport.coveragePct);
+      return next === current.effort ? current : { ...current, effort: next };
+    });
+  }, [gapReport.coveragePct, hydrated, isRealIssuer]);
+
+  const effortSummary = React.useMemo(() => summariseEffort(state.effort), [state.effort]);
+
   // ---- Actions ---------------------------------------------------------
   const setRole = React.useCallback((role: Role) => {
     setState((current) => ({ ...current, role }));
@@ -191,6 +234,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       document: null,
       bankerEdits: {},
       uploadNote: null,
+      effort: emptyEffort(),
     });
     setGenerationError(null);
   }, []);
@@ -205,6 +249,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       document: null,
       bankerEdits: {},
       uploadNote: null,
+      effort: emptyEffort(),
     });
     setGenerationError(null);
   }, [startNewIssuer]);
@@ -213,7 +258,15 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
     setState((current) => {
       const next = JSON.parse(JSON.stringify(current.issuerData));
       setPath(next, path, value);
-      return { ...current, issuerData: next };
+      return {
+        ...current,
+        issuerData: next,
+        // Only a real company is timed. A bundled sample arrives at 97%
+        // coverage already answered, so a stopwatch on it would measure how
+        // fast someone can read, not how fast Drafter gets them to a draft.
+        effort:
+          current.issuerId === BLANK_ISSUER_ID ? recordActivity(current.effort) : current.effort,
+      };
     });
   }, []);
 
@@ -226,7 +279,13 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
     setState((current) => {
       const next = JSON.parse(JSON.stringify(current.issuerData));
       for (const [path, value] of Object.entries(updates)) setPath(next, path, value);
-      return { ...current, issuerData: next, uploadNote: note };
+      return {
+        ...current,
+        issuerData: next,
+        uploadNote: note,
+        effort:
+          current.issuerId === BLANK_ISSUER_ID ? recordActivity(current.effort) : current.effort,
+      };
     });
   }, []);
 
@@ -250,13 +309,21 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       if (!response.ok) throw new Error(`Generation route returned ${response.status}`);
       const payload = await response.json();
       if (!payload?.document?.chapters?.length) throw new Error("Malformed generation response");
-      setState((current) => ({ ...current, document: payload.document }));
+      setState((current) => ({
+        ...current,
+        document: payload.document,
+        effort: current.issuerId === BLANK_ISSUER_ID ? recordDraft(current.effort) : current.effort,
+      }));
     } catch (error) {
       const fallback = await generateDocument(state.issuerData, {
         issuerId: state.issuerId,
         useLlm: false,
       });
-      setState((current) => ({ ...current, document: fallback }));
+      setState((current) => ({
+        ...current,
+        document: fallback,
+        effort: current.issuerId === BLANK_ISSUER_ID ? recordDraft(current.effort) : current.effort,
+      }));
       setGenerationError(
         `Language-model drafting was unavailable, so the draft was generated from Drafter's ` +
           `deterministic templates. Factual chapters are identical either way. ` +
@@ -305,6 +372,8 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
     gapReport,
     eligibility,
     actionPlan,
+    effortSummary,
+    isRealIssuer,
     generating,
     generationError,
     llmAvailable,

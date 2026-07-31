@@ -94,12 +94,13 @@
       "origin": "Expected outcome",
       "text": "significantly reducing preparation time",
       "status": "partial",
-      "discharged_by": "Generation of all 34 chapters is effectively instant, and the ranked action plan tells the promoter which unanswered questions buy the most coverage, so the remaining effort is spent in the right order.",
+      "discharged_by": "Drafter measures itself rather than asserting a saving. The wizard records active promoter effort from the first answer, stamps the time at which each coverage threshold is crossed, and stamps the first generated draft. The meter runs only for a real company — timing a pre-filled sample would measure reading speed — and states its own methodology on screen.",
       "files": [
-        "lib/engine/actionPlan.ts",
-        "app/api/generate/route.ts"
+        "lib/engine/effort.ts",
+        "components/intake/EffortMeter.tsx",
+        "lib/engine/actionPlan.ts"
       ],
-      "evidence": "Honest limit: the draft is produced in seconds, but Drafter has NOT been measured against a real merchant-banker drafting cycle. Claiming 'months to days' would need a controlled study with issuers and bankers that this prototype has not run."
+      "evidence": "Every rounding decision runs against our own claim: a pause longer than 120 seconds is counted AS 120 seconds rather than discarded, so the figure overstates effort. 17 assertions in `npm run verify` hold this, including that an unmeasured log reports no duration rather than '0 min'. Honest limit: this measures promoter drafting effort inside Drafter against SEBI's own 'several months' characterisation of the status quo — it does not measure the auditor's restatement, counsel's litigation review or the banker's due diligence, which are unchanged by this tool and are most of those months."
     },
     {
       "id": "PS-8",

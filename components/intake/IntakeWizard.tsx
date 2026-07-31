@@ -17,6 +17,7 @@ import {
 import { useDrafter } from "@/lib/store";
 import { BLANK_ISSUER_ID, questionnaire, getRequirement } from "@/lib/data";
 import { isPresent } from "@/lib/engine/utils";
+import { EffortMeter } from "./EffortMeter";
 import { cn } from "@/lib/utils";
 import {
   Badge,
@@ -137,6 +138,11 @@ export function IntakeWizard() {
             Generate draft
           </Button>
         </div>
+      </div>
+
+      {/* The measured half of "significantly reducing preparation time" */}
+      <div className="mb-6">
+        <EffortMeter />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[280px_1fr]">

@@ -492,6 +492,95 @@ async function main() {
 
   console.log("");
 
+  // ---- A time claim is only worth its methodology -----------------------
+  // This is the one number in the product that flatters us, so it gets the
+  // harshest treatment. Every assertion below is a way the meter could lie in
+  // our favour, written down so it cannot start doing so quietly.
+  console.log(`${BOLD}Effort meter${RESET}`);
+  {
+    const {
+      emptyEffort,
+      recordActivity,
+      recordCoverage,
+      recordDraft,
+      summariseEffort,
+      formatEffort,
+      IDLE_CEILING_MS,
+    } = await import("../lib/engine/effort");
+
+    // Nothing measured must report nothing, not zero. "0 min to a draft" would
+    // be the single most dishonest string this product could print.
+    const fresh = summariseEffort(emptyEffort());
+    assert(!fresh.measured, "an untouched log reports nothing measured");
+    assert(fresh.activeLabel === null, "and no duration at all, rather than 0 min");
+    assert(formatEffort(0) === null && formatEffort(null) === null, "zero never formats as a duration");
+
+    // The clock starts on the first answer, not before it.
+    const t0 = 1_000_000;
+    let log = recordActivity(emptyEffort(), t0);
+    assert(log.activeMs === 0 && log.interactions === 1, "the first answer accrues no elapsed time");
+    assert(log.startedAt === t0, "and stamps the start");
+
+    // Ordinary working rhythm accrues in full.
+    log = recordActivity(log, t0 + 30_000);
+    log = recordActivity(log, t0 + 75_000);
+    assert(log.activeMs === 75_000, `continuous work accrues in full (${log.activeMs}ms)`);
+
+    // The load-bearing negative case: an overnight gap must not become nine
+    // hours of "effort", and must not be silently dropped either.
+    const idled = recordActivity(log, t0 + 75_000 + 9 * 60 * 60 * 1000);
+    assert(
+      idled.activeMs === 75_000 + IDLE_CEILING_MS,
+      `a 9-hour pause is capped at the ceiling, not counted in full (${idled.activeMs}ms)`,
+    );
+    assert(
+      idled.activeMs > log.activeMs,
+      "and is still counted — capping errs against our own claim, dropping would err for it",
+    );
+
+    // A clock that jumps backwards must not refund time.
+    const backwards = recordActivity(idled, t0);
+    assert(backwards.activeMs === idled.activeMs, "a backwards clock never subtracts effort");
+
+    // Milestones are permanent. Deleting an answer must not let the promoter
+    // re-earn a faster time for a threshold they already crossed.
+    let milestoned = recordCoverage(log, 55);
+    const at50 = milestoned.milestones.find((m) => m.threshold === 50)?.atActiveMs;
+    assert(
+      milestoned.milestones.map((m) => m.threshold).join(",") === "25,50",
+      `crossing 55% stamps both 25 and 50 (${milestoned.milestones.map((m) => m.threshold).join(",")})`,
+    );
+    milestoned = recordCoverage({ ...milestoned, activeMs: 999_999 }, 30);
+    assert(
+      milestoned.milestones.find((m) => m.threshold === 50)?.atActiveMs === at50,
+      "falling back below a threshold does not rewrite the time it was first reached",
+    );
+    assert(
+      milestoned.milestones.length === 2,
+      `and does not duplicate it (${milestoned.milestones.length} milestones)`,
+    );
+    assert(
+      milestoned.milestones.every((m, i, all) => i === 0 || all[i - 1].threshold < m.threshold),
+      "milestones stay in ascending order",
+    );
+
+    // The first draft is the milestone. A regeneration an hour later is not.
+    const drafted = recordDraft({ ...log, activeMs: 60_000 });
+    const redrafted = recordDraft({ ...drafted, activeMs: 3_600_000 });
+    assert(drafted.firstDraftAtMs === 60_000, "the first draft is stamped");
+    assert(redrafted.firstDraftAtMs === 60_000, "and regenerating never re-stamps it");
+
+    // The methodology must actually disclose the limit, not gesture at it.
+    const summary = summariseEffort(drafted);
+    assert(summary.measured && summary.activeLabel !== null, "a used log reports a duration");
+    assert(
+      /due diligence/i.test(summary.methodology) && /overstates/i.test(summary.methodology),
+      "the methodology names what is excluded and admits the bias",
+    );
+  }
+
+  console.log("");
+
   // ---- The conformance claim must stay true as the code moves ----------
   // The Impact page tells a judge, clause by clause, which file discharges
   // which sentence of SEBI's problem statement. That mapping is the most
