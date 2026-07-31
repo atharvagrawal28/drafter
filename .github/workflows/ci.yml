@@ -58,5 +58,11 @@ jobs:
       - name: Regulation watch
         run: npm run verify:watch
 
+      # The registry measured against external ground truth: parsing, the
+      # out-of-scope precedence that decides whether the score is honest, and
+      # the arithmetic that keeps registry gaps in the denominator.
+      - name: Observation replay
+        run: npm run verify:observations
+
       - name: Production build
         run: npm run build

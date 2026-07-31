@@ -132,12 +132,13 @@
       "origin": "Expected outcome",
       "text": "produce a well-structured draft covering all material disclosure requirements under SEBI's SME IPO framework",
       "status": "partial",
-      "discharged_by": "A versioned requirement registry — 76 requirements, each mapped to the chapters it lands in and the evidence fields that satisfy it, stamped with the regulation set it was built against.",
+      "discharged_by": "A versioned requirement registry — 76 requirements, each mapped to the chapters it lands in and the evidence fields that satisfy it, stamped with the regulation set it was built against. Observation Replay tests that registry against external ground truth: paste the observation letter an exchange returned on a draft, and every observation is mapped to the requirement that would have raised it first, or reported as a gap.",
       "files": [
         "data/requirement_registry.json",
-        "lib/circulars/relevance.ts"
+        "lib/observations/replay.ts",
+        "components/observations/ObservationReplay.tsx"
       ],
-      "evidence": "Structure validated against a corpus of 17 real filed SME DRHPs (14 NSE Emerge, 3 BSE SME, 6,765 pages). Honest limit: the registry is curated rather than exhaustive. 12 requirements cite a regulation by number and were checked against the consolidated ICDR text; the rest cite Schedule VI headings and are corpus-derived."
+      "evidence": "Structure validated against a corpus of 17 real filed SME DRHPs (14 NSE Emerge, 3 BSE SME, 6,765 pages). The replay is the only check on this product that does not come from the product: an observation the registry cannot match is counted AGAINST the score rather than dropped, and document-production demands leave the denominator instead of joining the numerator. Honest limit: the registry is curated rather than exhaustive. 12 requirements cite a regulation by number and were checked against the consolidated ICDR text; the rest cite Schedule VI headings and are corpus-derived."
     },
     {
       "id": "PS-11",

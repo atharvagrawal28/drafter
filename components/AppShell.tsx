@@ -10,6 +10,7 @@ import {
   Info,
   ListChecks,
   Loader2,
+  MailWarning,
   Scale,
   ScrollText,
   ShieldCheck,
@@ -27,6 +28,7 @@ const NAV = [
   { href: "/document", label: "Draft DRHP", icon: ScrollText },
   { href: "/gaps", label: "Gap & Consistency", icon: ShieldCheck },
   { href: "/banker", label: "Merchant Banker", icon: BriefcaseBusiness },
+  { href: "/observations", label: "Observation Replay", icon: MailWarning },
   { href: "/circulars", label: "Regulation Watch", icon: Scale },
   { href: "/about", label: "Impact", icon: Info },
 ];

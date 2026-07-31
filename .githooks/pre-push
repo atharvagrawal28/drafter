@@ -16,20 +16,23 @@ if [ ! -x "node_modules/.bin/tsc" ]; then
   exit 1
 fi
 
-echo "  [1/5] types"
+echo "  [1/6] types"
 ./node_modules/.bin/tsc --noEmit
 
-echo "  [2/5] engine — defects, exports, reachability, thresholds, action plan"
+echo "  [2/6] engine — defects, exports, reachability, thresholds, action plan, effort"
 npm run --silent verify
 
-echo "  [3/5] eligibility gate"
+echo "  [3/6] eligibility gate"
 npm run --silent verify:eligibility
 
-echo "  [4/5] financials extraction"
+echo "  [4/6] financials extraction"
 npm run --silent verify:extract
 
-echo "  [5/5] regulation watch"
+echo "  [5/6] regulation watch"
 npm run --silent verify:watch
+
+echo "  [6/6] observation replay"
+npm run --silent verify:observations
 
 echo ""
 echo "  All checks passed. Pushing."
