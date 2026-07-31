@@ -546,22 +546,56 @@ async function main() {
     // drafted and the rest on templates. Anyone raising either number without
     // re-doing that arithmetic should be stopped here rather than by a 429 in
     // front of an audience.
-    const { burstFitsFreeTier, burstTokenCost, DRAFT_CONCURRENCY_FOR_TESTS, FREE_TIER_TPM_BUCKET } =
+    const { burstFitsFreeTier, burstTokenCost, draftConcurrencyFor, tpmBucketFor, MODEL_TPM_BUCKET } =
       await import("../lib/engine/refineGraph");
     const { MAX_COMPLETION_TOKENS } = await import("../lib/engine/llm");
 
-    const cost = burstTokenCost(DRAFT_CONCURRENCY_FOR_TESTS, MAX_COMPLETION_TOKENS);
+    // Every model we might be pointed at must fit its OWN bucket. Tuning on
+    // llama-3.3-70b's 12,000 and then switching GROQ_MODEL to a model with 8,000
+    // is exactly the mistake this catches, and it is invisible in production:
+    // chapters just come back as templates and the document looks flatter.
+    for (const model of Object.keys(MODEL_TPM_BUCKET)) {
+      const n = draftConcurrencyFor(model, MAX_COMPLETION_TOKENS);
+      const cost = burstTokenCost(n, MAX_COMPLETION_TOKENS);
+      assert(
+        burstFitsFreeTier(n, MAX_COMPLETION_TOKENS, model),
+        `${model}: ${n} in flight fits its bucket (${cost} of ${tpmBucketFor(model)})`,
+      );
+      assert(n >= 1, `${model}: never drafts nothing at all (${n})`);
+    }
+
+    // Not vacuous: one more slot than derived must overflow, or the derivation
+    // is leaving free capacity on the table and the check proves nothing.
+    for (const model of Object.keys(MODEL_TPM_BUCKET)) {
+      const n = draftConcurrencyFor(model, MAX_COMPLETION_TOKENS);
+      if (n >= 3) continue; // clamped by MAX_DRAFT_CONCURRENCY, not by tokens
+      assert(
+        !burstFitsFreeTier(n + 1, MAX_COMPLETION_TOKENS, model),
+        `${model}: ${n + 1} in flight would overflow — the limit is the real one`,
+      );
+    }
+
     assert(
-      burstFitsFreeTier(DRAFT_CONCURRENCY_FOR_TESTS, MAX_COMPLETION_TOKENS),
-      `a full burst fits the free tier's per-minute bucket (${cost} of ${FREE_TIER_TPM_BUCKET} tokens at concurrency ${DRAFT_CONCURRENCY_FOR_TESTS})`,
+      tpmBucketFor("some-model-we-have-never-measured") <= 6_000,
+      "an unmeasured model degrades to the smallest bucket, not the largest",
     );
     assert(
-      !burstFitsFreeTier(3, MAX_COMPLETION_TOKENS),
-      "and the check is not vacuous — the concurrency of 3 that actually 429'd is rejected",
+      draftConcurrencyFor("llama-3.3-70b-versatile", 4000) <
+        draftConcurrencyFor("llama-3.3-70b-versatile", MAX_COMPLETION_TOKENS),
+      "raising the completion reservation buys back fewer chapters in flight",
     );
     assert(
-      !burstFitsFreeTier(DRAFT_CONCURRENCY_FOR_TESTS, 4000),
-      "raising the completion ceiling to 4000 is rejected at the current concurrency",
+      draftConcurrencyFor("llama-3.3-70b-versatile", 100_000) === 1,
+      "a reservation larger than the whole bucket still drafts one chapter",
+    );
+
+    // The reservation is priced, so it is kept tight — but not so tight that
+    // chapters get cut off. Risk Factors is the longest thing the model
+    // produces: 675 words / ~1,123 tokens, measured on the bundled issuer.
+    const LONGEST_MEASURED_CHAPTER_TOKENS = 1_123;
+    assert(
+      MAX_COMPLETION_TOKENS > LONGEST_MEASURED_CHAPTER_TOKENS * 1.3,
+      `the completion ceiling clears the longest measured chapter with margin (${MAX_COMPLETION_TOKENS} vs ${LONGEST_MEASURED_CHAPTER_TOKENS})`,
     );
   }
 

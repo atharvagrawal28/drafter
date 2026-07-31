@@ -53,7 +53,7 @@
 import { END, START, StateGraph, Annotation } from "@langchain/langgraph";
 import { generateDocument, type GenerateOptions, type NarrativeRequest } from "./generate";
 import { runGapCheck } from "./gapCheck";
-import { draftChapter, type RevisionFeedback } from "./llm";
+import { draftChapter, MAX_COMPLETION_TOKENS, type RevisionFeedback } from "./llm";
 import { sectionTemplates } from "../data";
 import type { DrhpDocument, GapReport, IssuerData } from "../types";
 import { containsAny } from "./utils";
@@ -257,23 +257,70 @@ function outOfTime(state: RefineStateType): boolean {
  * `verify-engine.ts` asserts this fits. Raising either this number or
  * MAX_COMPLETION_TOKENS without re-doing the arithmetic will fail the gate.
  */
-const DRAFT_CONCURRENCY = 2;
+/**
+ * The per-minute token bucket each model gets on Groq's free tier, read from
+ * that model's own `x-ratelimit-limit-tokens` header rather than assumed.
+ *
+ * These are NOT the same across models, which is the trap: a concurrency tuned
+ * on llama-3.3-70b's 12,000 silently 429s two chapters out of every burst the
+ * moment `GROQ_MODEL` points at gpt-oss-120b's 8,000. The default is the
+ * smallest observed bucket, so an unknown model degrades to safe rather than
+ * to broken.
+ */
+export const MODEL_TPM_BUCKET: Record<string, number> = {
+  "llama-3.3-70b-versatile": 12_000,
+  "openai/gpt-oss-120b": 8_000,
+  "openai/gpt-oss-20b": 8_000,
+  "llama-3.1-8b-instant": 6_000,
+};
 
-/** The per-minute token bucket on Groq's free tier, read from its own headers. */
-export const FREE_TIER_TPM_BUCKET = 12_000;
+export const DEFAULT_TPM_BUCKET = 6_000;
 
 /** The largest prompt among the narrative chapters, measured, rounded up. */
 export const WORST_CASE_PROMPT_TOKENS = 2_100;
+
+/** Never fan out beyond this, whatever the arithmetic allows. */
+export const MAX_DRAFT_CONCURRENCY = 3;
+
+export function tpmBucketFor(model: string): number {
+  return MODEL_TPM_BUCKET[model] ?? DEFAULT_TPM_BUCKET;
+}
 
 export function burstTokenCost(concurrency: number, maxCompletionTokens: number): number {
   return concurrency * (WORST_CASE_PROMPT_TOKENS + maxCompletionTokens);
 }
 
-export function burstFitsFreeTier(concurrency: number, maxCompletionTokens: number): boolean {
-  return burstTokenCost(concurrency, maxCompletionTokens) <= FREE_TIER_TPM_BUCKET;
+/**
+ * How many chapters may be in flight at once, for this model.
+ *
+ * Derived rather than configured, because the inputs are all measurable and the
+ * failure mode of getting it wrong is invisible: chapters come back as templates
+ * and the document merely looks a bit flatter. Groq charges the RESERVATION, not
+ * the completion, so one chapter costs its prompt plus MAX_COMPLETION_TOKENS in
+ * full and a burst is simply that times the fan-out.
+ *
+ * At 1,800 reserved and a 2,100-token worst-case prompt, each slot costs ~3,900:
+ *
+ *     llama-3.3-70b-versatile   12,000 bucket -> 3 in flight (11,700)
+ *     openai/gpt-oss-120b        8,000 bucket -> 2 in flight ( 7,800)
+ *     llama-3.1-8b-instant       6,000 bucket -> 1 in flight ( 3,900)
+ *
+ * Always at least 1: a bucket too small for even one chapter is a quota problem
+ * for the retry logic to report, not a reason to draft nothing at all.
+ */
+export function draftConcurrencyFor(model: string, maxCompletionTokens: number): number {
+  const perSlot = WORST_CASE_PROMPT_TOKENS + maxCompletionTokens;
+  const fits = Math.floor(tpmBucketFor(model) / perSlot);
+  return Math.max(1, Math.min(MAX_DRAFT_CONCURRENCY, fits));
 }
 
-export const DRAFT_CONCURRENCY_FOR_TESTS = DRAFT_CONCURRENCY;
+export function burstFitsFreeTier(
+  concurrency: number,
+  maxCompletionTokens: number,
+  model: string,
+): boolean {
+  return burstTokenCost(concurrency, maxCompletionTokens) <= tpmBucketFor(model);
+}
 
 /**
  * Run `task` over `items` with at most `limit` in flight.
@@ -334,7 +381,8 @@ export function buildRefineGraph() {
     // Fan out. The deadline is re-checked as each slot is picked up rather than
     // once up front, so a budget that expires mid-flight still stops the
     // chapters that have not started.
-    const outcomes = await mapWithConcurrency(jobs, DRAFT_CONCURRENCY, async (job) => {
+    const concurrency = draftConcurrencyFor(state.llmModel ?? "", MAX_COMPLETION_TOKENS);
+    const outcomes = await mapWithConcurrency(jobs, concurrency, async (job) => {
       if (outOfTime(state)) return { skipped: true as const };
       return { skipped: false as const, result: await draftChapter(job.request, undefined, state.deadlineAt) };
     });
@@ -423,7 +471,8 @@ export function buildRefineGraph() {
     // Revisions fan out too. This is where the loop earns its place — a measured
     // 30% of chapter-drafts are recovered here — so making it cheap in wall
     // clock is what lets it run at all inside a 60-second platform ceiling.
-    const outcomes = await mapWithConcurrency(jobs, DRAFT_CONCURRENCY, async (job) => {
+    const concurrency = draftConcurrencyFor(state.llmModel ?? "", MAX_COMPLETION_TOKENS);
+    const outcomes = await mapWithConcurrency(jobs, concurrency, async (job) => {
       if (outOfTime(state)) return { skipped: true as const };
       const feedback: RevisionFeedback = {
         unsupportedFigures: job.previous.rejectedFigures[job.previous.rejectedFigures.length - 1],

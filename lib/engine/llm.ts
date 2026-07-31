@@ -27,13 +27,19 @@ export const DEFAULT_MODEL = "llama-3.3-70b-versatile";
  * whole number against both the per-minute bucket and the 100,000-token daily
  * cap, whether the model writes two thousand tokens or two hundred.
  *
- * It therefore cannot be raised in isolation: `DRAFT_CONCURRENCY` multiplied by
- * this must stay inside the free tier's per-minute bucket, which the engine
- * verification asserts. Lowering it is not free either — a chapter truncated
- * mid-sentence still passes the 200-character floor and the figure check, so the
- * defect would reach the document silently.
+ * It was 2,400 on no evidence. Measured against the bundled issuer, the longest
+ * chapter the model actually produces is Risk Factors at ~1,123 tokens (675
+ * words); Our Business is ~700. Reserving 2,400 was therefore buying roughly
+ * double the headroom ever used, and paying for it on every single call — which
+ * is most of why a 100,000-token day ran out after six documents.
+ *
+ * 1,800 keeps a 60% margin over the measured maximum. Cutting it that fine is
+ * only safe because truncation is now DETECTED rather than hoped against: a
+ * chapter cut off at the ceiling comes back with finishReason "length" and is
+ * refused. Without that check the defect would be silent, since a half-finished
+ * chapter still clears the 200-character floor and the figure validator.
  */
-export const MAX_COMPLETION_TOKENS = 2400;
+export const MAX_COMPLETION_TOKENS = 1800;
 
 export function getGroqKey(): string | null {
   const key = (process.env.GROQ_API_KEY ?? "").trim();
@@ -130,6 +136,8 @@ export interface DraftResult {
   error?: string;
   /** True when the call failed purely on quota, not on content quality. */
   rateLimited?: boolean;
+  /** True when the model ran into the completion ceiling and was cut off. */
+  truncated?: boolean;
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -270,6 +278,14 @@ export async function draftChapter(
 
       const text = (result.text ?? "").trim();
       if (text.length < 200) return { text: null, error: "response too short" };
+
+      // A chapter that hit the token ceiling stops mid-sentence. It would clear
+      // every other check here — it is long enough, and its figures are drawn
+      // from the issuer data — so without this it lands in the document as a
+      // truncated paragraph. Prefer the complete deterministic template.
+      if (result.finishReason === "length") {
+        return { text: null, truncated: true, error: "model output hit the token ceiling" };
+      }
 
       const allowed = new Set<string>();
       collectNumbers(request.context, allowed);
