@@ -589,13 +589,21 @@ async function main() {
       "a reservation larger than the whole bucket still drafts one chapter",
     );
 
-    // The reservation is priced, so it is kept tight — but not so tight that
-    // chapters get cut off. Risk Factors is the longest thing the model
-    // produces: 675 words / ~1,123 tokens, measured on the bundled issuer.
-    const LONGEST_MEASURED_CHAPTER_TOKENS = 1_123;
+    // The reservation is priced, so the temptation is to keep it tight. That
+    // temptation has already been acted on once and was wrong: Risk Factors
+    // measured 675 words / ~1,123 tokens on one run, the ceiling was cut to
+    // 1,800 on that single observation, and a later run of the SAME chapter on
+    // the SAME input ran past 1,800 and was refused.
+    //
+    // Generated length varies far more between runs than one measurement
+    // suggests, so the floor here is the OBSERVED OVERRUN, not the observed
+    // mean. Anything at or below 1,800 is known to truncate Risk Factors — the
+    // single most important chapter in the document — and truncation costs a
+    // whole chapter to a template.
+    const OBSERVED_TRUNCATION_AT = 1_800;
     assert(
-      MAX_COMPLETION_TOKENS > LONGEST_MEASURED_CHAPTER_TOKENS * 1.3,
-      `the completion ceiling clears the longest measured chapter with margin (${MAX_COMPLETION_TOKENS} vs ${LONGEST_MEASURED_CHAPTER_TOKENS})`,
+      MAX_COMPLETION_TOKENS > OBSERVED_TRUNCATION_AT,
+      `the completion ceiling is above the length that actually truncated Risk Factors (${MAX_COMPLETION_TOKENS} vs ${OBSERVED_TRUNCATION_AT})`,
     );
   }
 

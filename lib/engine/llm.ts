@@ -27,19 +27,28 @@ export const DEFAULT_MODEL = "llama-3.3-70b-versatile";
  * whole number against both the per-minute bucket and the 100,000-token daily
  * cap, whether the model writes two thousand tokens or two hundred.
  *
- * It was 2,400 on no evidence. Measured against the bundled issuer, the longest
- * chapter the model actually produces is Risk Factors at ~1,123 tokens (675
- * words); Our Business is ~700. Reserving 2,400 was therefore buying roughly
- * double the headroom ever used, and paying for it on every single call — which
- * is most of why a 100,000-token day ran out after six documents.
+ * 2,400 looks generous against a single measurement — Risk Factors came back at
+ * ~1,123 tokens (675 words) and Our Business at ~700 — and it was briefly cut to
+ * 1,800 on that basis, keeping what looked like a 60% margin.
  *
- * 1,800 keeps a 60% margin over the measured maximum. Cutting it that fine is
- * only safe because truncation is now DETECTED rather than hoped against: a
- * chapter cut off at the ceiling comes back with finishReason "length" and is
- * refused. Without that check the defect would be silent, since a half-finished
+ * That was wrong, and the truncation check caught it: on a later run the same
+ * Risk Factors chapter ran past 1,800 and was refused. Generated length varies
+ * substantially between runs on identical input, so a ceiling sized against one
+ * observation of the longest chapter is sized against noise. 2,400 has never
+ * truncated across every run in this project's history; that is the evidence
+ * that matters, not the mean.
+ *
+ * The saving was not worth it either. At concurrency 2 the burst costs 9,000 of
+ * the 12,000-token bucket at 2,400, so the tighter ceiling bought no extra
+ * parallelism — only a higher chance of dropping the single most important
+ * chapter in the document to a template.
+ *
+ * Truncation remains DETECTED rather than hoped against: a chapter cut off at
+ * the ceiling comes back with finishReason "length" and is refused. Without that
+ * check this regression would have shipped silently, since a half-finished
  * chapter still clears the 200-character floor and the figure validator.
  */
-export const MAX_COMPLETION_TOKENS = 1800;
+export const MAX_COMPLETION_TOKENS = 2400;
 
 export function getGroqKey(): string | null {
   const key = (process.env.GROQ_API_KEY ?? "").trim();
