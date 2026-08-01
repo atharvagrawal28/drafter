@@ -312,11 +312,16 @@ export function burstTokenCost(concurrency: number, maxCompletionTokens: number)
  * the completion, so one chapter costs its prompt plus MAX_COMPLETION_TOKENS in
  * full and a burst is simply that times the fan-out.
  *
- * At 1,800 reserved and a 2,100-token worst-case prompt, each slot costs ~3,900:
+ * At 2,400 reserved and a 2,100-token worst-case prompt, each slot costs 4,500:
  *
- *     llama-3.3-70b-versatile   12,000 bucket -> 3 in flight (11,700)
- *     openai/gpt-oss-120b        8,000 bucket -> 2 in flight ( 7,800)
- *     llama-3.1-8b-instant       6,000 bucket -> 1 in flight ( 3,900)
+ *     llama-3.3-70b-versatile   12,000 bucket -> 2 in flight (9,000)
+ *     openai/gpt-oss-120b        8,000 bucket -> 1 in flight (4,500)
+ *     llama-3.1-8b-instant       6,000 bucket -> 1 in flight (4,500)
+ *
+ * The reservation and the fan-out trade against each other directly, and the
+ * reservation wins: dropping it to 1,800 would buy a third slot on the primary
+ * model, but 1,800 is the length at which Risk Factors was observed truncating,
+ * and losing that chapter to a template costs far more than the parallelism.
  *
  * Always at least 1: a bucket too small for even one chapter is a quota problem
  * for the retry logic to report, not a reason to draft nothing at all.
