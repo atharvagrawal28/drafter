@@ -143,7 +143,15 @@ export function buildComputed(data: IssuerData): Computed {
     postIssueSharesFmt: postIssueShares !== undefined ? formatIndianNumber(postIssueShares) : undefined,
     freshIssueSharesFmt: Number.isFinite(freshShares) ? formatIndianNumber(freshShares) : undefined,
     marketMakerShares: Number.isFinite(marketMakerShares) ? marketMakerShares : undefined,
+    // Formatted variants exist so that boilerplate clauses can interpolate a
+    // share count into prose without emitting "126000" mid-sentence.
+    marketMakerSharesFmt: Number.isFinite(marketMakerShares)
+      ? formatIndianNumber(marketMakerShares)
+      : undefined,
     netIssueShares: Number.isFinite(netIssueShares) ? netIssueShares : undefined,
+    netIssueSharesFmt: Number.isFinite(netIssueShares)
+      ? formatIndianNumber(netIssueShares)
+      : undefined,
     peFloor: peFloor !== undefined ? peFloor.toFixed(2) : undefined,
     peCap: peCap !== undefined ? peCap.toFixed(2) : undefined,
     objectsTotal,
@@ -2270,6 +2278,17 @@ async function buildChapter(
             reqs,
           ),
         ];
+
+    // A factual chapter may ALSO carry standard text. Issue Structure is the
+    // clear case: the allocation and the market-maker reservation come from
+    // issuer data, but the terms of payment, the revision rules and the
+    // minimum-subscription consequence are the same in every SME offer
+    // document. Rendering those as standard-clause after the factual blocks
+    // gives the chapter its proper substance without any of it becoming an
+    // issuer assertion.
+    if (kb?.clauses) {
+      blocks = [...blocks, ...renderClauses(kb.clauses, ctx, "standard-clause", reqs)];
+    }
   } else if (spec.mode === "boilerplate") {
     blocks = kb?.clauses
       ? renderClauses(kb.clauses, ctx, "standard-clause", reqs)

@@ -7,10 +7,13 @@
       "mode": "boilerplate",
       "clauses": [
         {
-          "p": "In this Draft Red Herring Prospectus, unless the context otherwise indicates or implies, or unless otherwise specified, the terms and abbreviations set out below have the meanings given to them. References to statutes, rules, regulations, guidelines and policies are to those provisions as amended from time to time."
+          "p": "In this Draft Red Herring Prospectus, unless the context otherwise indicates or implies, or unless otherwise specified, the terms and abbreviations set out below have the meanings given to them. References to statutes, rules, regulations, guidelines and policies are to those provisions as amended, supplemented or re-enacted from time to time, and any reference to a statutory provision includes any subordinate legislation made under it."
         },
         {
-          "h": "Company-related terms"
+          "p": "Notwithstanding the foregoing, terms used in the sections titled Statement of Special Tax Benefits, Restated Financial Statements, Outstanding Litigation and Material Developments, and Main Provisions of the Articles of Association have the meanings given to them in those respective sections."
+        },
+        {
+          "h": "General terms"
         },
         {
           "deftable": [
@@ -19,24 +22,87 @@
               "{identity.company_name}, a public limited company incorporated under the Companies Act, having its registered office at {identity.registered_office} and Corporate Identification Number {identity.cin}."
             ],
             [
-              "\"Promoters\"",
-              "{promoters.promoter_names}, being the promoters of the Company within the meaning of the ICDR Regulations."
+              "\"we\", \"us\", \"our\"",
+              "Unless the context otherwise indicates or implies, the Company."
+            ],
+            [
+              "\"you\", \"your\"",
+              "A prospective investor in the Issue."
+            ]
+          ]
+        },
+        {
+          "h": "Company-related terms"
+        },
+        {
+          "deftable": [
+            [
+              "\"Articles\" or \"AoA\"",
+              "The Articles of Association of the Company, as amended from time to time."
+            ],
+            [
+              "\"Audit Committee\"",
+              "The audit committee of the Board constituted in accordance with Section 177 of the Companies Act and the SEBI Listing Regulations."
+            ],
+            [
+              "\"Auditors\" or \"Statutory Auditors\"",
+              "The statutory auditors of the Company appointed under Section 139 of the Companies Act."
             ],
             [
               "\"Board\" or \"Board of Directors\"",
-              "The board of directors of the Company, as constituted from time to time."
+              "The board of directors of the Company, as constituted from time to time, including any duly constituted committee thereof."
             ],
             [
-              "\"Articles\" or \"AoA\"",
-              "The Articles of Association of the Company, as amended."
+              "\"Directors\"",
+              "The directors on the Board of the Company as at the date of this Draft Red Herring Prospectus."
+            ],
+            [
+              "\"Equity Shares\"",
+              "Equity shares of the Company of face value INR {issue.face_value} each, fully paid up."
+            ],
+            [
+              "\"Group Companies\"",
+              "Such companies as are identified as group companies of the Company in accordance with the ICDR Regulations and the policy adopted by the Board in that regard."
+            ],
+            [
+              "\"Independent Director\"",
+              "A director of the Company who satisfies the criteria of independence under Section 149(6) of the Companies Act and the SEBI Listing Regulations."
+            ],
+            [
+              "\"Key Managerial Personnel\" or \"KMP\"",
+              "The key managerial personnel of the Company as defined under the Companies Act and identified in the section titled Our Management."
             ],
             [
               "\"Memorandum\" or \"MOA\"",
-              "The Memorandum of Association of the Company, as amended."
+              "The Memorandum of Association of the Company, as amended from time to time."
+            ],
+            [
+              "\"Nomination and Remuneration Committee\"",
+              "The nomination and remuneration committee of the Board constituted in accordance with Section 178 of the Companies Act and the SEBI Listing Regulations."
+            ],
+            [
+              "\"Promoters\"",
+              "{promoters.promoter_names}, being the promoters of the Company within the meaning of the ICDR Regulations and the Companies Act."
+            ],
+            [
+              "\"Promoter Group\"",
+              "Such persons and entities as constitute the promoter group of the Company in terms of Regulation 2(1)(pp) of the ICDR Regulations."
+            ],
+            [
+              "\"Registered Office\"",
+              "The registered office of the Company at {identity.registered_office}."
             ],
             [
               "\"Restated Financial Statements\"",
-              "The restated statement of assets and liabilities, statement of profit and loss and statement of cash flows of the Company for the financial years {computed.financialYearsList}, prepared in accordance with the Companies Act and the ICDR Regulations."
+              "The restated statement of assets and liabilities, the restated statement of profit and loss and the restated statement of cash flows of the Company for the financial years {computed.financialYearsList}, together with the summary of significant accounting policies and the notes thereto, prepared in accordance with the Companies Act, Indian Accounting Standards and the ICDR Regulations, and examined by the Statutory Auditors."
+            ],
+            [
+              "\"Shareholders\"",
+              "The holders of the Equity Shares from time to time."
+            ],
+            [
+              "\"Stakeholders Relationship Committee\"",
+              "The stakeholders relationship committee of the Board constituted in accordance with Section 178 of the Companies Act and the SEBI Listing Regulations."
             ]
           ]
         },
@@ -46,88 +112,406 @@
         {
           "deftable": [
             [
-              "\"the Issue\"",
-              "The initial public offering of {computed.freshIssueSharesFmt} equity shares of face value INR {issue.face_value} each of the Company, aggregating to INR {issue.issue_size} crore."
+              "\"Allotment\"",
+              "The allotment of Equity Shares to successful Applicants pursuant to the Issue."
             ],
             [
-              "\"DRHP\" or \"this Draft Red Herring Prospectus\"",
-              "This draft red herring prospectus, which does not contain complete particulars of the price at which the equity shares will be allotted."
+              "\"Allottee\"",
+              "An Applicant to whom Equity Shares are Allotted."
             ],
             [
-              "\"Lead Manager\" or \"LM\"",
-              "{issue_structure.lead_manager}."
+              "\"Applicant\" or \"Bidder\"",
+              "Any prospective investor who makes an application for Equity Shares pursuant to the terms of this Draft Red Herring Prospectus and the Application Form."
             ],
             [
-              "\"Registrar to the Issue\"",
-              "{issue_structure.registrar}."
+              "\"Application\" or \"Bid\"",
+              "An indication by an Applicant to make an application for a specified number of Equity Shares at a specified price, together with the blocking of the corresponding Application Amount."
             ],
             [
-              "\"Market Maker\"",
-              "{issue.market_maker}, appointed to undertake market making in the equity shares in accordance with the ICDR Regulations."
+              "\"Application Amount\"",
+              "The number of Equity Shares applied for, multiplied by the price per Equity Share payable by the Applicant, and blocked in the ASBA Account on submission of the Application."
             ],
             [
-              "\"Net Proceeds\"",
-              "The proceeds of the Issue less the Issue-related expenses, being INR {issue.net_proceeds} crore."
+              "\"Application Form\"",
+              "The form, whether physical or electronic, used by an Applicant to make an Application, which will be considered as the application for Allotment."
             ],
             [
-              "\"SME Platform\"",
-              "{issue_structure.listing_platform}, the platform of the stock exchange for listing of specified securities issued by small and medium enterprises."
-            ]
-          ]
-        },
-        {
-          "h": "Conventional and general terms and abbreviations"
-        },
-        {
-          "deftable": [
+              "\"ASBA\" or \"Application Supported by Blocked Amount\"",
+              "The application, whether physical or electronic, used by an Applicant to make an Application authorising the relevant SCSB to block the Application Amount in the ASBA Account, or authorising a block through the UPI Mechanism where applicable."
+            ],
             [
-              "\"ICDR Regulations\"",
-              "The Securities and Exchange Board of India (Issue of Capital and Disclosure Requirements) Regulations, 2018, as amended."
+              "\"ASBA Account\"",
+              "A bank account maintained with an SCSB by an Applicant, as specified in the Application Form, in which the Application Amount is blocked."
+            ],
+            [
+              "\"Banker to the Issue\"",
+              "{issue_structure.banker}, being the bank with which the Public Issue Account is opened for collection of amounts on Allotment."
+            ],
+            [
+              "\"Basis of Allotment\"",
+              "The basis on which Equity Shares will be Allotted to successful Applicants, described in the section titled Issue Procedure."
+            ],
+            [
+              "\"Bid Lot\" or \"Market Lot\"",
+              "The minimum number of Equity Shares that may be applied for, and multiples thereof, as specified in the Red Herring Prospectus and advertised prior to the opening of the Issue."
+            ],
+            [
+              "\"Bid/Issue Closing Date\"",
+              "The date after which the Designated Intermediaries will not accept any Application, as notified in the Red Herring Prospectus and advertised in accordance with the ICDR Regulations."
+            ],
+            [
+              "\"Bid/Issue Opening Date\"",
+              "The date on which the Designated Intermediaries will begin accepting Applications, as notified in the Red Herring Prospectus and advertised in accordance with the ICDR Regulations."
+            ],
+            [
+              "\"Bid/Issue Period\"",
+              "The period between the Bid/Issue Opening Date and the Bid/Issue Closing Date, inclusive of both days, during which Applicants may submit Applications."
+            ],
+            [
+              "\"Client ID\"",
+              "The client identification number maintained with a Depository Participant in respect of a beneficiary account."
             ],
             [
               "\"Companies Act\"",
-              "The Companies Act, 2013, together with the rules made thereunder, as amended."
+              "The Companies Act, 2013, together with the rules, regulations, clarifications and modifications made under it."
+            ],
+            [
+              "\"Depositories\"",
+              "National Securities Depository Limited and Central Depository Services (India) Limited."
+            ],
+            [
+              "\"Depository Participant\" or \"DP\"",
+              "A depository participant registered with SEBI under the Depositories Act, 1996."
+            ],
+            [
+              "\"Designated Date\"",
+              "The date on which the funds blocked in the ASBA Accounts are transferred to the Public Issue Account, or unblocked, as applicable, following which the Equity Shares are Allotted."
+            ],
+            [
+              "\"Designated Intermediaries\"",
+              "Collectively, the syndicate members, sub-syndicate members, registered brokers, registrars and share transfer agents, collecting depository participants and SCSBs authorised to accept Application Forms."
+            ],
+            [
+              "\"Designated Market Maker\"",
+              "{issue.market_maker}, appointed to undertake market making in the Equity Shares in accordance with the ICDR Regulations and the rules of the SME Platform."
+            ],
+            [
+              "\"Designated SCSB Branches\"",
+              "Such branches of the SCSBs which collect Application Forms, a list of which is available on the website of SEBI."
+            ],
+            [
+              "\"DP ID\"",
+              "The identification number of a Depository Participant."
+            ],
+            [
+              "\"DRHP\" or \"this Draft Red Herring Prospectus\"",
+              "This draft red herring prospectus dated as of the date hereof, filed with the SME Platform, which does not contain complete particulars of the price at which the Equity Shares will be Allotted."
+            ],
+            [
+              "\"Eligible NRI\"",
+              "A non-resident Indian resident in a jurisdiction outside India where it is not unlawful to make an offer or invitation under the Issue, and in relation to whom the Application Form constitutes an invitation to subscribe for the Equity Shares."
+            ],
+            [
+              "\"FPI\" or \"Foreign Portfolio Investor\"",
+              "A foreign portfolio investor registered under the Securities and Exchange Board of India (Foreign Portfolio Investors) Regulations, 2019."
+            ],
+            [
+              "\"Fresh Issue\"",
+              "The fresh issue of {computed.freshIssueSharesFmt} Equity Shares by the Company pursuant to the Issue."
+            ],
+            [
+              "\"ICDR Regulations\"",
+              "The Securities and Exchange Board of India (Issue of Capital and Disclosure Requirements) Regulations, 2018."
+            ],
+            [
+              "\"the Issue\"",
+              "The initial public offering of {computed.freshIssueSharesFmt} Equity Shares of face value INR {issue.face_value} each of the Company, aggregating to INR {issue.issue_size} crore, comprising {issue.issue_type}."
+            ],
+            [
+              "\"Issue Agreement\"",
+              "The agreement between the Company and the Lead Manager recording their respective rights and obligations in relation to the Issue."
+            ],
+            [
+              "\"Issue Price\"",
+              "The final price at which the Equity Shares will be Allotted, to be determined by the Company in consultation with the Lead Manager and disclosed in the Prospectus."
+            ],
+            [
+              "\"Issue Proceeds\"",
+              "The gross proceeds of the Issue, being INR {issue.issue_size} crore."
+            ],
+            [
+              "\"Lead Manager\" or \"LM\"",
+              "{issue_structure.lead_manager}, being the lead manager to the Issue."
+            ],
+            [
+              "\"Listing Regulations\"",
+              "The Securities and Exchange Board of India (Listing Obligations and Disclosure Requirements) Regulations, 2015."
+            ],
+            [
+              "\"Market Making Agreement\"",
+              "The agreement between the Company, the Lead Manager and the Designated Market Maker setting out the terms on which market making will be undertaken."
+            ],
+            [
+              "\"Net Issue\"",
+              "The Issue less the portion reserved for the Designated Market Maker."
+            ],
+            [
+              "\"Net Proceeds\"",
+              "The Issue Proceeds less the Issue-related expenses, being INR {issue.net_proceeds} crore."
+            ],
+            [
+              "\"Non-Institutional Investor\" or \"NII\"",
+              "An Applicant, including a category III alternative investment fund and an Eligible NRI, that is neither a Qualified Institutional Buyer nor a Retail Individual Investor."
+            ],
+            [
+              "\"Prospectus\"",
+              "The prospectus to be filed with the Registrar of Companies in accordance with Section 26 of the Companies Act, containing the Issue Price and the size of the Issue."
+            ],
+            [
+              "\"Public Issue Account\"",
+              "The account opened with the Banker to the Issue to receive money from the ASBA Accounts on the Designated Date."
+            ],
+            [
+              "\"QIB\" or \"Qualified Institutional Buyer\"",
+              "A qualified institutional buyer as defined in Regulation 2(1)(ss) of the ICDR Regulations."
+            ],
+            [
+              "\"Red Herring Prospectus\" or \"RHP\"",
+              "The red herring prospectus to be issued in accordance with Section 32 of the Companies Act, which will not have complete particulars of the price at which the Equity Shares will be Allotted."
+            ],
+            [
+              "\"Registrar to the Issue\" or \"Registrar\"",
+              "{issue_structure.registrar}, being the registrar to the Issue."
+            ],
+            [
+              "\"Registrar Agreement\"",
+              "The agreement between the Company and the Registrar to the Issue in relation to the responsibilities and obligations of the Registrar."
+            ],
+            [
+              "\"Retail Individual Investor\" or \"RII\"",
+              "An individual Applicant whose Application Amount does not exceed the threshold prescribed under the ICDR Regulations for retail individual investors, including a Hindu Undivided Family applying through its karta and an Eligible NRI."
+            ],
+            [
+              "\"Revision Form\"",
+              "The form used by Applicants to modify the quantity or price in an Application during the Bid/Issue Period."
+            ],
+            [
+              "\"SCSB\" or \"Self Certified Syndicate Bank\"",
+              "A bank registered with SEBI to act as a banker to an issue and offering the facility of ASBA, a list of which is available on the website of SEBI."
             ],
             [
               "\"SEBI\"",
               "The Securities and Exchange Board of India, constituted under the Securities and Exchange Board of India Act, 1992."
             ],
             [
-              "\"LODR Regulations\"",
-              "The SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015, as amended."
+              "\"SME Platform\"",
+              "{issue_structure.listing_platform}, being the platform of the recognised stock exchange for small and medium enterprises on which the Equity Shares are proposed to be listed."
             ],
             [
-              "\"FEMA\"",
-              "The Foreign Exchange Management Act, 1999, together with the rules and regulations made thereunder."
+              "\"Sponsor Bank\"",
+              "A banker to the Issue registered with SEBI, appointed to act as a conduit between the SME Platform and the National Payments Corporation of India for the UPI Mechanism."
             ],
             [
-              "\"ASBA\"",
-              "Application Supported by Blocked Amount."
+              "\"Underwriter\"",
+              "{issue_structure.underwriter}."
             ],
             [
-              "\"UPI\"",
-              "Unified Payments Interface."
+              "\"Underwriting Agreement\"",
+              "The agreement between the Underwriter and the Company entered into on or after the Pricing Date."
             ],
             [
-              "\"INR\" or \"Rs.\"",
-              "Indian Rupees, the lawful currency of the Republic of India."
+              "\"UPI\" or \"Unified Payments Interface\"",
+              "The instant payment system developed by the National Payments Corporation of India."
             ],
             [
-              "\"FY\"",
-              "The financial year commencing on 1 April and ending on 31 March of the following year."
+              "\"UPI ID\"",
+              "The identification created on the UPI application for a single-window mobile payment system."
             ],
             [
-              "\"crore\"",
-              "Ten million (1,00,00,000)."
+              "\"UPI Mandate Request\"",
+              "The request initiated by the Sponsor Bank and received by a Retail Individual Investor for authorising the blocking of funds in the ASBA Account through the UPI Mechanism."
             ],
             [
-              "\"lakh\"",
-              "One hundred thousand (1,00,000)."
+              "\"UPI Mechanism\"",
+              "The mechanism that may be used by a Retail Individual Investor to make an Application with an intermediary, in accordance with the applicable SEBI circulars."
+            ],
+            [
+              "\"Working Day\"",
+              "All days on which commercial banks in Mumbai are open for business, construed in accordance with the ICDR Regulations and the applicable SEBI circulars."
             ]
           ]
         },
         {
-          "note": "Industry and technical terms specific to the {business.industry} sector are to be added by the merchant banker following the technical review of the business chapter."
+          "h": "Conventional and general abbreviations"
+        },
+        {
+          "deftable": [
+            [
+              "AGM",
+              "Annual General Meeting"
+            ],
+            [
+              "AIF",
+              "Alternative Investment Fund registered under the SEBI (Alternative Investment Funds) Regulations, 2012"
+            ],
+            [
+              "AS",
+              "Accounting Standards issued by the Institute of Chartered Accountants of India"
+            ],
+            [
+              "CAGR",
+              "Compound Annual Growth Rate"
+            ],
+            [
+              "CDSL",
+              "Central Depository Services (India) Limited"
+            ],
+            [
+              "CIN",
+              "Corporate Identification Number"
+            ],
+            [
+              "DIN",
+              "Director Identification Number"
+            ],
+            [
+              "EBITDA",
+              "Earnings Before Interest, Taxes, Depreciation and Amortisation"
+            ],
+            [
+              "EGM",
+              "Extraordinary General Meeting"
+            ],
+            [
+              "EPS",
+              "Earnings Per Share"
+            ],
+            [
+              "FDI",
+              "Foreign Direct Investment"
+            ],
+            [
+              "FEMA",
+              "The Foreign Exchange Management Act, 1999, together with the rules and regulations made under it"
+            ],
+            [
+              "Financial Year, FY or Fiscal",
+              "The period of twelve months ending 31 March of that year, unless otherwise stated"
+            ],
+            [
+              "GAAP",
+              "Generally Accepted Accounting Principles"
+            ],
+            [
+              "GST",
+              "Goods and Services Tax"
+            ],
+            [
+              "HUF",
+              "Hindu Undivided Family"
+            ],
+            [
+              "ICAI",
+              "The Institute of Chartered Accountants of India"
+            ],
+            [
+              "IFRS",
+              "International Financial Reporting Standards"
+            ],
+            [
+              "Ind AS",
+              "Indian Accounting Standards notified under Section 133 of the Companies Act"
+            ],
+            [
+              "INR or Rs.",
+              "Indian Rupees, the lawful currency of the Republic of India"
+            ],
+            [
+              "IPO",
+              "Initial Public Offering"
+            ],
+            [
+              "IT Act",
+              "The Income-tax Act, 1961"
+            ],
+            [
+              "MCA",
+              "The Ministry of Corporate Affairs, Government of India"
+            ],
+            [
+              "NAV",
+              "Net Asset Value"
+            ],
+            [
+              "NEFT",
+              "National Electronic Funds Transfer"
+            ],
+            [
+              "NRI",
+              "Non-Resident Indian"
+            ],
+            [
+              "NSDL",
+              "National Securities Depository Limited"
+            ],
+            [
+              "p.a.",
+              "Per annum"
+            ],
+            [
+              "PAN",
+              "Permanent Account Number"
+            ],
+            [
+              "PAT",
+              "Profit After Tax"
+            ],
+            [
+              "RBI",
+              "The Reserve Bank of India"
+            ],
+            [
+              "RoC",
+              "The Registrar of Companies having jurisdiction over the Company"
+            ],
+            [
+              "RoNW",
+              "Return on Net Worth"
+            ],
+            [
+              "RTGS",
+              "Real Time Gross Settlement"
+            ],
+            [
+              "SCRA",
+              "The Securities Contracts (Regulation) Act, 1956"
+            ],
+            [
+              "SCRR",
+              "The Securities Contracts (Regulation) Rules, 1957"
+            ],
+            [
+              "TDS",
+              "Tax Deducted at Source"
+            ],
+            [
+              "w.e.f.",
+              "With effect from"
+            ]
+          ]
+        },
+        {
+          "h": "Technical and industry terms"
+        },
+        {
+          "placeholder": "Definitions of the technical and industry terms used in this Draft Red Herring Prospectus, being terms specific to the industry in which the Company operates.",
+          "requiredInputs": [
+            "Glossary of technical terms used in the business and industry sections",
+            "Confirmation of usage consistent with the industry report relied upon"
+          ]
+        },
+        {
+          "note": "The defined terms above are generated from the issuer data supplied and from standard offer-document usage. The Lead Manager should reconcile this list against the final Red Herring Prospectus, add the industry glossary, and confirm that every defined term is used in the document and every capitalised term used is defined."
         }
       ]
     },
@@ -532,18 +916,42 @@
       "mode": "boilerplate",
       "clauses": [
         {
-          "p": "The Company has been advised that, under the Income-tax Act, 1961 and other applicable tax laws presently in force in India, the Company and its shareholders may be entitled to certain tax benefits. The statement of such benefits is required to be certified by the statutory auditor of the Company and annexed to this Draft Red Herring Prospectus."
+          "p": "The Company has been advised that, under the Income-tax Act, 1961 and other applicable tax laws presently in force in India, the Company and its shareholders may be entitled to certain tax benefits. The statement of such benefits is required to be certified by the Statutory Auditors of the Company and annexed to this Draft Red Herring Prospectus."
         },
         {
-          "p": "The benefits available under the applicable tax laws are dependent on the Company and its shareholders fulfilling the conditions prescribed under the relevant provisions. The statement is neither exhaustive nor conclusive, and is not intended to be, nor should it be construed as, advice on any tax matter. Investors are advised to consult their own tax advisers with respect to the tax consequences of an investment in the equity shares, having regard to their particular circumstances."
+          "h": "Scope and limitations of the statement"
         },
         {
-          "placeholder": "Statement of special tax benefits available to the Company and its shareholders, certified by the statutory auditor.",
-          "requiredInputs": [
-            "Certificate from the statutory auditor setting out the special tax benefits available to the Company",
-            "Certificate setting out the special tax benefits available to shareholders",
-            "Date of the auditor's certificate and the auditor's consent to its inclusion"
+          "p": "The benefits available under the applicable tax laws are dependent on the Company and its shareholders fulfilling the conditions prescribed under the relevant provisions. The statement is neither exhaustive nor conclusive, and is not intended to be, nor should it be construed as, advice on any tax matter. Investors are advised to consult their own tax advisers with respect to the tax consequences of an investment in the Equity Shares, having regard to their particular circumstances."
+        },
+        {
+          "p": "The statement sets out only the SPECIAL tax benefits available to the Company and to its shareholders. It does not cover the general tax benefits available to companies or to investors generally, and it does not address any tax legislation of any jurisdiction other than India."
+        },
+        {
+          "h": "Basis of preparation"
+        },
+        {
+          "list": [
+            "the statement is prepared on the basis of the law in force as at the date of the auditor's certificate, and is subject to any subsequent amendment, judicial pronouncement or administrative interpretation;",
+            "the benefits stated are those available to the Company and its shareholders, and do not extend to any other person;",
+            "the availability of a benefit to a particular shareholder depends on that shareholder's residential status, the nature of its income and its own compliance with the conditions prescribed;",
+            "a shareholder resident outside India may, in addition, be entitled to relief under an applicable double taxation avoidance agreement, subject to satisfying the conditions for claiming that relief; and",
+            "no assurance is given that the tax positions stated will be accepted by the tax authorities, or that the law will not change."
           ]
+        },
+        {
+          "h": "Statement certified by the Statutory Auditors"
+        },
+        {
+          "placeholder": "Statement of special tax benefits available to the Company and its shareholders, certified by the Statutory Auditors.",
+          "requiredInputs": [
+            "Certificate from the Statutory Auditors setting out the special tax benefits available to the Company",
+            "Certificate setting out the special tax benefits available to shareholders",
+            "Date of the auditors' certificate and the auditors' consent to its inclusion in the offer document"
+          ]
+        },
+        {
+          "note": "The statement of special tax benefits is the Statutory Auditors' certified work product and is deliberately not generated. The Lead Manager must obtain the certificate, confirm that it is dated no earlier than permitted, and annex it together with the auditors' written consent."
         }
       ]
     },
@@ -621,49 +1029,143 @@
       "mode": "boilerplate",
       "clauses": [
         {
-          "p": "The equity shares being offered and allotted pursuant to the Issue will be subject to the provisions of the Companies Act, the ICDR Regulations, the SEBI Act, the Securities Contracts (Regulation) Act, 1956, the Memorandum and Articles of Association of the Company, the terms of this Draft Red Herring Prospectus, the Prospectus, the application form, the abridged prospectus, the Basis of Allotment, and any other terms and conditions as may be incorporated in the transaction documents or in approvals granted by the Government of India, SEBI or the SME Platform."
+          "p": "The Equity Shares being offered and Allotted pursuant to the Issue are subject to the provisions of the Companies Act, the SCRA, the SCRR, the ICDR Regulations, the Listing Regulations, the Memorandum and Articles, the terms of this Draft Red Herring Prospectus, the Red Herring Prospectus, the Prospectus, the Application Form, the Revision Form, the abridged prospectus, the Allotment advice and other documents and agreements executed or to be executed in relation to the Issue. The Equity Shares are also subject to such other conditions as may be prescribed by SEBI, the Government of India, the RBI, the RoC, the SME Platform and any other authority while granting approval for the Issue."
         },
         {
-          "h": "Ranking of the equity shares"
+          "h": "Authority for the Issue"
         },
         {
-          "p": "The equity shares being offered pursuant to the Issue shall be subject to the provisions of the Memorandum and Articles of Association of the Company and shall rank pari passu in all respects with the existing equity shares of the Company, including in respect of the rights to receive dividend and to vote. Allottees will be entitled to dividend and any other corporate benefit declared by the Company after the date of allotment."
+          "p": "The Issue has been authorised by the Board and approved by the Shareholders of the Company in accordance with Sections 23, 26, 62 and 63 of the Companies Act and the applicable provisions of the ICDR Regulations. Particulars of the resolutions and their dates are set out in the section titled Other Regulatory and Statutory Disclosures."
         },
         {
-          "h": "Face value and issue price"
+          "h": "Ranking of the Equity Shares"
         },
         {
-          "p": "The equity shares have a face value of INR {issue.face_value} each and are being offered at a price of {issue.price_band}. The Issue price has been determined by the Company in consultation with the Lead Manager on the basis set out under \"Basis for Issue Price\"."
+          "p": "The Equity Shares being Allotted pursuant to the Issue will be subject to the provisions of the Memorandum and Articles and will rank pari passu in all respects with the existing Equity Shares of the Company, including in respect of the rights to receive dividend and to receive assets on a winding-up. Allottees will be entitled to dividend and any other corporate benefits, if any, declared by the Company after the date of Allotment, in accordance with the Companies Act and the Listing Regulations."
         },
         {
-          "h": "Rights of the equity shareholders"
+          "h": "Face value, Issue Price and price band"
+        },
+        {
+          "p": "The Equity Shares have a face value of INR {issue.face_value} each. The price band for the Issue is {issue.price_band}. The Issue Price will be determined by the Company in consultation with the Lead Manager and will be disclosed in the Prospectus. At any given price point, the ratio between the Issue Price and the face value will be disclosed, and the basis for the Issue Price is set out in the section titled Basis for Issue Price."
+        },
+        {
+          "h": "Rights of the equity shareholder"
+        },
+        {
+          "p": "Subject to applicable law, the Articles and the terms of this Draft Red Herring Prospectus, the holders of Equity Shares have the following rights:"
         },
         {
           "list": [
-            "The right to receive dividend, if declared.",
-            "The right to attend general meetings and to exercise voting rights, unless prohibited by law.",
-            "The right to vote on a poll either in person or by proxy, or by electronic means in accordance with the Companies Act.",
-            "The right to receive offers for rights shares and to be allotted bonus shares, if announced.",
-            "The right to receive any surplus on liquidation, subject to any statutory and preferential claims.",
-            "The right of free transferability of the equity shares, subject to applicable law including any lock-in requirements.",
-            "Such other rights as are available to a shareholder of a listed public company under the Companies Act, the LODR Regulations and the Memorandum and Articles of Association of the Company."
+            "the right to receive dividend, if declared;",
+            "the right to attend general meetings and to exercise voting rights, unless prohibited by law;",
+            "the right to vote in person, or by proxy, or by electronic means;",
+            "the right to receive offers for rights shares and to be allotted bonus shares, if announced;",
+            "the right to receive any surplus on liquidation, subject to any statutory and preferential claims;",
+            "the right of free transferability of the Equity Shares, subject to applicable law including any RBI rules and regulations; and",
+            "such other rights as may be available to a shareholder of a listed public company under the Companies Act, the Listing Regulations, the terms of the listing agreement with the SME Platform and the Memorandum and Articles."
           ]
         },
         {
-          "h": "Market lot and minimum application size"
+          "h": "Allotment only in dematerialised form"
         },
         {
-          "p": "The equity shares will be allotted only in dematerialised form. As the equity shares are being issued on the SME Platform, trading will be permitted only in the market lot specified by the SME Platform. The minimum application size and the market lot are to be determined by the Company in consultation with the Lead Manager and the SME Platform in accordance with the ICDR Regulations, and will be disclosed in the Prospectus."
+          "p": "In accordance with the ICDR Regulations and the Depositories Act, 1996, the Equity Shares will be Allotted only in dematerialised form. Applicants will not have the option of receiving Allotment in physical form. The Equity Shares on Allotment will be traded only on the dematerialised segment of the SME Platform. Applicants must therefore have a beneficiary account with a Depository Participant prior to making an Application."
         },
         {
-          "h": "Underwriting and market making"
+          "h": "Market lot and trading lot"
         },
         {
-          "p": "The Issue is proposed to be fully underwritten by {issue_structure.underwriter}. In accordance with the ICDR Regulations, {issue.market_maker} has been appointed as the market maker and will undertake market making in the equity shares for the period prescribed under the ICDR Regulations from the date of listing.",
+          "p": "The trading of the Equity Shares on the SME Platform will be in a market lot as specified by the SME Platform and disclosed in the Red Herring Prospectus. The minimum Application size and the Bid Lot will be determined by the Company in consultation with the Lead Manager and the SME Platform, in accordance with the ICDR Regulations, and will be advertised prior to the opening of the Issue."
+        },
+        {
+          "note": "The minimum Application size and the market lot are issue-specific and are set at the time of pricing. They are deliberately not stated here and must be inserted by the Lead Manager in the Red Herring Prospectus."
+        },
+        {
+          "h": "Minimum number of allottees"
+        },
+        {
+          "p": "The Issue is subject to the Company obtaining the minimum number of Allottees prescribed under the ICDR Regulations for an issue on the SME Platform. If the prescribed minimum number of Allottees is not achieved, the entire application money will be unblocked or refunded, as applicable, in accordance with the ICDR Regulations and the applicable SEBI circulars."
+        },
+        {
+          "h": "Joint holders"
+        },
+        {
+          "p": "Where Equity Shares are registered in the names of two or more persons, they will be deemed to hold them as joint tenants with the benefit of survivorship, subject to the provisions of the Articles."
+        },
+        {
+          "h": "Nomination facility"
+        },
+        {
+          "p": "In accordance with Section 72 of the Companies Act, the sole or first Applicant, together with any joint Applicants, may nominate a person in whom, in the event of the death of the sole or all joint Applicants, the Equity Shares would vest. Since Allotment is only in dematerialised form, a nomination registered with the relevant Depository Participant will prevail, and Applicants wishing to change a nomination should approach their Depository Participant."
+        },
+        {
+          "h": "Period of subscription"
+        },
+        {
+          "p": "The Issue will remain open for the period prescribed under the ICDR Regulations, as notified in the Red Herring Prospectus and advertised in accordance with the ICDR Regulations. Any revision to the price band, and any consequent extension of the Bid/Issue Period, will be published in the manner prescribed."
+        },
+        {
+          "h": "Withdrawal of the Issue"
+        },
+        {
+          "p": "The Company, in consultation with the Lead Manager, reserves the right not to proceed with the Issue at any time before the Bid/Issue Opening Date, without assigning any reason. If the Company withdraws the Issue after the Bid/Issue Opening Date, it will give the reason by way of a public notice within the period prescribed, and will promptly inform the SME Platform. Where the Issue is withdrawn after the Designated Date, the Company will be required to file a fresh offer document with SEBI or the SME Platform, as applicable, if it subsequently decides to proceed with a public offering."
+        },
+        {
+          "h": "Arrangements for disposal of odd lots"
+        },
+        {
+          "p": "The trading of the Equity Shares will be in the market lot specified by the SME Platform. The Designated Market Maker will, in accordance with the ICDR Regulations and the rules of the SME Platform, buy the entire shareholding of a shareholder in one lot where the holding is less than the market lot, subject to the terms of the Market Making Agreement."
+        },
+        {
+          "h": "Restrictions on transfer and transmission"
+        },
+        {
+          "p": "Except for any lock-in applicable to the Equity Shares under the ICDR Regulations, and subject to the Articles and applicable law, there are no restrictions on the transfer or transmission of the Equity Shares, or on their consolidation or splitting. Details of the lock-in applicable to the promoters' contribution and to the pre-issue capital are set out in the section titled Capital Structure."
+        },
+        {
+          "h": "Market making"
+        },
+        {
+          "p": "The Equity Shares proposed to be listed on the SME Platform are required to be market made in accordance with the ICDR Regulations. {issue.market_maker} has been appointed as the Designated Market Maker and will undertake market making for the period and in the manner prescribed under the ICDR Regulations and the rules of the SME Platform, subject to the terms of the Market Making Agreement.",
           "when": "issue.market_maker"
         },
         {
-          "note": "The market lot, minimum application size, tick size and the detailed market making obligations must be finalised by the merchant banker with the SME Platform before the Prospectus is filed."
+          "placeholder": "Particulars of the Designated Market Maker and the terms of the Market Making Agreement.",
+          "requiredInputs": [
+            "Name and registration particulars of the market maker",
+            "Executed market making agreement",
+            "Inventory and spread obligations agreed"
+          ],
+          "when": "!issue.market_maker"
+        },
+        {
+          "h": "Underwriting"
+        },
+        {
+          "p": "The Issue is required to be fully underwritten in accordance with the ICDR Regulations. {issue_structure.underwriter} has agreed to underwrite the Issue on the terms recorded in the Underwriting Agreement, which will be executed on or after the Pricing Date. The extent of underwriting obligations and the details of the arrangement are set out in the section titled General Information.",
+          "when": "issue_structure.underwriter"
+        },
+        {
+          "h": "Migration to the main board"
+        },
+        {
+          "p": "The Company may migrate to the main board of the recognised stock exchange from the SME Platform on satisfying the eligibility criteria prescribed for such migration and obtaining the approval of its shareholders by a special resolution in the manner prescribed under the ICDR Regulations."
+        },
+        {
+          "h": "New financial instruments"
+        },
+        {
+          "p": "The Company is not issuing any new financial instrument through this Issue."
+        },
+        {
+          "h": "Jurisdiction"
+        },
+        {
+          "p": "Exclusive jurisdiction for the purpose of the Issue vests in the competent courts and tribunals at the place specified in the Articles and the Red Herring Prospectus."
+        },
+        {
+          "note": "This chapter is standard offer-document text assembled around the issue particulars supplied. The Lead Manager must settle the minimum Application size, the market lot, the Bid/Issue Period, the underwriting percentages and the market-making inventory and spread obligations before the Red Herring Prospectus is filed."
         }
       ]
     },
@@ -672,47 +1174,156 @@
       "mode": "boilerplate",
       "clauses": [
         {
-          "p": "All applicants are required to make an application through the Application Supported by Blocked Amount process. Investors applying in the Issue must provide the bank account details and the authorisation to block funds in the application form, or must use the Unified Payments Interface mechanism where they are eligible to do so. Applications not containing such details are liable to be rejected."
+          "p": "All Applicants are required to make an Application through the Application Supported by Blocked Amount process. Applicants must provide the bank account details and the authorisation to block funds in the Application Form, or must use the UPI Mechanism where they are eligible to do so. Applications not containing such details are liable to be rejected. This section should be read together with the General Information Document for investing in public issues, as amended from time to time and made available on the websites of SEBI, the SME Platform and the Lead Manager."
         },
         {
-          "h": "Application process"
+          "p": "The procedure set out below is subject to the ICDR Regulations and the SEBI circulars in force at the time the Issue opens. Applicants are advised to inform themselves of the procedure applicable at that time, and no reliance should be placed on this summary alone."
+        },
+        {
+          "h": "Who can apply"
         },
         {
           "list": [
-            "Applicants must submit the application form to a designated intermediary, being a syndicate member, a registered stock broker, a registrar and share transfer agent or a depository participant, or must apply online through a self-certified syndicate bank.",
-            "Retail individual investors applying through the UPI mechanism must provide a valid UPI identification in the application form and must approve the mandate request received on the UPI application within the prescribed time.",
-            "Applicants must ensure that the application is for the minimum application size specified, and in multiples of the market lot thereafter.",
-            "Applications must be made only in dematerialised form, and the depository account details furnished must match the depository records.",
-            "The Permanent Account Number of each applicant is mandatory, irrespective of the application amount."
+            "Indian nationals resident in India who are competent to contract under the Indian Contract Act, 1872, applying in single or joint names;",
+            "Hindu Undivided Families, through the karta, with the Application made in the name of the karta;",
+            "companies, corporate bodies and societies registered under applicable law in India and authorised to invest in equity shares;",
+            "mutual funds registered with SEBI, and venture capital funds and alternative investment funds registered with SEBI, subject to their respective investment restrictions;",
+            "Qualified Institutional Buyers, subject to applicable law;",
+            "Foreign Portfolio Investors, other than individuals, corporate bodies and family offices, in accordance with applicable law;",
+            "Eligible NRIs, on a repatriation or non-repatriation basis, subject to applicable law;",
+            "insurance companies registered with the Insurance Regulatory and Development Authority of India;",
+            "provident funds, pension funds and the National Investment Fund, subject to applicable law; and",
+            "any other person eligible to apply in the Issue under applicable law."
           ]
         },
         {
-          "h": "Basis of allotment"
+          "p": "Applicants are advised to ensure that any Application made by them is within the investment limits or the maximum number of Equity Shares that can be held by them under applicable law, or as specified in this Draft Red Herring Prospectus. The Company and the Lead Manager do not accept any responsibility for an Application made in contravention of applicable law."
         },
         {
-          "p": "The Basis of Allotment will be finalised by the Company and the Lead Manager in consultation with the Registrar to the Issue and the SME Platform in accordance with the ICDR Regulations. In the event of over-subscription, allotment will be made on a proportionate basis within each category, subject to the minimum allotment being equal to the minimum application size. Where the number of applicants in a category exceeds the number of allottees possible at the minimum application size, allotment will be made by drawing of lots."
+          "h": "The ASBA process"
         },
         {
-          "h": "Refunds and credit of equity shares"
+          "list": [
+            "An Applicant submits the Application Form to a Designated Intermediary, or applies online through the internet banking facility of an SCSB.",
+            "The Application Form authorises the SCSB to block the Application Amount in the ASBA Account named in the form.",
+            "The Application Amount remains blocked in the ASBA Account until the Designated Date, or until the Application is withdrawn, rejected or unsuccessful, and continues to earn interest for the Applicant during that period in accordance with the terms of the account.",
+            "The Applicant may not withdraw the authorisation to block, other than in the circumstances permitted under the ICDR Regulations.",
+            "On the Designated Date, the SCSB transfers the amount corresponding to the Equity Shares Allotted to the Public Issue Account and unblocks the balance."
+          ]
         },
         {
-          "p": "The Registrar to the Issue will instruct the relevant self-certified syndicate banks to unblock the funds in the accounts of unsuccessful applicants, and will credit the allotted equity shares to the depository accounts of successful allottees, within the timelines prescribed under the ICDR Regulations and the applicable SEBI circulars. The Company will pay interest at the prescribed rate for any delay beyond the prescribed period."
+          "h": "The UPI Mechanism"
+        },
+        {
+          "p": "A Retail Individual Investor whose Application Amount does not exceed the threshold prescribed by SEBI for the UPI Mechanism may apply through that mechanism. The procedure is as follows:"
+        },
+        {
+          "list": [
+            "The Applicant creates a UPI ID with a bank or a payment service provider whose application is listed on the website of the National Payments Corporation of India as eligible for public issue applications.",
+            "The Applicant enters the UPI ID in the Application Form and submits it to a Designated Intermediary.",
+            "The Designated Intermediary uploads the Application on the electronic bidding platform of the SME Platform, and the Sponsor Bank initiates a UPI Mandate Request to the Applicant.",
+            "The Applicant approves the UPI Mandate Request on the UPI application, which blocks the Application Amount in the ASBA Account.",
+            "The Applicant must approve the mandate within the time prescribed. An unapproved mandate results in the Application not being considered."
+          ]
+        },
+        {
+          "p": "An Applicant using the UPI Mechanism should ensure that the bank account linked to the UPI ID has sufficient balance, that the UPI ID furnished is correct, and that the mandate is approved from the mobile number registered with the bank."
+        },
+        {
+          "h": "Submission of the Application Form"
+        },
+        {
+          "list": [
+            "Application Forms are available with the Designated Intermediaries and on the websites of the SME Platform and the Lead Manager.",
+            "Applications must be for the minimum Application size specified in the Red Herring Prospectus, and in multiples of the Bid Lot thereafter.",
+            "Applications must be made only in dematerialised form. The DP ID, Client ID and PAN furnished must match the depository records exactly.",
+            "The Permanent Account Number of each Applicant is mandatory, irrespective of the Application Amount, other than for Applications on behalf of the central or state government, for officials appointed by a court, and for residents of the state of Sikkim, subject to verification.",
+            "An Applicant should submit only one Application Form. Multiple Applications made by the same person, other than as expressly permitted, are liable to be rejected.",
+            "On submission, the Designated Intermediary issues an acknowledgement to the Applicant. The acknowledgement is not an acceptance of the Application."
+          ]
+        },
+        {
+          "h": "Instructions for completing the Application Form"
+        },
+        {
+          "list": [
+            "The Application Form must be completed in English, in block letters, in the prescribed manner.",
+            "The name of the sole or first Applicant must be entered exactly as it appears in the depository records.",
+            "Applications by Hindu Undivided Families must be made in the name of the karta, followed by the words \"karta of\" and the name of the family.",
+            "Applications by joint holders must be in the same order as in the depository account.",
+            "Applications made at the price and quantity determined by the Applicant must be within the price band, where applicable.",
+            "The Applicant must sign the Application Form in the space provided, and joint Applicants must all sign."
+          ]
         },
         {
           "h": "Grounds for technical rejection"
         },
         {
+          "p": "Applications are liable to be rejected on any of the following grounds, among others:"
+        },
+        {
           "list": [
-            "Application by a person not eligible to invest in the Issue under applicable law.",
-            "Application for a number of equity shares below the minimum application size, or not in multiples of the market lot.",
-            "Permanent Account Number not provided, or provided incorrectly.",
-            "Depository account details not provided, or not matching the depository records.",
-            "Insufficient funds available in the bank account to be blocked, or failure to approve the UPI mandate within the prescribed time.",
-            "Application form not signed by the applicant, or signature not matching the bank or depository records."
+            "the Application Amount is not blocked, or the ASBA Account has insufficient funds;",
+            "the Application is for a number of Equity Shares below the minimum Application size, or not in multiples of the Bid Lot;",
+            "the DP ID, Client ID or PAN is incorrect, illegible or does not match the depository records;",
+            "the PAN is not furnished, except where expressly exempt;",
+            "the Application Form is not signed by the sole or first Applicant, or by all joint Applicants;",
+            "the Application is submitted without the authorisation to block funds, or the UPI Mandate Request is not approved within the prescribed time;",
+            "the depository account is suspended, frozen or closed, or the details furnished relate to an account that does not exist;",
+            "the Application is by a person not competent to contract, including a minor other than through a guardian;",
+            "multiple Applications are made by the same Applicant otherwise than as permitted;",
+            "the Application is by a person prohibited from investing in the Equity Shares under applicable law, or is in contravention of any applicable investment limit;",
+            "the Application is submitted to a person other than a Designated Intermediary, or at a location other than a designated collection point;",
+            "the Application Form is incomplete, contains inconsistent or contradictory particulars, or is not made in the prescribed form; or",
+            "the Application is withdrawn or revised otherwise than in the manner permitted."
           ]
         },
         {
-          "note": "This chapter must be updated by the merchant banker to reflect the SEBI circulars in force on the date the Prospectus is filed, including the applicable UPI limits and the prescribed timelines."
+          "p": "Applicants are advised that the grounds set out above are indicative. The Registrar to the Issue, in consultation with the Company, the Lead Manager and the SME Platform, may reject an Application on any other ground consistent with the ICDR Regulations and the applicable SEBI circulars."
+        },
+        {
+          "h": "Basis of Allotment"
+        },
+        {
+          "p": "The Basis of Allotment will be finalised by the Company and the Lead Manager in consultation with the Registrar to the Issue and the SME Platform, in accordance with the ICDR Regulations. In the event of over-subscription, Allotment will be made on a proportionate basis within each category, subject to the minimum Allotment being equal to the minimum Application size. Where the number of Applicants in a category exceeds the number of Allottees possible at the minimum Application size, Allotment will be made by drawing of lots in the presence of a public representative of the SME Platform."
+        },
+        {
+          "h": "Refunds, unblocking and credit of Equity Shares"
+        },
+        {
+          "p": "The Registrar to the Issue will instruct the relevant SCSBs to unblock the funds in the accounts of unsuccessful Applicants, and will credit the Allotted Equity Shares to the depository accounts of successful Allottees, within the timelines prescribed under the ICDR Regulations and the applicable SEBI circulars. Where there is a delay beyond the prescribed period, the Company will pay interest at the rate prescribed under the Companies Act and the ICDR Regulations."
+        },
+        {
+          "h": "Allotment advice and listing"
+        },
+        {
+          "p": "The Registrar to the Issue will despatch the Allotment advice to successful Allottees. The Company will apply to the SME Platform for final listing and trading approval, and will take all steps necessary to ensure that trading in the Equity Shares commences within the period prescribed under the ICDR Regulations and the applicable SEBI circulars."
+        },
+        {
+          "h": "Undertakings by the Company"
+        },
+        {
+          "list": [
+            "the complaints received in respect of the Issue will be attended to expeditiously and satisfactorily;",
+            "all steps for completion of the necessary formalities for listing and commencement of trading will be taken within the prescribed time;",
+            "the funds required for unblocking, or for despatch of Allotment advice, will be made available to the Registrar to the Issue;",
+            "where an amount is to be unblocked or refunded, the instruction will be given within the prescribed time;",
+            "no further issue of Equity Shares will be made until the Equity Shares offered are listed, or until the Application Amounts are unblocked or refunded; and",
+            "the certificates of the securities in dematerialised form will be delivered in accordance with the terms of the Issue."
+          ]
+        },
+        {
+          "h": "Utilisation of the Issue proceeds"
+        },
+        {
+          "list": [
+            "all monies received out of the Issue will be credited to a separate bank account other than the bank account referred to in Section 40(3) of the Companies Act;",
+            "details of all monies utilised out of the Issue will be disclosed, and continue to be disclosed, under the appropriate head in the balance sheet indicating the purpose for which they were utilised; and",
+            "details of all unutilised monies out of the Issue, if any, will be disclosed under the appropriate head in the balance sheet indicating the form in which they are invested."
+          ]
+        },
+        {
+          "note": "This chapter is standard offer-document text and does not state any issue-specific threshold, timeline or allocation percentage. The Lead Manager must reconcile it against the SEBI circulars in force at the time of filing, and insert the minimum Application size, the Bid Lot and the applicable UPI threshold in the Red Herring Prospectus."
         }
       ]
     },
@@ -721,16 +1332,40 @@
       "mode": "boilerplate",
       "clauses": [
         {
-          "p": "Foreign investment in Indian securities is regulated by the Foreign Exchange Management Act, 1999 and the rules and regulations made thereunder, including the Foreign Exchange Management (Non-debt Instruments) Rules, 2019, and by the consolidated foreign direct investment policy issued by the Department for Promotion of Industry and Internal Trade. While the consolidated policy prescribes the limits and the entry route for investment in each sector, the Reserve Bank of India and the Government of India prescribe the pricing guidelines and the reporting requirements applicable to such investment."
+          "p": "Foreign investment in Indian securities is regulated by the Foreign Exchange Management Act, 1999 and the rules and regulations made under it, read with the consolidated Foreign Direct Investment Policy issued by the Department for Promotion of Industry and Internal Trade, Government of India, as amended from time to time. Under the current framework, foreign direct investment in most sectors is permitted under the automatic route, subject to the sectoral caps, entry conditions and pricing guidelines prescribed."
         },
         {
-          "p": "Under the current regime, foreign direct investment up to 100 per cent is permitted under the automatic route in most manufacturing activities, subject to compliance with the applicable pricing guidelines, sectoral conditions and reporting requirements. An investment by an entity of a country which shares a land border with India, or where the beneficial owner of an investment into India is situated in or is a citizen of such a country, can be made only under the Government route."
+          "h": "Investment by Foreign Portfolio Investors"
         },
         {
-          "p": "The equity shares have not been and will not be registered under the United States Securities Act of 1933 or under the securities laws of any state of the United States, and may not be offered or sold within the United States except pursuant to an exemption from, or in a transaction not subject to, the registration requirements of that Act and applicable state securities laws."
+          "p": "Foreign Portfolio Investors registered with SEBI may invest in the Equity Shares subject to the limits prescribed under the applicable regulations, including the limit on the holding of a single Foreign Portfolio Investor together with its investor group, and the aggregate limit applicable to all Foreign Portfolio Investors in an Indian company. Where an investment exceeds the prescribed threshold, it is reclassified as foreign direct investment in the manner prescribed."
         },
         {
-          "note": "The merchant banker, in consultation with legal counsel, must confirm the sectoral cap and entry route applicable to the Company's activity under the consolidated FDI policy in force on the date of filing."
+          "h": "Investment by Non-Resident Indians"
+        },
+        {
+          "p": "Eligible NRIs may invest in the Equity Shares on a repatriation or a non-repatriation basis, subject to the conditions and limits prescribed under FEMA and the rules made under it. An Eligible NRI applying on a repatriation basis must do so through the appropriate account and must furnish the particulars required in the Application Form."
+        },
+        {
+          "h": "Restrictions on investment from certain jurisdictions"
+        },
+        {
+          "p": "An entity of a country which shares a land border with India, or where the beneficial owner of an investment into India is situated in or is a citizen of such a country, may invest only under the government route, in accordance with the consolidated Foreign Direct Investment Policy. Any transfer of ownership resulting in such beneficial ownership requires government approval."
+        },
+        {
+          "h": "Pricing and reporting"
+        },
+        {
+          "p": "The issue and transfer of the Equity Shares to a person resident outside India is subject to the pricing guidelines and the reporting requirements prescribed under FEMA. The Company will comply with the applicable reporting requirements in respect of any Allotment made to a person resident outside India."
+        },
+        {
+          "h": "General"
+        },
+        {
+          "p": "The Equity Shares have not been and will not be registered under the United States Securities Act of 1933 or under the securities laws of any state of the United States, and may not be offered or sold within the United States except pursuant to an exemption from, or in a transaction not subject to, the registration requirements of that Act and applicable state securities laws."
+        },
+        {
+          "note": "Foreign investment conditions, sectoral caps and the applicable thresholds change frequently. The Lead Manager and legal counsel must confirm the position applicable to the Company's sector as at the date of the Red Herring Prospectus."
         }
       ]
     },
@@ -845,6 +1480,53 @@
         },
         {
           "note": "This declaration is executed at the point of filing, after the merchant banker has completed due diligence and issued the due diligence certificate. It cannot be discharged at the drafting stage."
+        }
+      ]
+    },
+    "VII.2": {
+      "title": "Issue Structure",
+      "mode": "boilerplate",
+      "clauses": [
+        {
+          "h": "Spill-over between categories"
+        },
+        {
+          "p": "Undersubscription, if any, in any category will be met with spill-over from any other category or a combination of categories, at the discretion of the Company in consultation with the Lead Manager and the SME Platform, subject to applicable law. The Equity Shares reserved for the Designated Market Maker are not available for such spill-over."
+        },
+        {
+          "note": "The category-wise allocation percentages depend on whether the Issue is made through the book building process or at a fixed price, and on the provisions of Regulation 253 of the ICDR Regulations in force at the time of filing. They are deliberately not asserted here and must be confirmed by the Lead Manager against the final structure of the Issue."
+        },
+        {
+          "h": "Basis of allocation within a category"
+        },
+        {
+          "p": "Allocation within each category will be made on a proportionate basis, subject to the minimum Allotment being equal to the minimum Application size. Where the number of Applicants in a category exceeds the number that can be Allotted the minimum Application size, Allotment will be made by drawing of lots in the presence of a public representative of the SME Platform, in accordance with the ICDR Regulations."
+        },
+        {
+          "h": "Terms of payment"
+        },
+        {
+          "p": "The entire Application Amount is payable at the time of Application and will be blocked in the ASBA Account of the Applicant until the Designated Date. On the Designated Date, the amount corresponding to the Equity Shares Allotted will be transferred to the Public Issue Account, and the balance, together with the amounts of unsuccessful Applicants, will be unblocked in accordance with the ICDR Regulations and the applicable SEBI circulars."
+        },
+        {
+          "h": "Revision and withdrawal of applications"
+        },
+        {
+          "list": [
+            "An Applicant may revise an Application during the Bid/Issue Period using the Revision Form, subject to the conditions prescribed under the ICDR Regulations.",
+            "Retail Individual Investors may withdraw or lower the size of an Application until the Bid/Issue Closing Date.",
+            "Applicants other than Retail Individual Investors may not withdraw or lower the size of an Application at any stage after submission, and are required to pay the Application Amount on submission.",
+            "Any revision must be made in the same Application Form and through the same Designated Intermediary through which the original Application was submitted."
+          ]
+        },
+        {
+          "h": "Minimum subscription"
+        },
+        {
+          "p": "If the Company does not receive the minimum subscription prescribed under the ICDR Regulations, including the minimum number of Allottees required for an issue on the SME Platform, the entire Application Amount will be unblocked or refunded in the manner and within the timelines prescribed. If there is a delay beyond the prescribed period, the Company and its directors who are officers in default will pay interest at the rate prescribed under the Companies Act."
+        },
+        {
+          "note": "This chapter is standard offer-document text assembled around the issue particulars supplied. The Lead Manager must confirm the final category-wise allocation, the minimum Application size, and the market maker reservation against the structure of the Issue as priced."
         }
       ]
     }

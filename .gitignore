@@ -75,3 +75,6 @@ backtest_output/*
 backtest_output/corpus/*
 !backtest_output/corpus/sources.txt
 backtest_output/**/text-cache/
+
+# Word lock files (created when a .docx in the repo is open)
+~$*

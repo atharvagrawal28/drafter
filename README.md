@@ -27,7 +27,7 @@ impose a requirement. Each one names the files that discharge it and the number 
 | # | SEBI's words | Discharged by | Proof |
 |---|---|---|---|
 | PS-1 | capture their business, financial, **and legal** particulars | 8-step wizard; financials read out of the issuer's own workbook | **125** evidence-field references, all reachable — nothing in the registry is uncollectable |
-| PS-2 | generate a **well-organised, disclosure-ready** draft offer document | 34 chapters, Sections I–IX; prospectus-formatted DOCX + PDF | 9,975 words, 26 tables, 49KB DOCX, 140KB PDF |
+| PS-2 | generate a **well-organised, disclosure-ready** draft offer document | 34 chapters, Sections I–IX; prospectus-formatted DOCX + PDF | 14,791 words, 27 tables, 60KB DOCX, 179KB PDF |
 | PS-3 | accessible to promoters **without specialist knowledge** | Plain questions + a register normaliser that lifts them into prospectus prose | No figure moved across **258** free-text fields; transform is idempotent |
 | PS-4 | checks for **accuracy and completeness** | Two mechanisms: weighted coverage over 76 requirements; 11 cross-chapter consistency checks | Planted defects surface with the **exact** high-severity count (2 and 4) — a false positive fails the build |
 | PS-5 | **preserve the role of authorised intermediaries** in review and certification | 7 placeholders sitting exactly at signature points; 14-item DD checklist ending at DD-14 Certification | Standing non-dismissible "not for filing" banner on every screen |
@@ -239,7 +239,7 @@ commit does not land.
 | 6 | **Regulation Watch** | States the registry version and the date its rules were built against, then reads SEBI's public RSS feed and flags what has been published since. Rule-based classification, mapped to requirement IDs, with the matched terms shown. |
 | 7 | **Impact** | Clause-by-clause conformance against SEBI's problem statement, with the file and measured number behind each claim, plus an honest scope statement. |
 
-Exports: **DOCX** and **PDF** of the full prospectus — 34 chapters over **36 PDF pages** (Word
+Exports: **DOCX** and **PDF** of the full prospectus — 34 chapters over **45 PDF pages** (Word
 paginates tighter, around 27), with a cover page, TOC, numbered sections, ruled tables,
 headers/footers and page numbers — plus the **gap report as a standalone compliance checklist**.
 
@@ -464,7 +464,7 @@ auditor's restatement or the banker's due diligence."*
 Open **Merchant Banker**: "the intermediary is preserved, not removed." Documents provided vs
 outstanding across a **14-item due-diligence checklist assigned by owner** — 6 issuer, 4 auditor,
 4 lead manager, 1 legal counsel — ending at DD-14, Certification. Export **DOCX** and **PDF**:
-34 chapters, 36 PDF pages, prospectus formatting, plus the gap report as a standalone compliance
+34 chapters, 45 PDF pages, prospectus formatting, plus the gap report as a standalone compliance
 checklist. Close on **Impact** — the clause-by-clause conformance table, and the two clauses marked
 **partial** on purpose. *"Eleven of thirteen met. We are telling you which two aren't, and why."*
 → *The honest scope statement — and the reason to believe the other eleven.*
@@ -488,7 +488,7 @@ What Drafter actually delivers, and what it does not:
 - The gap checker computes coverage from evidence fields and catches all six planted defects across
   two issuers with the **exact** high-severity counts — 2 and 4 — so a false positive fails the
   build as loudly as a miss (`npm run verify`).
-- DOCX and PDF exports are real prospectus-formatted documents: 34 chapters over 36 PDF pages.
+- DOCX and PDF exports are real prospectus-formatted documents: 34 chapters over 45 PDF pages.
 - Preparation time is **measured**, not asserted, and the measurement is biased against our own
   claim (pauses counted at the cap).
 

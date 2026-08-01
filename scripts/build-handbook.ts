@@ -1100,15 +1100,42 @@ async function build() {
     p(
       "The two issuers fail on entirely different requirements, which is the evidence that the checker is data-driven rather than hard-coded to a demo.",
     ),
-    h2("8.3  Placeholders are the design, not a shortfall"),
+    h2("8.3  How long the output is, and how long a filed DRHP is"),
+    p(
+      "This is the first question anyone who has seen a real offer document will ask, so the team should know the answer before being asked it.",
+    ),
+    spacer(80),
+    table({
+      widths: [3400, 2800, 2826],
+      header: ["", "Drafter", "Filed SME DRHP"],
+      rows: [
+        ["Words", shreeji.doc.stats.totalWords.toLocaleString(), "187,459 (mean of 17 filings)"],
+        ["Pages", "45 (PDF export)", "398 (mean of 17 filings)"],
+        ["Share by word count", "—", "Drafter is roughly 8%"],
+      ],
+    }),
+    spacer(),
+    p(
+      "That gap is real and should not be talked around. Part of it is structural and correct: the restated financial statements are the auditor's signed work product, the Articles of Association are reproduced verbatim from the company's own constitutional document, and the industry chapter in a real filing is usually a research report bought from an agency. Where it was measurable in the corpus, the Articles alone account for around 18% of a filing.",
+    ),
+    p(
+      "The rest of the gap is depth, and that is a genuine limitation rather than a design choice. A filed Our Business chapter runs to thousands of words; ours runs to hundreds. The standard-text chapters — Definitions, Terms of the Issue, Issue Structure, Issue Procedure, Restrictions on Foreign Ownership — have been written out in full because they are the same in every SME offer document and carry almost no factual risk. The issuer-specific narrative chapters have not, because depth there means either more issuer input or more model output, and the second of those is where hallucination risk lives.",
+    ),
+    callout(
+      "How to describe the output, and how not to",
+      "Do not call it a complete DRHP. Call it what it is: a structured, disclosure-mapped first draft that covers the requirement framework, carries the standard text in full, and marks every point where a professional must sign. Coverage of requirements and volume of prose are different axes, and the honest claim is the first one.",
+      "warn",
+    ),
+    spacer(),
+    h2("8.4  Placeholders are the design, not a shortfall"),
     p(
       `The ${shreeji.doc.stats.placeholders} placeholders in the bundled issuer's draft each sit at a legal signature point — the auditor's examination report, the tax-benefits certificate, counsel's tax particulars, the lock-in computation, the verbatim Articles, the executed declaration. Every one of them is something a named professional must sign. Generating text there would be the single most dangerous thing this product could do.`,
     ),
-    h2("8.4  The blank-issuer behaviour"),
+    h2("8.5  The blank-issuer behaviour"),
     p(
       `With nothing answered at all, Drafter reports ${f.blankGap.coveragePct}% coverage, the verdict "${f.blankGap.verdict.level}", ${f.blankGap.findingCounts.high} high-severity findings, and an eligibility verdict of "${f.blankElig.verdict.level}". It generates the full structure as placeholders and carries no trace of the bundled sample issuers. A tool that flattered an empty file would flatter a real one.`,
     ),
-    h2("8.5  Exports"),
+    h2("8.6  Exports"),
     table({
       widths: [2600, 2400, 4026],
       header: ["Export", "Route", "Contents"],
@@ -1462,7 +1489,18 @@ async function build() {
   const outDir = path.join(process.cwd(), "docs");
   mkdirSync(outDir, { recursive: true });
   const outPath = path.join(outDir, "Drafter-Team-Handbook.docx");
-  writeFileSync(outPath, await Packer.toBuffer(doc));
+  try {
+    writeFileSync(outPath, await Packer.toBuffer(doc));
+  } catch (error: any) {
+    // Word holds an exclusive lock on an open document, and the raw EBUSY
+    // stack trace gives no hint of that.
+    if (error?.code === "EBUSY" || error?.code === "EPERM") {
+      console.error(`\nCannot write ${outPath} — the file is open in another application.`);
+      console.error("Close it in Word (or whatever has it open) and run npm run handbook again.\n");
+      process.exit(1);
+    }
+    throw error;
+  }
 
   console.log(`Handbook written to ${outPath}`);
   console.log(

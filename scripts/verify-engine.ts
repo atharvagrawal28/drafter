@@ -771,6 +771,121 @@ async function main() {
 
   console.log("");
 
+  // ---- Standard offer-document text -------------------------------------
+  // The boilerplate chapters carry most of the document's bulk. Two things
+  // have to hold, and both fail silently.
+  //
+  // First, none of it may assert a regulatory threshold. A percentage or a day
+  // count written into standard text is a number nobody will re-derive, and it
+  // goes stale the next time a circular moves — which is precisely how a
+  // compliance tool ends up confidently wrong. Thresholds belong in issuer data
+  // (interpolated, so a missing one reads "Awaiting …") or deferred to the
+  // banker with "as prescribed".
+  //
+  // Second, none of it may be attributed to the issuer. Standard text the
+  // issuer never wrote, rendered as issuer-input, would be a false assertion of
+  // provenance in the one place this product claims to be trustworthy.
+  console.log(`${BOLD}Standard offer-document text${RESET}`);
+  {
+    const { sectionTemplates, structure } = await import("../lib/data");
+    const templates: any = sectionTemplates;
+    const struct: any = structure;
+
+    // A bare figure carrying a regulatory unit, outside {interpolation}.
+    //
+    // The trailing \b belongs ONLY on the word alternatives. Written as
+    // `(?:%|days?|...)\b` it can never match a percentage at all, because there
+    // is no word boundary after "%" — which is how the first version of this
+    // check reported a clean scan while being blind to the single most likely
+    // hard-coded threshold in an offer document. The planted case below is what
+    // exposed that.
+    const THRESHOLD = /(?<!\{)\b\d+(?:\.\d+)?\s*(?:%|(?:per ?cent|percent|days?|months?|crore|lakh)\b)/i;
+
+    const offenders: string[] = [];
+    const walk = (node: any, chapterId: string) => {
+      if (Array.isArray(node)) return node.forEach((n) => walk(n, chapterId));
+      if (!node || typeof node !== "object") return;
+      for (const [key, value] of Object.entries(node)) {
+        if (["p", "h", "note", "placeholder"].includes(key) && typeof value === "string") {
+          const hit = value.match(THRESHOLD);
+          if (hit) offenders.push(`${chapterId}: "${hit[0]}"`);
+        } else {
+          walk(value, chapterId);
+        }
+      }
+    };
+    for (const [chapterId, chapter] of Object.entries<any>(templates.chapters ?? {})) {
+      walk(chapter.clauses ?? [], chapterId);
+    }
+
+    assert(
+      offenders.length === 0,
+      `no standard clause hard-codes a regulatory threshold${offenders.length ? ` (${offenders.slice(0, 3).join("; ")})` : ""}`,
+    );
+
+    // The check must be able to fire, or it proves nothing.
+    const planted = [
+      { p: "General corporate purposes may not exceed 15% of the amount being raised." },
+      { p: "Refunds will be made within 4 days of the Bid/Issue Closing Date." },
+    ];
+    const plantedHits: string[] = [];
+    walk(planted, "planted");
+    for (const clause of planted) {
+      const hit = clause.p.match(THRESHOLD);
+      if (hit) plantedHits.push(hit[0]);
+    }
+    assert(
+      plantedHits.length === 2,
+      `and the check is not vacuous — it catches a planted "15%" and "4 days" (${plantedHits.join(", ")})`,
+    );
+
+    // Interpolated figures are the sanctioned way to state a number and must
+    // NOT trip the check, or the rule would push authors towards hard-coding.
+    assert(
+      !THRESHOLD.test("aggregating to INR {issue.issue_size} crore"),
+      "an interpolated figure is allowed — the rule bans assertions, not numbers",
+    );
+
+    // Every boilerplate chapter must be substantive rather than a stub.
+    const boilerplate = struct.sections
+      .flatMap((s: any) => s.chapters)
+      .filter((c: any) => c.mode === "boilerplate");
+    const stubs = boilerplate.filter((c: any) => {
+      const clauses = templates.chapters?.[c.id]?.clauses;
+      return !clauses || clauses.length < 4;
+    });
+    assert(
+      stubs.length === 0,
+      `every boilerplate chapter has real standard text${stubs.length ? ` (thin: ${stubs.map((c: any) => c.id).join(", ")})` : ` (${boilerplate.length} chapters)`}`,
+    );
+
+    // Provenance: standard text is never the issuer's word.
+    const doc: any = await generateDocument(sampleIssuers[0].data, {
+      issuerId: sampleIssuers[0].id,
+      useLlm: false,
+    });
+    const standardChapters = ["I.1", "VII.1", "VII.3", "VII.4"];
+    let misattributed = 0;
+    let standardBlocks = 0;
+    for (const id of standardChapters) {
+      const chapter = doc.chapters.find((c: any) => c.id === id);
+      for (const block of chapter?.blocks ?? []) {
+        if (block.provenance?.origin === "standard-clause") standardBlocks += 1;
+        if (block.provenance?.origin === "issuer-input") misattributed += 1;
+      }
+    }
+    assert(
+      misattributed === 0,
+      `standard text is never attributed to the issuer (${misattributed} misattributed across ${standardChapters.length} chapters)`,
+    );
+    assert(
+      standardBlocks > 40,
+      `and it is substantial rather than a token clause (${standardBlocks} standard-clause blocks)`,
+    );
+  }
+
+  console.log("");
+
   // ---- Nothing may declare a fixed width wider than a phone -------------
   // An SME promoter in India is as likely to be on a 375px phone as at a desk,
   // and SEBI's clause asks for something "simple enough for a first-time issuer
