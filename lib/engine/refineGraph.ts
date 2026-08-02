@@ -289,8 +289,19 @@ export const MODEL_TPM_BUCKET: Record<string, number> = {
 
 export const DEFAULT_TPM_BUCKET = 6_000;
 
-/** The largest prompt among the narrative chapters, measured, rounded up. */
-export const WORST_CASE_PROMPT_TOKENS = 2_100;
+/**
+ * The largest prompt among the narrative chapters, measured, rounded up.
+ *
+ * This grows whenever a chapter is given more context fields or a longer
+ * instruction, and understating it silently over-fans-out: the derived
+ * concurrency is computed from a slot cost that is smaller than the real one,
+ * and the extra chapter 429s. It was 2,100 when Risk Factors carried 21 context
+ * fields; deepening the narrative chapters took that chapter to 3,012.
+ *
+ * `verify-engine.ts` measures the real prompts and fails if this understates
+ * them, so it cannot drift again unnoticed.
+ */
+export const WORST_CASE_PROMPT_TOKENS = 3_100;
 
 /** Never fan out beyond this, whatever the arithmetic allows. */
 export const MAX_DRAFT_CONCURRENCY = 3;
@@ -312,16 +323,18 @@ export function burstTokenCost(concurrency: number, maxCompletionTokens: number)
  * the completion, so one chapter costs its prompt plus MAX_COMPLETION_TOKENS in
  * full and a burst is simply that times the fan-out.
  *
- * At 2,400 reserved and a 2,100-token worst-case prompt, each slot costs 4,500:
+ * At 2,900 reserved and a 3,100-token worst-case prompt, each slot costs 6,000:
  *
- *     llama-3.3-70b-versatile   12,000 bucket -> 2 in flight (9,000)
- *     openai/gpt-oss-120b        8,000 bucket -> 1 in flight (4,500)
- *     llama-3.1-8b-instant       6,000 bucket -> 1 in flight (4,500)
+ *     llama-3.3-70b-versatile   12,000 bucket -> 2 in flight (12,000)
+ *     openai/gpt-oss-120b        8,000 bucket -> 1 in flight ( 6,000)
+ *     llama-3.1-8b-instant       6,000 bucket -> 1 in flight ( 6,000)
  *
  * The reservation and the fan-out trade against each other directly, and the
- * reservation wins: dropping it to 1,800 would buy a third slot on the primary
- * model, but 1,800 is the length at which Risk Factors was observed truncating,
- * and losing that chapter to a template costs far more than the parallelism.
+ * reservation wins: dropping it would buy a third slot on the primary model,
+ * but 1,800 is the length at which Risk Factors was observed truncating, and
+ * losing that chapter to a template costs far more than the parallelism. The
+ * ceiling is instead set as high as concurrency 2 permits, which is what lets
+ * the deepened chapters run long without being cut off.
  *
  * Always at least 1: a bucket too small for even one chapter is a quota problem
  * for the retry logic to report, not a reason to draft nothing at all.

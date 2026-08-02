@@ -38,17 +38,23 @@ export const DEFAULT_MODEL = "llama-3.3-70b-versatile";
  * truncated across every run in this project's history; that is the evidence
  * that matters, not the mean.
  *
- * The saving was not worth it either. At concurrency 2 the burst costs 9,000 of
- * the 12,000-token bucket at 2,400, so the tighter ceiling bought no extra
- * parallelism — only a higher chance of dropping the single most important
+ * The saving was not worth it either: the tighter ceiling bought no extra
+ * parallelism, only a higher chance of dropping the single most important
  * chapter in the document to a template.
+ *
+ * It is now 2,900 rather than 2,400, which is the largest reservation that
+ * still fits two chapters in flight against the primary model's 12,000-token
+ * bucket alongside a 3,100-token worst-case prompt. Deepening the narrative
+ * chapters asks the model for materially more text, and a ceiling left at
+ * 2,400 would have answered that by truncating and falling back to templates.
+ * Raising it costs nothing that was being used.
  *
  * Truncation remains DETECTED rather than hoped against: a chapter cut off at
  * the ceiling comes back with finishReason "length" and is refused. Without that
  * check this regression would have shipped silently, since a half-finished
  * chapter still clears the 200-character floor and the figure validator.
  */
-export const MAX_COMPLETION_TOKENS = 2400;
+export const MAX_COMPLETION_TOKENS = 2900;
 
 export function getGroqKey(): string | null {
   const key = (process.env.GROQ_API_KEY ?? "").trim();

@@ -589,6 +589,46 @@ async function main() {
       "a reservation larger than the whole bucket still drafts one chapter",
     );
 
+    // WORST_CASE_PROMPT_TOKENS is the other input to the concurrency
+    // arithmetic, and understating it over-fans-out: the slot cost comes out
+    // smaller than reality and the extra chapter 429s. It grows silently
+    // whenever a chapter gains context fields or a longer instruction —
+    // deepening the narrative chapters took Risk Factors from ~2,033 to
+    // ~3,012 — so it is MEASURED here rather than trusted.
+    const { WORST_CASE_PROMPT_TOKENS } = await import("../lib/engine/refineGraph");
+    let measuredWorst = 0;
+    let worstChapter = "";
+    for (const issuer of sampleIssuers) {
+      await generateDocument(issuer.data, {
+        issuerId: issuer.id,
+        useLlm: true,
+        llmPriorityOnly: false,
+        draftNarrative: async (request) => {
+          const prompt = [
+            request.chapterTitle,
+            request.instruction,
+            ...request.mustCover,
+            JSON.stringify(request.context, null, 2),
+          ].join("\n");
+          // ~4 chars per token for English and JSON, plus the system prompt.
+          const tokens = Math.round(prompt.length / 4) + 700;
+          if (tokens > measuredWorst) {
+            measuredWorst = tokens;
+            worstChapter = `${issuer.id} ${request.chapterId}`;
+          }
+          return null;
+        },
+      });
+    }
+    assert(
+      measuredWorst <= WORST_CASE_PROMPT_TOKENS,
+      `the declared worst-case prompt still covers the real one (declared ${WORST_CASE_PROMPT_TOKENS}, measured ${measuredWorst} on ${worstChapter})`,
+    );
+    assert(
+      measuredWorst > WORST_CASE_PROMPT_TOKENS * 0.6,
+      `and is not so padded that it wastes the bucket (measured ${measuredWorst} against declared ${WORST_CASE_PROMPT_TOKENS})`,
+    );
+
     // The reservation is priced, so the temptation is to keep it tight. That
     // temptation has already been acted on once and was wrong: Risk Factors
     // measured 675 words / ~1,123 tokens on one run, the ceiling was cut to
@@ -881,6 +921,62 @@ async function main() {
     assert(
       standardBlocks > 40,
       `and it is substantial rather than a token clause (${standardBlocks} standard-clause blocks)`,
+    );
+  }
+
+  console.log("");
+
+  // ---- Risk factors are numbered after filtering, not before ------------
+  // Conditional risk factors used to carry hard-coded numbers, so an issuer
+  // with no litigation, no related-party dealings and no borrowings rendered
+  // "1, 2, 3, 5, 9, 10 …". Nothing threw; the document just looked defective,
+  // and the promoter had no way to know why. Numbering now happens at render
+  // time, after the `when` filter.
+  console.log(`${BOLD}Risk factor numbering${RESET}`);
+  {
+    const numbersIn = (doc: any): number[] => {
+      const chapter = doc.chapters.find((c: any) => c.id === "II.1");
+      const found: number[] = [];
+      for (const block of chapter?.blocks ?? []) {
+        const match = typeof block.text === "string" ? block.text.match(/^(\d+)\.\s/) : null;
+        if (match) found.push(Number(match[1]));
+      }
+      return found;
+    };
+    const contiguousFrom1 = (ns: number[]) => ns.every((n, i) => n === i + 1);
+
+    // A deliberately bare issuer: no manufacturing, litigation, debt or
+    // related parties, so most conditional factors are filtered out. This is
+    // the case that exposed the defect.
+    const lean: any = {
+      identity: { company_name: "Lean Services Limited", cin: "U00000MH2020PLC000000" },
+      business: { industry: "facilities management", business_description: "Services.", revenue_stated: 10 },
+      issue: { face_value: 10, issue_size: 12 },
+    };
+    const leanDoc: any = await generateDocument(lean, { issuerId: "lean", useLlm: false });
+    const leanNumbers = numbersIn(leanDoc);
+    assert(
+      leanNumbers.length > 10,
+      `a bare issuer still gets a substantive risk factors chapter (${leanNumbers.length} factors)`,
+    );
+    assert(
+      contiguousFrom1(leanNumbers),
+      `and they run 1..n with no gaps where conditional factors were filtered (${leanNumbers.join(",")})`,
+    );
+
+    for (const issuer of sampleIssuers) {
+      const doc: any = await generateDocument(issuer.data, { issuerId: issuer.id, useLlm: false });
+      const ns = numbersIn(doc);
+      assert(
+        contiguousFrom1(ns) && ns.length > 20,
+        `${issuer.id}: ${ns.length} risk factors, numbered 1..${ns[ns.length - 1]} with no gaps`,
+      );
+    }
+
+    // The check must be able to fail, or it proves nothing about the renderer.
+    assert(
+      !contiguousFrom1([1, 2, 3, 5, 9]),
+      "and the contiguity test is not vacuous — it rejects the 1,2,3,5,9 sequence this replaced",
     );
   }
 

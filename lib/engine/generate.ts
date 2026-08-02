@@ -245,6 +245,14 @@ function renderClauses(
 ): Block[] {
   const blocks: Block[] = [];
 
+  // Risk factors are numbered at RENDER time, after the `when` filter, not
+  // written into the template text. Hard-coded numbers were producing
+  // "1, 2, 3, 5, 9, 10 …" for any issuer without litigation, related-party
+  // dealings or borrowings, because the conditional factors took their numbers
+  // with them. A filed offer document with gaps in its risk-factor numbering
+  // looks defective, and the promoter has no way to know why.
+  let riskFactorNumber = 0;
+
   for (const clause of clauses ?? []) {
     if (!evalWhen(clause.when, ctx)) continue;
 
@@ -268,6 +276,19 @@ function renderClauses(
         text,
         provenance: {
           ...provenance(referencedPaths(clause.p)),
+          note: missing.length
+            ? `Awaiting: ${missing.map(humanise).join(", ")}.`
+            : provenance().note,
+        },
+      });
+    } else if (clause.rf) {
+      riskFactorNumber += 1;
+      const { text, missing } = interpolate(clause.rf, ctx);
+      blocks.push({
+        kind: "para",
+        text: `${riskFactorNumber}. ${text}`,
+        provenance: {
+          ...provenance(referencedPaths(clause.rf)),
           note: missing.length
             ? `Awaiting: ${missing.map(humanise).join(", ")}.`
             : provenance().note,

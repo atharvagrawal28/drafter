@@ -569,7 +569,7 @@
     "II.1": {
       "title": "Risk Factors",
       "mode": "narrative",
-      "instruction": "Draft the Risk Factors chapter of an Indian SME IPO offer document. Open with the standard prefatory paragraph explaining that investors should read the section carefully and that the risks are not exhaustive and are not in order of priority. Then draft INTERNAL (company-specific) risk factors derived ONLY from the issuer data supplied, followed by EXTERNAL/INDUSTRY risks and ISSUE-RELATED risks. Each risk factor must be numbered, begin with a short bold-style heading sentence stating the risk, and continue with two to four sentences explaining the exposure and its potential consequence for the business, results of operations, cash flows or financial condition. Use the restrained, formal register of a filed prospectus: no marketing language, no reassurance, no superlatives, and no mitigating claims that the issuer data does not support. Quantify wherever the data allows (customer shares, revenue, borrowings, capacity utilisation). Where litigation or a related-party dependency exists in the issuer data, it MUST appear as a risk factor. Do not invent any fact, number, customer name or event that is not present in the issuer data.",
+      "instruction": "Draft the 'Risk Factors' chapter of an Indian SME IPO offer document. Open with the standard framing paragraph explaining that investors should consider all the information in the document, that the risks described are not exhaustive, and that additional risks not presently known may also impair the business. Then set out the risk factors as a NUMBERED list, each beginning with the number followed by a full stop, and each in its own paragraph separated by a blank line. Write AT LEAST TWENTY separate numbered risk factors where the issuer data supports them. Each risk factor must begin with a bold-free one-sentence statement of the risk in the register of a filed prospectus, followed by two or three sentences of elaboration drawn ONLY from the issuer data supplied. Group the risk factors so that internal risks come before external and industry risks, and issue-related risks come last. Cover, where the data supports it: revenue and customer concentration, with the percentages stated exactly as supplied; dependence on a small number of suppliers; promoter and related-party dependence, including the shareholding percentage and any related-party amount supplied; indebtedness, including the secured and unsecured split; the fact that properties are leased rather than owned where that is stated; intellectual property; litigation; key managerial personnel dependence; capacity utilisation; working capital; regulatory approvals and licences; and the issue-related risks of no prior market, price volatility and dilution. NEVER state that a risk is mitigated, managed, hedged or unlikely unless the issuer data says so in terms. Do not soften a risk with reassurance. Do not invent a figure, a customer name, a proceeding or a covenant that is not present in the issuer data.",
       "must_cover": [
         "customer concentration",
         "supplier and raw-material dependence",
@@ -580,7 +580,15 @@
         "indebtedness and covenant risk",
         "key managerial dependence",
         "industry and external risks",
-        "issue-related risks including SME platform liquidity"
+        "issue-related risks including SME platform liquidity",
+        "promoter and related-party dependence",
+        "indebtedness and financing risk",
+        "leased premises and property risk",
+        "intellectual property risk",
+        "key managerial personnel dependence",
+        "capacity utilisation risk",
+        "regulatory approvals and licences",
+        "issue-related risks including no prior market and dilution"
       ],
       "context_fields": [
         "identity.company_name",
@@ -603,71 +611,148 @@
         "indebtedness.total_borrowings",
         "indebtedness.lenders",
         "issue.price_band",
-        "issue_structure.listing_platform"
+        "issue_structure.listing_platform",
+        "promoters.promoter_shareholding_pct",
+        "promoters.promoter_details",
+        "management.related_party_amount",
+        "management.kmp",
+        "indebtedness.secured",
+        "indebtedness.unsecured",
+        "business.intellectual_property",
+        "business.immovable_properties",
+        "business.kpis",
+        "legal.approvals",
+        "legal.pending_approvals"
       ],
       "fallback": [
         {
-          "p": "An investment in equity shares involves a high degree of risk. Investors should carefully consider all the information in this Draft Red Herring Prospectus, including the risks and uncertainties described below, together with the Restated Financial Statements, before making an investment decision. If any of the following risks, or other risks that are not currently known or are currently deemed immaterial, actually occur, the business, results of operations, cash flows and financial condition of the Company could be materially and adversely affected, the trading price of the equity shares could decline, and investors may lose all or part of their investment. The risks below are not exhaustive and are not set out in any order of priority or of the magnitude of their potential impact."
+          "p": "An investment in equity shares involves a high degree of risk. Investors should carefully consider all the information in this Draft Red Herring Prospectus, including the risks described below and the Restated Financial Statements, before making an investment decision. The risks described below are not the only ones the Company faces; additional risks not presently known to the Company, or that it currently considers immaterial, may also impair its business, results of operations, cash flows and financial condition."
+        },
+        {
+          "p": "The Company has not quantified the financial impact of each risk factor, save where stated. The order in which the risk factors appear is not an indication of their relative importance or of the probability of their occurrence."
         },
         {
           "h": "Internal risk factors"
         },
         {
-          "p": "1. The Company derives a substantial proportion of its revenue from a limited number of customers. The Company has disclosed its principal customers and their respective contribution to revenue as follows: {business.top_customers}. The loss of any of these customers, a reduction in the volume of orders placed by them, a renegotiation of commercial terms, or a delay or default in payment by them, could materially and adversely affect the Company's revenue, profitability and cash flows. The Company does not have committed offtake arrangements that guarantee minimum volumes over the life of its supply relationships."
+          "rf": "The Company derives a substantial proportion of its revenue from a limited number of customers, and the loss of any of them, or a reduction in the volumes they place, could adversely affect its results of operations. The proportion of revenue attributable to the Company's largest customers is set out under \"Our Business\"."
         },
         {
-          "p": "2. The Company is dependent on a limited supplier base and on the price of its principal raw materials. {business.suppliers} An interruption in supply, a deterioration in the commercial terms available to the Company, or a sustained increase in input prices that the Company is unable to pass on to customers under its existing pricing arrangements, would compress margins and adversely affect results of operations.",
+          "rf": "The Company does not have long-term firm-volume commitments from its customers, and orders are placed against rate contracts or purchase orders. There can be no assurance that historical volumes will continue.",
+          "when": "business.top_customers"
+        },
+        {
+          "rf": "The Company is dependent on a limited supplier base and on the price of its principal raw materials, and an interruption in supply or an increase in input prices that cannot be passed on could affect its margins.",
           "when": "business.has_manufacturing"
         },
         {
-          "p": "2. The Company is dependent on its ability to recruit, deploy and retain personnel at the cost assumed in its customer contracts. The Company has described its workforce as follows: {business.employees}. Increases in statutory minimum wages, provident fund or other employment costs that cannot be passed through to customers under existing contracts would directly compress margins, and an inability to deploy personnel to the standard required could result in the loss of a contract.",
+          "rf": "The Company is dependent on its ability to recruit, deploy and retain personnel at the cost assumed in its pricing, and an increase in attrition or in wage costs could affect its results of operations.",
           "when": "!business.has_manufacturing"
         },
         {
-          "p": "3. The Company's operations are working-capital intensive and its operating cash flow has been lower than its reported profit. Revenue from operations for the latest financial year was INR {financials.revenue_latest_year} crore and profit after tax was INR {financials.pat_latest_year} crore, while net cash generated from operating activities was INR {computed.cashFlowLatest} crore. Any extension of customer credit periods, build-up of inventory, or delay in collections could constrain liquidity and increase the Company's reliance on borrowed funds."
+          "rf": "The Company's operations are working-capital intensive, and delays in collection from customers or an increase in inventory holding could constrain its liquidity."
         },
         {
-          "p": "4. The Company's manufacturing operations are concentrated at a limited number of facilities and depend on continued capacity utilisation. {business.plants_capacity} Any disruption at these facilities arising from equipment failure, industrial action, fire, natural calamity, interruption of power or water supply, or the suspension or non-renewal of a statutory consent, would directly interrupt the Company's ability to supply its customers.",
+          "rf": "The Company's manufacturing operations are concentrated at a limited number of facilities, and any disruption at those facilities, whether from breakdown, fire, industrial action, natural calamity or the loss of a statutory approval, could interrupt production.",
           "when": "business.plants_capacity"
         },
         {
-          "p": "5. A portion of the Net Proceeds is to be applied to capital expenditure that has not yet been incurred, and the Company has not entered into definitive arrangements for its entire proposed deployment. The proposed deployment described under \"Objects of the Issue\" is based on management estimates and has not been appraised by any bank or financial institution. Cost overruns, delays in commissioning, or a failure to secure the volumes assumed for the additional capacity could mean that the expected benefits of the expansion are not realised."
+          "rf": "The Company's manufacturing facilities have operated below their installed capacity, and there can be no assurance that utilisation will improve or that the capital expenditure proposed will achieve the utilisation assumed.",
+          "when": "business.plants_capacity"
         },
         {
-          "p": "6. The Company is party to outstanding proceedings, an adverse outcome in which could affect its financial condition. {legal.litigation} Legal and regulatory proceedings are inherently uncertain, and the Company may be required to make provisions or payments, or may incur costs in defending such matters, that adversely affect its results of operations.",
+          "rf": "A portion of the Net Proceeds is to be applied to capital expenditure that has not yet been incurred, and the deployment of those proceeds has not been appraised by any bank or financial institution. Any delay or cost overrun would affect the benefits expected from the Issue."
+        },
+        {
+          "rf": "The objects of the Issue are based on management estimates and on quotations that are not binding, and the actual cost may differ from the amounts stated under \"Objects of the Issue\"."
+        },
+        {
+          "rf": "The Company is party to outstanding proceedings, an adverse outcome in which could affect its business and financial condition. Particulars appear under \"Outstanding Litigation and Material Developments\".",
           "when": "computed.hasLitigation"
         },
         {
-          "p": "7. The Company transacts with entities connected to its promoters, and those relationships may not be on arm's-length terms. {management.related_parties} Any adverse change in these arrangements, a determination that they were not conducted at arm's length, or a conflict between the interests of the promoters and those of the Company, could adversely affect the Company's operations and reputation.",
+          "rf": "The Company transacts with entities connected to its promoters, and those relationships may give rise to conflicts of interest. Particulars of related-party transactions appear in the Restated Financial Statements.",
           "when": "computed.hasRelatedParty"
         },
         {
-          "p": "8. The Company has outstanding indebtedness of INR {indebtedness.total_borrowings} crore, and its financing arrangements contain restrictive covenants. {indebtedness.lenders} These arrangements require the Company to service interest and principal irrespective of its operating performance, restrict its ability to incur further indebtedness or create security, and may require lender consent for certain corporate actions. A breach of covenant could result in acceleration of repayment or enforcement of security over the Company's assets.",
+          "rf": "The Company has outstanding indebtedness of INR {indebtedness.total_borrowings} crore, and its financing arrangements contain covenants that restrict its operations and may require lender consent for corporate actions.",
           "when": "indebtedness.total_borrowings"
         },
         {
-          "p": "9. The Company depends on its promoters and a small senior management team. {promoters.promoter_names} have led the Company's operations and hold key customer and supplier relationships. The loss of the services of the promoters or of other key managerial personnel, or an inability to attract and retain qualified personnel, could adversely affect the Company's ability to operate and to execute its stated strategy."
+          "rf": "A portion of the Company's borrowings is secured against its assets, and a default could permit the lenders to enforce that security.",
+          "when": "indebtedness.secured"
+        },
+        {
+          "rf": "The Company depends on its promoters and a small senior management team, and the loss of their services could affect its operations. {promoters.promoter_details}"
+        },
+        {
+          "rf": "The promoters hold {promoters.promoter_shareholding_pct}% of the pre-issue equity share capital of the Company and will continue to exercise significant control after the Issue, including over matters requiring shareholder approval.",
+          "when": "promoters.promoter_shareholding_pct"
+        },
+        {
+          "rf": "The Company occupies certain of its premises on lease rather than as owner, and the non-renewal or termination of any such lease could require it to relocate operations at short notice.",
+          "when": "business.immovable_properties"
+        },
+        {
+          "rf": "The Company's rights in its intellectual property may be inadequate to protect its business, and it may be subject to claims that it has infringed the intellectual property of others.",
+          "when": "business.intellectual_property"
+        },
+        {
+          "rf": "The Company requires statutory approvals and licences to operate, and the failure to obtain, renew or comply with the conditions of any of them could interrupt its operations.",
+          "when": "legal.approvals"
+        },
+        {
+          "rf": "Certain approvals required for the Company's operations or for the Issue have been applied for but not yet obtained. Particulars appear under \"Government and Other Approvals\".",
+          "when": "legal.pending_approvals"
+        },
+        {
+          "rf": "The Company has not independently verified the industry data contained in this Draft Red Herring Prospectus, and that data should not be relied upon as the basis for an investment decision.",
+          "when": "business.industry_overview"
+        },
+        {
+          "rf": "The Restated Financial Statements have been prepared for the purposes of the Issue and are not the Company's statutory financial statements, and the restatement adjustments may not be comparable with those of other issuers."
         },
         {
           "h": "External and industry risk factors"
         },
         {
-          "p": "10. The Company operates in the {business.industry} sector and its performance is linked to conditions in that sector and in the broader economy. A slowdown in end-user demand, changes in customer production plans, technological change affecting the Company's products, or the entry of competitors with greater financial or technical resources, could reduce the Company's volumes and pricing. The Company competes with both organised and unorganised participants, some of whom may accept lower margins."
+          "rf": "The Company operates in the {business.industry} sector and its performance is linked to conditions in that sector, over which it has no control."
         },
         {
-          "p": "11. The Company's operations are subject to extensive regulation and require statutory approvals which must be maintained and periodically renewed. {legal.approvals} The failure to obtain, maintain or renew any material approval, or a change in the applicable regulatory regime including in environmental, labour or taxation law, could interrupt operations or increase the Company's cost of compliance."
+          "rf": "The Company faces competition from organised and unorganised participants, some of which may have greater financial and operational resources, and competitive pressure could affect its pricing and margins."
+        },
+        {
+          "rf": "The Company's operations are subject to extensive regulation, and changes in law, taxation or policy, including changes with retrospective effect, could increase its costs or restrict its operations."
+        },
+        {
+          "rf": "A slowdown in economic growth in India, or an increase in interest rates or inflation, could adversely affect the demand for the Company's products and services and its cost of borrowing."
+        },
+        {
+          "rf": "Natural calamities, pandemics, civil unrest or other force majeure events could disrupt the Company's operations and those of its customers and suppliers."
         },
         {
           "h": "Issue-related risk factors"
         },
         {
-          "p": "12. There has been no public market for the equity shares and an active or sustained trading market may not develop. The equity shares are proposed to be listed on {issue_structure.listing_platform}. Securities listed on the SME platform are typically less liquid than securities listed on the main board, are traded in specified lot sizes, and may exhibit greater price volatility. Investors may be unable to sell the equity shares at or above the Issue price, or at all."
+          "rf": "There has been no public market for the equity shares and an active or sustained trading market may not develop after the Issue."
         },
         {
-          "p": "13. The Issue price is not indicative of the market price of the equity shares after the Issue. The Issue price of {issue.price_band} has been determined by the Company in consultation with the Lead Manager on the basis of the factors described under \"Basis for Issue Price\", and should not be taken to be indicative of the market price of the equity shares after listing. The market price may be affected by the Company's results, conditions in the {business.industry} sector, and general market conditions, and may decline below the Issue price."
+          "rf": "The Issue price is not indicative of the market price of the equity shares after the Issue, and the price may be volatile. The basis for the Issue price is set out under \"Basis for Issue Price\"."
         },
         {
-          "p": "14. The Company's ability to pay dividends in the future will depend on its earnings, capital requirements and financing arrangements. {dividend.dividend_history} The Company intends to retain earnings to fund the expansion described under \"Objects of the Issue\", and there is no assurance that it will declare dividends in any future period."
+          "rf": "The equity shares are proposed to be listed on the SME platform, on which trading volumes and liquidity may be lower than on the main board, and the applicable market lot may be larger."
+        },
+        {
+          "rf": "Investors will experience immediate dilution, as the Issue price is higher than the net asset value per equity share before the Issue."
+        },
+        {
+          "rf": "The Company's ability to pay dividends in the future will depend on its earnings, capital requirements and financing arrangements, and there can be no assurance that it will pay dividends."
+        },
+        {
+          "rf": "Any future issue of equity shares by the Company, or any sale of equity shares by the promoters after the expiry of the applicable lock-in, could affect the market price of the equity shares."
+        },
+        {
+          "note": "The risk factors above are generated from the issuer data supplied and are numbered automatically after conditional factors are filtered. The merchant banker must confirm that every material risk specific to the Company has been captured, quantify the financial impact where the ICDR Regulations require it, and order the factors by materiality before filing."
         }
       ]
     },
@@ -681,7 +766,8 @@
         "basis of competition",
         "input cost dynamics",
         "regulatory or structural constraints",
-        "the issuer's position within the industry"
+        "the issuer's position within the industry",
+        "the Company's position within the industry, described only from supplied data"
       ],
       "context_fields": [
         "business.industry",
@@ -690,7 +776,8 @@
         "business.products_services",
         "business.competitive_strengths",
         "business.top_customers",
-        "business.plants_capacity"
+        "business.plants_capacity",
+        "business.has_manufacturing"
       ],
       "fallback": [
         {
@@ -716,7 +803,7 @@
     "IV.2": {
       "title": "Our Business",
       "mode": "narrative",
-      "instruction": "Draft the 'Our Business' chapter of an Indian SME IPO offer document. Cover, in this order: an overview of what the Company does; its products and services; how it earns revenue; its manufacturing or service delivery operations and capacity; its customers and the concentration of revenue among them, stated explicitly with the percentages given; its suppliers and procurement; its employees; its competitive strengths; and its business strategies. Use the formal, restrained register of a filed prospectus with no marketing language and no superlatives. For revenue from operations, state the value of 'business.revenue_stated' EXACTLY as supplied, without rounding — this is the figure the issuer asserts for this chapter. Do not invent any customer name, number, certification, capacity or contract that is not present in the issuer data.",
+      "instruction": "Draft the 'Our Business' chapter of an Indian SME IPO offer document. Use sub-headings and cover, in this order: an overview of what the Company does; its products and services; how it earns revenue; its manufacturing or service-delivery operations, including installed capacity and utilisation where supplied; its key performance indicators; its customers and the concentration of revenue among them, stated explicitly with the percentages given; its suppliers and procurement; its intellectual property; its immovable properties, stating clearly whether they are owned or leased; its employees; its competitive strengths; and its business strategies. Write several sentences under each sub-heading rather than one. Where the issuer data gives a list — of customers, plants, properties or performance indicators — enumerate the items in full rather than summarising them. Use the formal, restrained register of a filed prospectus, with no marketing language and no superlatives. For revenue from operations, state the value of 'business.revenue_stated' EXACTLY as supplied, without rounding — this is the figure the issuer asserts for this chapter. Do not invent any customer name, number, certification, capacity, property or contract that is not present in the issuer data. Where a sub-heading has no supporting data, state that the particulars are to be supplied rather than filling the gap.",
       "must_cover": [
         "business description",
         "products and services",
@@ -726,7 +813,11 @@
         "suppliers",
         "employees",
         "competitive strengths",
-        "strategies"
+        "strategies",
+        "key performance indicators",
+        "intellectual property",
+        "immovable properties and whether owned or leased",
+        "capacity utilisation"
       ],
       "context_fields": [
         "identity.company_name",
@@ -741,7 +832,12 @@
         "business.plants_capacity",
         "business.employees",
         "business.competitive_strengths",
-        "business.business_strategies"
+        "business.business_strategies",
+        "business.intellectual_property",
+        "business.immovable_properties",
+        "business.kpis",
+        "business.has_manufacturing",
+        "identity.corporate_office"
       ],
       "_context_note": "financials.revenue_latest_year is deliberately EXCLUDED from this chapter's context. 'Our Business' states the revenue the issuer asserts (business.revenue_stated); the audited figure belongs to Chapter V.1. Withholding it means the model cannot silently reconcile the two — the R2.4 cross-check exists precisely to surface that discrepancy, and a drafter that quietly harmonised it would defeat the checker.",
       "fallback": [
@@ -771,6 +867,21 @@
           "when": "business.plants_capacity"
         },
         {
+          "placeholder": "Particulars of the Company's manufacturing facilities, installed capacity and capacity utilisation for each of the last three financial years.",
+          "requiredInputs": [
+            "Installed capacity of each facility",
+            "Actual production and capacity utilisation for each of the last three financial years"
+          ],
+          "when": "!business.plants_capacity"
+        },
+        {
+          "h": "Key performance indicators"
+        },
+        {
+          "p": "The Company tracks the key performance indicators set out below. These are read together with the Restated Financial Statements and with the section titled Management's Discussion and Analysis of Financial Condition and Results of Operations.",
+          "when": "business.kpis"
+        },
+        {
           "h": "Our customers"
         },
         {
@@ -782,6 +893,36 @@
         {
           "p": "{business.suppliers}",
           "when": "business.suppliers"
+        },
+        {
+          "h": "Intellectual property"
+        },
+        {
+          "p": "{business.intellectual_property}",
+          "when": "business.intellectual_property"
+        },
+        {
+          "placeholder": "Particulars of the intellectual property owned or used by the Company.",
+          "requiredInputs": [
+            "Registered trademarks, patents and designs, with registration numbers and classes",
+            "Any intellectual property used under licence"
+          ],
+          "when": "!business.intellectual_property"
+        },
+        {
+          "h": "Our properties"
+        },
+        {
+          "p": "{business.immovable_properties}",
+          "when": "business.immovable_properties"
+        },
+        {
+          "placeholder": "Particulars of the immovable properties held by the Company, stating in each case whether the property is owned or held on lease.",
+          "requiredInputs": [
+            "Address and use of each property",
+            "Whether owned or leased, and the tenure of each lease"
+          ],
+          "when": "!business.immovable_properties"
         },
         {
           "h": "Our employees"
@@ -807,11 +948,15 @@
     "IV.4": {
       "title": "History and Certain Corporate Matters",
       "mode": "narrative",
-      "instruction": "Draft the 'History and Certain Corporate Matters' chapter. State the incorporation particulars, the main objects as set out in the Memorandum of Association, and the principal events in the Company's corporate history evidenced by the share capital history supplied. Write factually and without embellishment. Do not invent events, awards, milestones or dates that are not present in the issuer data.",
+      "instruction": "Draft the 'History and Certain Corporate Matters' chapter of an Indian SME IPO offer document. Use sub-headings and cover: the incorporation of the Company, giving its name, date and place of incorporation and its Corporate Identification Number exactly as supplied; the address of its registered office and of its corporate office where these differ; the main objects as set out in the Memorandum of Association; the principal milestones in the Company's history in chronological order; the promoters of the Company and their background; and whether the Company has any subsidiary, holding company or joint venture. Write several sentences under each sub-heading. Where a date, a place or a registration number is supplied, reproduce it exactly. Use the formal register of a filed prospectus. Do not invent a milestone, an acquisition, a name change, a subsidiary or a corporate event that is not present in the issuer data. Where the data does not support a sub-heading, state that the particulars are to be supplied.",
       "must_cover": [
         "incorporation particulars",
         "main objects",
-        "principal corporate events"
+        "principal corporate events",
+        "registered and corporate office",
+        "promoters and their background",
+        "subsidiaries, holding company and joint ventures",
+        "principal milestones in chronological order"
       ],
       "context_fields": [
         "identity.company_name",
@@ -820,43 +965,101 @@
         "identity.incorporation_place",
         "identity.registered_office",
         "identity.moa_objects",
-        "capital_structure.share_capital_history"
+        "capital_structure.share_capital_history",
+        "identity.corporate_office",
+        "identity.company_secretary",
+        "promoters.promoter_names",
+        "promoters.promoter_details",
+        "promoters.promoter_shareholding_pct",
+        "management.subsidiaries"
       ],
       "fallback": [
         {
           "h": "Brief history of the Company"
         },
         {
-          "p": "{identity.company_name} was incorporated on {identity.incorporation_date} at {identity.incorporation_place} under the Companies Act, and holds Corporate Identification Number {identity.cin}. The registered office of the Company is situated at {identity.registered_office}."
+          "p": "{identity.company_name} was incorporated on {identity.incorporation_date} at {identity.incorporation_place}, and holds Corporate Identification Number {identity.cin}. The registered office of the Company is at {identity.registered_office}."
+        },
+        {
+          "p": "The corporate office of the Company is at {identity.corporate_office}.",
+          "when": "identity.corporate_office"
         },
         {
           "h": "Main objects of the Company"
         },
         {
-          "p": "The main objects of the Company as set out in Clause III(A) of its Memorandum of Association are as follows: {identity.moa_objects}"
+          "p": "The main objects of the Company as set out in Clause III(A) of its Memorandum of Association are: {identity.moa_objects}"
         },
         {
           "h": "Key events in the corporate history of the Company"
         },
         {
-          "p": "The principal events in the corporate history of the Company are evidenced by the history of its equity share capital, which is set out under \"Capital Structure\". Details of any change in the registered office, any amendment to the Memorandum of Association, and any acquisition, amalgamation, scheme of arrangement or material agreement are to be confirmed by the merchant banker against the Company's statutory records."
+          "p": "The principal events in the corporate history of the Company are evidenced by the history of its share capital, which is set out under \"Capital Structure\", and by the changes in its constitution recorded with the Registrar of Companies."
         },
         {
-          "note": "The merchant banker must verify this chapter against the Company's MCA filings, minute books and statutory registers, and add particulars of any shareholders' agreement, joint venture, strategic partnership or material acquisition."
+          "placeholder": "A chronological table of the key events and milestones in the corporate history of the Company.",
+          "requiredInputs": [
+            "Date and description of each material corporate event",
+            "Any change of name, registered office or objects, with the date and the reason",
+            "Any acquisition, merger, amalgamation or divestment"
+          ]
+        },
+        {
+          "h": "Our promoters"
+        },
+        {
+          "p": "The promoters of the Company are {promoters.promoter_names}. {promoters.promoter_details}",
+          "when": "promoters.promoter_names"
+        },
+        {
+          "p": "The promoters hold {promoters.promoter_shareholding_pct}% of the pre-issue equity share capital of the Company. Particulars of the promoters' contribution and of the lock-in applicable to it appear under \"Capital Structure\".",
+          "when": "promoters.promoter_shareholding_pct"
+        },
+        {
+          "h": "Subsidiaries, holding company and joint ventures"
+        },
+        {
+          "p": "{management.subsidiaries}",
+          "when": "management.subsidiaries"
+        },
+        {
+          "placeholder": "Confirmation of whether the Company has any subsidiary, holding company, associate or joint venture, and particulars of each.",
+          "requiredInputs": [
+            "Name and shareholding of each subsidiary, associate and joint venture",
+            "Confirmation where there are none"
+          ],
+          "when": "!management.subsidiaries"
+        },
+        {
+          "h": "Shareholders' agreements and other material agreements"
+        },
+        {
+          "placeholder": "Particulars of any shareholders' agreement, joint venture agreement, or other material agreement to which the Company is a party, and of any special right conferred on any shareholder.",
+          "requiredInputs": [
+            "Copies of any shareholders' or investor agreements in force",
+            "Confirmation that no special rights survive the Issue, or particulars of those that do"
+          ]
+        },
+        {
+          "note": "The merchant banker must verify this chapter against the Company's MCA filings, minute books and statutory registers, and confirm the corporate history from incorporation to the date of filing."
         }
       ]
     },
     "V.2": {
       "title": "Management's Discussion and Analysis of Financial Condition and Results of Operations",
       "mode": "narrative",
-      "instruction": "Draft the Management's Discussion and Analysis chapter. Cover: the basis of preparation; the significant factors affecting the results of operations; a year-on-year discussion of revenue from operations, EBITDA, profit after tax and net worth across the three restated financial years, explaining the direction of each movement using the drivers supplied; liquidity and capital resources including operating cash flow and borrowings; and known trends and uncertainties. Every number you state must be taken from the issuer data supplied — do not compute or assert any figure that is not given, and do not invent explanations for movements beyond the drivers supplied. Write in the register of a filed prospectus.",
+      "instruction": "Draft the 'Management's Discussion and Analysis of Financial Condition and Results of Operations' chapter of an Indian SME IPO offer document. Use sub-headings and cover: an overview; the significant factors affecting the results of operations; a discussion of the results of operations for each financial year supplied, taking revenue from operations, other income, expenses, finance costs, depreciation, profit before tax and profit after tax in turn and comparing each year with the preceding year; the key performance indicators; liquidity and capital resources; indebtedness, stating the secured and unsecured amounts separately where supplied; related-party transactions; capital expenditure and capacity utilisation; and the significant developments after the date of the last balance sheet. For every year-on-year comparison, state both figures exactly as supplied and describe the direction of the movement. Do NOT compute a growth rate, a margin or a percentage change unless that figure is itself present in the issuer data. Use the formal register of a filed prospectus. Do not attribute a movement to a cause unless the issuer data states that cause. Where the data does not support a sub-heading, state that the particulars are to be supplied.",
       "must_cover": [
         "basis of preparation",
         "significant factors affecting results",
         "year-on-year revenue discussion",
         "profitability discussion",
         "liquidity and capital resources",
-        "known trends and uncertainties"
+        "known trends and uncertainties",
+        "key performance indicators",
+        "indebtedness including secured and unsecured amounts",
+        "related-party transactions",
+        "capital expenditure and capacity utilisation"
       ],
       "context_fields": [
         "financials.years",
@@ -869,7 +1072,12 @@
         "business.mda_drivers",
         "business.industry",
         "indebtedness.total_borrowings",
-        "indebtedness.terms"
+        "indebtedness.terms",
+        "business.kpis",
+        "indebtedness.secured",
+        "indebtedness.unsecured",
+        "management.related_party_amount",
+        "business.plants_capacity"
       ],
       "fallback": [
         {
@@ -902,6 +1110,41 @@
         },
         {
           "p": "Following the Issue, the Company expects to apply the Net Proceeds to the objects described under \"Objects of the Issue\". The Company's ability to meet its ongoing working-capital requirements will continue to depend on its operating cash flows and on the availability of its existing credit facilities."
+        },
+        {
+          "h": "Indebtedness"
+        },
+        {
+          "p": "As at the end of {computed.latestYear}, the Company had total borrowings of INR {indebtedness.total_borrowings} crore, of which INR {indebtedness.secured} crore was secured and INR {indebtedness.unsecured} crore was unsecured. Particulars of the Company's financing arrangements appear under \"Financial Indebtedness\".",
+          "when": "indebtedness.total_borrowings"
+        },
+        {
+          "p": "The Company had no outstanding borrowings as at the end of {computed.latestYear}.",
+          "when": "!indebtedness.total_borrowings"
+        },
+        {
+          "h": "Related-party transactions"
+        },
+        {
+          "p": "The Company has entered into transactions with related parties in the ordinary course of business. The aggregate value of related-party transactions in {computed.latestYear} was INR {management.related_party_amount} crore. Particulars appear in the Restated Financial Statements.",
+          "when": "management.related_party_amount"
+        },
+        {
+          "h": "Capital expenditure and capacity utilisation"
+        },
+        {
+          "p": "{business.plants_capacity} The capital expenditure proposed to be funded from the Net Proceeds is described under \"Objects of the Issue\".",
+          "when": "business.plants_capacity"
+        },
+        {
+          "h": "Off-balance sheet arrangements and contingent liabilities"
+        },
+        {
+          "placeholder": "Particulars of the Company's contingent liabilities and commitments, and of any off-balance sheet arrangement, as certified by the Statutory Auditors.",
+          "requiredInputs": [
+            "Contingent liabilities as disclosed in the restated financial statements",
+            "Capital commitments outstanding as at the last balance sheet date"
+          ]
         },
         {
           "h": "Known trends and uncertainties"
