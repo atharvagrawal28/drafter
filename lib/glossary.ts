@@ -41,7 +41,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "DRHP",
     aliases: ["draft red herring prospectus", "offer document", "draft offer document"],
     plain:
-      "The Draft Red Herring Prospectus — the document a company files before an IPO that tells investors everything material about the business. It is called a draft because the final price is not in it yet.",
+      "The Draft Red Herring Prospectus, the document a company files before an IPO that tells investors everything material about the business. It is called a draft because the final price is not in it yet.",
     matters:
       "This is the document Drafter is helping you produce. It is the single largest piece of work in an SME listing.",
   },
@@ -49,14 +49,14 @@ const ENTRIES: GlossaryEntry[] = [
     term: "ICDR Regulations",
     aliases: ["icdr", "sebi icdr"],
     plain:
-      "SEBI's rulebook for raising capital from the public — the Issue of Capital and Disclosure Requirements Regulations, 2018. It sets out what an offer document must contain.",
+      "SEBI's rulebook for raising capital from the public, the Issue of Capital and Disclosure Requirements Regulations, 2018. It sets out what an offer document must contain.",
     matters: "Every disclosure requirement Drafter tracks comes from these regulations or from the exchange checklists.",
   },
   {
     term: "Chapter IX",
     aliases: ["chapter 9"],
     plain:
-      "The part of the ICDR Regulations written specifically for small and medium enterprises, covering Regulations 227 to 280. Its thresholds are different from — and usually easier than — the ones for a main-board listing.",
+      "The part of the ICDR Regulations written specifically for small and medium enterprises, covering Regulations 227 to 280. Its thresholds are different from, and usually easier than, the ones for a main-board listing.",
     matters: "If your company lists on the SME platform, this chapter governs you, not the main-board rules.",
     regulation: "ICDR Regulations 227–280",
   },
@@ -64,7 +64,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "SME platform",
     aliases: ["nse emerge", "bse sme", "sme exchange"],
     plain:
-      "The separate segment of a stock exchange for smaller companies — NSE Emerge or BSE SME. Listing requirements are lighter than the main board, and the minimum investment size is larger.",
+      "The separate segment of a stock exchange for smaller companies, NSE Emerge or BSE SME. Listing requirements are lighter than the main board, and the minimum investment size is larger.",
     matters: "Which platform you list on decides which checklist applies on top of the ICDR Regulations.",
   },
   {
@@ -78,7 +78,7 @@ const ENTRIES: GlossaryEntry[] = [
   {
     term: "Due diligence",
     plain:
-      "The merchant banker's independent verification of everything the company says about itself — reading the contracts, the approvals, the minute books, and the auditor's papers.",
+      "The merchant banker's independent verification of everything the company says about itself: reading the contracts, the approvals, the minute books, and the auditor's papers.",
     matters:
       "Some requirements can only ever be discharged by this process. Drafter reports those separately so they never look like your unfinished work.",
   },
@@ -88,13 +88,13 @@ const ENTRIES: GlossaryEntry[] = [
     plain:
       "How much of the required disclosure framework your answers currently satisfy, as a percentage. A requirement fully answered counts one; partly answered counts a half.",
     matters:
-      "It is computed from your actual answers, not estimated. It moves as you fill in the intake, and it is not a quality score — a high coverage draft can still carry defects.",
+      "It is computed from your actual answers, not estimated. It moves as you fill in the intake. It is not a quality score: a high-coverage draft can still carry defects.",
   },
   {
     term: "Exchange pre-check",
     aliases: ["pre-check", "observation letter", "observations"],
     plain:
-      "The exchange's review of a filed draft. Where it finds problems it issues an observation letter — a written list of things to fix before the issue can proceed.",
+      "The exchange's review of a filed draft. Where it finds problems it issues an observation letter, a written list of things to fix before the issue can proceed.",
     matters:
       "Each round of observations costs weeks. Drafter runs the same kinds of check first, so the fixable things are fixed before filing.",
   },
@@ -116,7 +116,7 @@ const ENTRIES: GlossaryEntry[] = [
   {
     term: "Net proceeds",
     plain:
-      "The money you actually keep — the total raised, less the costs of the issue such as the merchant banker's fees, the registrar, printing and listing charges.",
+      "The money you actually keep: the total raised, less the costs of the issue such as the merchant banker's fees, the registrar, printing and listing charges.",
     matters: "Your objects of the issue are funded from this figure, not from the headline issue size.",
   },
   {
@@ -128,7 +128,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "Offer for sale",
     aliases: ["ofs"],
     plain:
-      "Existing shareholders selling some of their shares in the IPO. The company receives none of this money — it goes to the sellers.",
+      "Existing shareholders selling some of their shares in the IPO. The company receives none of this money. It goes to the sellers.",
     matters:
       "For an SME issue this is capped, and a selling shareholder may only offer part of what they hold.",
     regulation: "ICDR Regulation 230(1)(f), (g)",
@@ -137,7 +137,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "General corporate purposes",
     aliases: ["gcp"],
     plain:
-      "The portion of the money not tied to a specific, described object — a general-purpose bucket.",
+      "The portion of the money not tied to a specific, described object. It is a general-purpose bucket.",
     matters:
       "It is capped for SME issuers at the lower of 15% of the amount raised or INR 10 crore. Exceeding it is arithmetic, and the exchange checks it directly.",
     regulation: "ICDR Regulation 230(2)",
@@ -146,7 +146,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "Promoter",
     aliases: ["promoters"],
     plain:
-      "The person or people who control the company — usually the founders and their family. It is a legal status, not a job title.",
+      "The person or people who control the company, usually the founders and their family. It is a legal status, not a job title.",
     matters:
       "Promoters carry obligations an ordinary shareholder does not, including a minimum contribution to the issue and a lock-in on their shares.",
   },
@@ -161,7 +161,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "Related party",
     aliases: ["related-party transactions", "related party transactions"],
     plain:
-      "Anyone connected to the company through control or family — a promoter, a director, their relatives, or a business any of them controls. A transaction with them is a related-party transaction.",
+      "Anyone connected to the company through control or family: a promoter, a director, their relatives, or a business any of them controls. A transaction with them is a related-party transaction.",
     matters:
       "Buying from a company your brother owns is perfectly legal, but it must be disclosed. Declaring nil while your own answers describe such a dealing is a defect Drafter flags.",
   },
@@ -175,7 +175,7 @@ const ENTRIES: GlossaryEntry[] = [
   {
     term: "Minimum promoters' contribution",
     plain:
-      "The promoters must themselves hold at least a set share of the company after the issue — for an SME issue, at least 20% of the post-issue capital.",
+      "The promoters must themselves hold at least a set share of the company after the issue, for an SME issue, at least 20% of the post-issue capital.",
     matters: "If the promoters would fall below this after the issue, the issue cannot proceed as structured.",
     regulation: "ICDR Regulation 236",
   },
@@ -198,7 +198,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "Price band",
     plain:
       "The range of prices within which investors may bid, for example INR 95 to INR 100. The final price is fixed after bidding closes.",
-    matters: "A fixed-price issue has no band — the price is stated up front instead.",
+    matters: "A fixed-price issue has no band, the price is stated up front instead.",
   },
   {
     term: "Market maker",
@@ -213,7 +213,7 @@ const ENTRIES: GlossaryEntry[] = [
     plain:
       "An independent agency appointed to watch how the money raised is actually spent, and to report on it.",
     matters:
-      "It is required only for larger SME issues — where the issue size excluding any offer for sale exceeds INR 50 crore.",
+      "It is required only for larger SME issues, where the issue size excluding any offer for sale exceeds INR 50 crore.",
     regulation: "ICDR Regulation 262(1)",
   },
   {
@@ -240,7 +240,7 @@ const ENTRIES: GlossaryEntry[] = [
     term: "Eligibility gate",
     aliases: ["eligibility"],
     plain:
-      "The set of conditions a company must satisfy before it may make an SME issue at all — things like not being a wilful defaulter, having applied to an exchange, and holding promoter shares in demat form.",
+      "The set of conditions a company must satisfy before it may make an SME issue at all: things like not being a wilful defaulter, having applied to an exchange, and holding promoter shares in demat form.",
     matters:
       "These come before disclosure quality. A company that fails one of them cannot fix it by writing a better document.",
     regulation: "ICDR Regulations 228, 229 and 230(1)",
@@ -248,14 +248,14 @@ const ENTRIES: GlossaryEntry[] = [
   {
     term: "Provenance",
     plain:
-      "The record, kept against every paragraph and table in the draft, of where its content came from — your answer, a calculation from your answers, standard text, or the language model.",
+      "The record, kept against every paragraph and table in the draft, of where its content came from: your answer, a calculation from your answers, standard text, or the language model.",
     matters:
       "It is how you can check any sentence in the document without taking anyone's word for it, including ours.",
   },
   {
     term: "Placeholder",
     plain:
-      "A marked gap in the draft naming exactly what is still needed and who must supply it — usually your auditor, your counsel, or the merchant banker.",
+      "A marked gap in the draft naming exactly what is still needed and who must supply it: usually your auditor, your counsel, or the merchant banker.",
     matters:
       "These are not failures. They sit where a named professional must sign, and generating text there would be the most dangerous thing this product could do.",
   },
@@ -263,13 +263,13 @@ const ENTRIES: GlossaryEntry[] = [
     term: "Standard clause",
     aliases: ["standard text"],
     plain:
-      "Text that is near-identical in every offer document — definitions, the application procedure, the terms of the issue. Drafter writes it out in full.",
+      "Text that is near-identical in every offer document: definitions, the application procedure, the terms of the issue. Drafter writes it out in full.",
     matters: "It is still the merchant banker's to settle, so it is marked as such rather than presented as yours.",
   },
   {
     term: "Working capital",
     plain:
-      "The money tied up in running the business day to day — stock on the floor and money customers owe you, less what you owe suppliers.",
+      "The money tied up in running the business day to day, stock on the floor and money customers owe you, less what you owe suppliers.",
     matters: "It is one of the most common objects of an SME issue, and the basis of the estimate must be explained.",
   },
 ];

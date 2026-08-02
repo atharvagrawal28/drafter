@@ -4,7 +4,7 @@
     "case_name": "Sundaram Facility Services Limited",
     "sector": "Facility management services",
     "fictional": true,
-    "purpose": "COLD-START QUALITY FIXTURE — deliberately NOT tuned to Drafter. Written the way a first-time SME promoter would actually fill the intake: casual first-person prose rather than prospectus register, several fields left blank, customers typed as a run-on sentence, litigation described vaguely, and one realistic data-entry error (revenue keyed in lakh into a field labelled crore). NO defects are planted for the checker to find. Anything the checker reports here is either a genuine catch or a false positive, and both are informative.",
+    "purpose": "COLD-START QUALITY FIXTURE, deliberately NOT tuned to Drafter. Written the way a first-time SME promoter would actually fill the intake: casual first-person prose rather than prospectus register, several fields left blank, customers typed as a run-on sentence, litigation described vaguely, and one realistic data-entry error (revenue keyed in lakh into a field labelled crore). NO defects are planted for the checker to find. Anything the checker reports here is either a genuine catch or a false positive, and both are informative.",
     "what_this_tests": [
       "Does the LLM lift casual promoter prose into prospectus register without inventing facts?",
       "Does the sector-conditional gate correctly excuse a services business from manufacturing disclosures?",

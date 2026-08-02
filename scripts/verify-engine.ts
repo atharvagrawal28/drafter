@@ -926,6 +926,81 @@ async function main() {
 
   console.log("");
 
+  // ---- No dashes in prose the reader sees --------------------------------
+  // An em dash is one of the most recognisable signs that a passage was
+  // machine-written, and an offer document is the last place that should read
+  // as though nobody wrote it. The system prompt asks the model to avoid them;
+  // asking is not enough, which is the same lesson the figure validator exists
+  // to teach, so output is normalised and the result checked here.
+  console.log(`${BOLD}Prose punctuation${RESET}`);
+  {
+    const { normaliseDashes } = await import("../lib/engine/llm");
+
+    assert(
+      normaliseDashes("The Company operates two plants — both in Rajkot.") ===
+        "The Company operates two plants, both in Rajkot.",
+      "an appositive dash becomes a comma",
+    );
+    assert(
+      normaliseDashes("Revenue rose — The Company attributes this to volume.") ===
+        "Revenue rose. The Company attributes this to volume.",
+      "a dash before a standalone clause becomes a full stop",
+    );
+    assert(
+      !/[—–]/.test(normaliseDashes("a — b — c — d")),
+      "no dash survives, however many there are",
+    );
+
+    // Digit ranges are correct typography, not a stylistic tic.
+    assert(
+      normaliseDashes("utilisation of 10–15% across 2023–24") === "utilisation of 10–15% across 2023–24",
+      "a numeric range keeps its en dash",
+    );
+
+    // The check must be able to fail, or normalising proves nothing.
+    assert(
+      /[—–]/.test("The Company operates two plants — both in Rajkot."),
+      "and the detector is not vacuous — it sees a dash in unnormalised prose",
+    );
+
+    // Nothing user-facing may ship one either. Code comments are exempt: they
+    // are not on the website, and sweeping them would bury this signal.
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const root = path.resolve(__dirname, "..");
+
+    const surfaces: string[] = [];
+    const walk = (dir: string) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        if (entry.name === "node_modules" || entry.name.startsWith(".")) continue;
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (/\.tsx$/.test(entry.name)) surfaces.push(full);
+      }
+    };
+    walk(path.join(root, "app"));
+    walk(path.join(root, "components"));
+    surfaces.push(path.join(root, "lib", "glossary.ts"), path.join(root, "lib", "roles.ts"));
+
+    const offenders: string[] = [];
+    for (const file of surfaces) {
+      const source = fs.readFileSync(file, "utf8");
+      const rel = path.relative(root, file).replace(/\\/g, "/");
+      source.split("\n").forEach((line, index) => {
+        if (!line.includes("—")) return;
+        if (/^\s*(\*|\/\/|\/\*)/.test(line)) return; // code comment
+        if (/\{\/\*/.test(line)) return; // JSX comment
+        offenders.push(`${rel}:${index + 1}`);
+      });
+    }
+    assert(
+      offenders.length === 0,
+      `no em dash in user-facing copy${offenders.length ? ` (${offenders.slice(0, 4).join(", ")})` : ` (${surfaces.length} files scanned)`}`,
+    );
+  }
+
+  console.log("");
+
   // ---- Risk factors are numbered after filtering, not before ------------
   // Conditional risk factors used to carry hard-coded numbers, so an issuer
   // with no litigation, no related-party dealings and no borrowings rendered

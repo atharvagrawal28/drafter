@@ -97,7 +97,7 @@ function ExplainerPanel({ id, onClose }: { id: string; onClose: () => void }) {
 
       <Field label="Where it comes from">
         <span className="font-medium text-foreground">{requirement.source}</span>
-        {requirement.mandatory ? " — mandatory." : " — required where applicable."}
+        {requirement.mandatory ? ", mandatory." : ", required where applicable."}
       </Field>
 
       <Field label="What you need to hand">{requirement.evidence}</Field>
@@ -113,7 +113,7 @@ function ExplainerPanel({ id, onClose }: { id: string; onClose: () => void }) {
         {pattern ?? (
           <>
             Leave this blank and the requirement reads <strong>Missing</strong> in the gap report and
-            your coverage score falls. It is not a defect — it is an unanswered question, and the
+            your coverage score falls. It is not a defect: it is an unanswered question, and the
             action plan will tell you what answering it is worth.
           </>
         )}

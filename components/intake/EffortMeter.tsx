@@ -46,7 +46,7 @@ function SaveState() {
   return (
     <span className="inline-flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
       <Check className="h-3 w-3 text-[hsl(var(--status-complete))]" />
-      Saved {label} — in this browser only
+      Saved {label}, in this browser only
     </span>
   );
 }
@@ -60,7 +60,7 @@ export function EffortMeter() {
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
         <p className="text-[11.5px] leading-relaxed text-muted-foreground">
           <Clock className="mr-1 inline h-3 w-3 -translate-y-px" />
-          Preparation time is measured for your own company only — this is a pre-filled sample
+          Preparation time is measured for your own company only, this is a pre-filled sample
           issuer, so timing it would measure reading speed, not drafting.
         </p>
         <SaveState />

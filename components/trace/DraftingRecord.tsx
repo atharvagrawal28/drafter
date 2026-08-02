@@ -75,8 +75,8 @@ export function DraftingRecord() {
             }
             description={
               document
-                ? "The current document came from Drafter's deterministic templates, either because no model key is configured or because the loop was not used. Templates need no correction — every figure in them is copied or computed from issuer data, so there is nothing for a validator to catch."
-                : "Generate the draft and the loop's full working — every attempt, every rejected figure, every chapter that degraded and why — is recorded here."
+                ? "The current document came from Drafter's deterministic templates, either because no model key is configured or because the loop was not used. Templates need no correction: every figure in them is copied or computed from issuer data, so there is nothing for a validator to catch."
+                : "Generate the draft, and the loop's full working is recorded here: every attempt, every rejected figure, and every chapter that degraded and why."
             }
             action={
               <Button onClick={generate} disabled={generating}>
@@ -88,7 +88,7 @@ export function DraftingRecord() {
           {llmAvailable === false ? (
             <p className="mt-4 text-center text-[12px] text-muted-foreground">
               No model key is configured, so drafting runs on deterministic templates. The document,
-              the coverage score and every check behave identically — only the prose register differs.
+              the coverage score and every check behave identically, only the prose register differs.
             </p>
           ) : null}
         </div>
@@ -123,7 +123,7 @@ export function DraftingRecord() {
         <Stat
           value={recovered.length}
           label="Recovered by the loop"
-          hint="Rejected, redrafted, then accepted — chapters that would otherwise be templates."
+          hint="Rejected, redrafted, then accepted, chapters that would otherwise be templates."
           tone="text-[hsl(var(--status-partial))]"
         />
         <Stat
@@ -156,14 +156,14 @@ export function DraftingRecord() {
                       </span>
                     </React.Fragment>
                   ))}
-                  {rejected.length === 1 ? " — a figure that appears" : " — figures that appear"}{" "}
+                  {rejected.length === 1 ? ", a figure that appears" : ", figures that appear"}{" "}
                   nowhere in the issuer data it was given. Each affected chapter was discarded and
                   redrafted rather than published.
                 </p>
                 <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
                   The instruction not to round is stated twice in the prompt, and models round anyway.
                   That is why the guarantee is enforced on the output instead of asked for in the
-                  prompt — and why it holds when the model is substituted.
+                  prompt, and why it holds when the model is substituted.
                 </p>
               </div>
             </div>
@@ -210,7 +210,7 @@ export function DraftingRecord() {
           <p className="mt-3.5 max-w-3xl text-[12.5px] leading-relaxed text-muted-foreground">
             Findings from the gap check are deliberately <strong>not</strong> fed back into the
             drafting prompt. When they were, the model quietly adopted the audited figure over the
-            promoter&apos;s asserted one — harmonising away the very inconsistency the checker exists
+            promoter&apos;s asserted one, harmonising away the very inconsistency the checker exists
             to catch. The loop corrects the model&apos;s own errors, never the issuer&apos;s.
           </p>
         </CardContent>
@@ -258,7 +258,7 @@ export function DraftingRecord() {
         also carries its own <Explain term="provenance">provenance</Explain>, so any single sentence
         can be traced to the answer it came from. Chapters that degraded to a{" "}
         <Explain term="standard clause">template</Explain> contain the same facts as those the model
-        wrote — only the prose is plainer.
+        wrote, only the prose is plainer.
       </p>
     </div>
   );
@@ -276,7 +276,7 @@ function Header() {
       <p className="mt-2.5 max-w-3xl text-[13.5px] leading-relaxed text-muted-foreground">
         Drafter checks the language model&apos;s output before it reaches the document. Any figure
         that does not appear in the issuer&apos;s own answers causes the whole chapter to be thrown
-        away and redrafted. This is the complete record of that work — including what was refused.
+        away and redrafted. This is the complete record of that work, including what was refused.
       </p>
     </div>
   );
@@ -376,7 +376,7 @@ function ChapterRow({ chapter }: { chapter: ChapterAttempt }) {
             {chapter.rateLimited && chapter.outcome === "fell-back-to-template" ? (
               <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
                 Degraded on provider quota rather than on content. The facts in this chapter are
-                unchanged — only the prose is the deterministic template.
+                unchanged, only the prose is the deterministic template.
               </p>
             ) : null}
           </div>

@@ -16,7 +16,7 @@ export const ORIGIN_LABEL: Record<ProvenanceOrigin, string> = {
   derived: "Computed from issuer data",
   "llm-narrative": "Language-model prose, constrained to issuer data",
   "template-narrative": "Deterministic template",
-  "standard-clause": "Standard clause — banker to finalise",
+  "standard-clause": "Standard clause, banker to finalise",
   placeholder: "Not yet supplied",
 };
 

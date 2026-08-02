@@ -31,10 +31,10 @@ export default function AboutPage() {
       </h1>
       <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-muted-foreground">
         SEBI&apos;s problem statement is direct: preparing the IPO offer document is complex and
-        costly — months of merchant-banker, legal and compliance effort, at a cost disproportionate to
+        costly: months of merchant-banker, legal and compliance effort, at a cost disproportionate to
         the capital an SME raises. Lean promoter teams with no capital-markets expertise cannot
         navigate the disclosure framework alone, so they depend on intermediaries from the very
-        outset. SEBI wants that first step simplified — <span className="font-medium text-foreground">without</span>{" "}
+        outset. SEBI wants that first step simplified, <span className="font-medium text-foreground">without</span>{" "}
         removing the intermediary&apos;s review and certification. Drafter is built to exactly that
         brief.
       </p>
@@ -45,7 +45,7 @@ export default function AboutPage() {
       {/* The most useful thing this page can do is let a reader check the    */}
       {/* claim instead of believing it. SEBI's words on the left; the file   */}
       {/* and the measured number on the right. Two clauses are honestly      */}
-      {/* partial — a table of thirteen green ticks would not be credible to  */}
+      {/* partial, a table of thirteen green ticks would not be credible to  */}
       {/* a securities-markets jury, and would not deserve to be.             */}
       {/* ------------------------------------------------------------------ */}
       <Card className="mt-8">
@@ -56,7 +56,7 @@ export default function AboutPage() {
                 Clause-by-clause conformance
               </h2>
               <p className="mt-1 text-[12.5px] text-muted-foreground">
-                {problemStatement.source} — &ldquo;{problemStatement.title}&rdquo;
+                {problemStatement.source} &middot; &ldquo;{problemStatement.title}&rdquo;
               </p>
             </div>
             <Badge variant="secondary">
@@ -75,7 +75,7 @@ export default function AboutPage() {
                     {clause.id}
                   </span>
                   <Badge variant={clause.status === "met" ? "complete" : "partial"}>
-                    {clause.status === "met" ? "met" : "partial — see evidence"}
+                    {clause.status === "met" ? "met" : "partial, see evidence"}
                   </Badge>
                   <span className="text-[10.5px] uppercase tracking-[0.12em] text-muted-foreground">
                     {clause.origin}
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 </p>
 
                 <p className="mt-2 text-[12.5px] leading-relaxed text-muted-foreground">
-                  <span className="font-semibold text-foreground">Evidence — </span>
+                  <span className="font-semibold text-foreground">Evidence: </span>
                   {clause.evidence}
                 </p>
 
@@ -131,7 +131,7 @@ export default function AboutPage() {
                   ["BSE GenAI DRHP pre-check", "Checks a draft DRHP against exchange rules in under 40 minutes", "Exchange gatekeeper"],
                   ["Invisigent, IPO dashboards", "Review / analysis of an already-filed DRHP", "Analysis (investor)"],
                   ["OnFinance AI", "BFSI regulatory-compliance automation", "Compliance ops"],
-                  ["Drafter (us)", "Turns a promoter's plain answers into a draft DRHP + gap check", "Generation (issuer) — the gap"],
+                  ["Drafter (us)", "Turns a promoter's plain answers into a draft DRHP + gap check", "Generation (issuer): the gap"],
                 ].map((row, index) => (
                   <tr key={index} className={index === 3 ? "border-t border-border bg-accent/[0.05] font-medium text-foreground" : "border-t border-border/60"}>
                     <td className="py-2 pr-4">{row[0]}</td>
@@ -145,8 +145,8 @@ export default function AboutPage() {
           <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
             Everyone else acts on a document that already exists. Drafter sits <span className="font-medium text-foreground">upstream</span> of
             the exchange&apos;s own pre-check and produces a first draft pre-aligned to the exact
-            return patterns it flags — unreconciled figures, undisclosed related parties, missing
-            auditor reference — so the draft clears pre-check instead of bouncing.
+            return patterns it flags: unreconciled figures, undisclosed related parties, missing
+            auditor reference, so the draft clears pre-check instead of bouncing.
           </p>
         </CardContent>
       </Card>
@@ -157,12 +157,12 @@ export default function AboutPage() {
         <CriterionCard
           icon={<TrendingUp className="h-5 w-5" />}
           title="Market Impact"
-          body="Attacks the single largest cost-and-time barrier to SME listing — first-draft offer-document preparation. By making a substantially complete draft reachable without heavy early intermediary spend, it widens the pool of SMEs that can credibly begin the process."
+          body="Attacks the single largest cost-and-time barrier to SME listing: first-draft offer-document preparation. By making a substantially complete draft reachable without heavy early intermediary spend, it widens the pool of SMEs that can credibly begin the process."
         />
         <CriterionCard
           icon={<Cpu className="h-5 w-5" />}
           title="Technology Stack"
-          body="LLM + RAG + document intelligence — but the differentiator is regulatory-grade traceability, not raw generation. Every generated block records its provenance and the requirement IDs it discharges, and any model output with an unverifiable figure is rejected."
+          body="LLM + RAG + document intelligence, but the differentiator is regulatory-grade traceability, not raw generation. Every generated block records its provenance and the requirement IDs it discharges, and any model output with an unverifiable figure is rejected."
         />
         <CriterionCard
           icon={<FileCheck2 className="h-5 w-5" />}
@@ -172,7 +172,7 @@ export default function AboutPage() {
         <CriterionCard
           icon={<Layers className="h-5 w-5" />}
           title="Scalability"
-          body={`One knowledge base — ${requirementCount} disclosure requirements across the full DRHP tree — serves every issuer, at near-zero marginal cost. The same engine ran unchanged against two issuers in different sectors. It extends to rights issues, mainboard migration and ongoing disclosures.`}
+          body={`One knowledge base of ${requirementCount} disclosure requirements, covering the full DRHP tree, serves every issuer, at near-zero marginal cost. The same engine ran unchanged against two issuers in different sectors. It extends to rights issues, mainboard migration and ongoing disclosures.`}
         />
       </div>
 
@@ -197,7 +197,7 @@ export default function AboutPage() {
             <MandateItem
               icon={<Scale className="h-4 w-4" />}
               title="Supervision"
-              body="Every block is mapped to a requirement ID and carries its provenance — a structured, machine-readable disclosure trail a supervisor could consume."
+              body="Every block is mapped to a requirement ID and carries its provenance, a structured, machine-readable disclosure trail a supervisor could consume."
             />
           </div>
         </CardContent>

@@ -180,13 +180,13 @@ export function firstAvailableModel(now: number = Date.now()): string {
 
 const SYSTEM_PROMPT = `You are a securities-markets document specialist drafting chapters of an Indian SME IPO offer document (a Draft Red Herring Prospectus for the NSE Emerge or BSE SME platform), working to SEBI (ICDR) Regulations, 2018.
 
-ABSOLUTE CONSTRAINTS — these override every other instruction:
+ABSOLUTE CONSTRAINTS. These override every other instruction:
 1. Use ONLY the facts in the ISSUER DATA supplied. Never introduce a company name, customer name, product, certification, location, date, percentage, monetary amount, market size, growth rate, ranking or any other fact that is not present in that data.
 2. If a piece of information a chapter would ordinarily contain is absent from the issuer data, write that it is to be supplied, or omit it. NEVER estimate, infer, approximate or illustrate a missing figure.
 3. Reproduce every number exactly as supplied. Do not round, convert units, recompute or "correct" any figure.
 4. Write in the register of a filed offer document: formal, restrained, impersonal, third person, past or present tense as appropriate. No marketing language, no superlatives, no persuasion, no reassurance, and no claims of leadership or quality that the data does not support.
 5. Never state that a risk is mitigated, managed or unlikely unless the issuer data says so.
-6. THE ISSUER DATA IS OFTEN WRITTEN INFORMALLY. It comes from a promoter answering plain-language questions, so it may be in the first person ("we do housekeeping for offices"), use approximations ("about 19 percent", "roughly"), or be conversational ("nothing much"). You must REWRITE it into offer-document register — never reproduce it verbatim. Specifically:
+6. THE ISSUER DATA IS OFTEN WRITTEN INFORMALLY. It comes from a promoter answering plain-language questions, so it may be in the first person ("we do housekeeping for offices"), use approximations ("about 19 percent", "roughly"), or be conversational ("nothing much"). You must REWRITE it into offer-document register, and never reproduce it verbatim. Specifically:
    - "we" / "our" become "the Company" / "the Company's";
    - "about 19 percent" becomes "approximately 19%" (keep the figure exactly as given; only the wording changes);
    - conversational filler is dropped;
@@ -199,7 +199,34 @@ FORMAT:
 - A sub-heading is a short line of fewer than 90 characters with no trailing punctuation, on its own line, followed by a blank line. Use these to structure the chapter.
 - Where the chapter calls for numbered risk factors or numbered items, begin the paragraph with the number followed by a full stop, and put each numbered item in its own paragraph separated by a blank line.
 - Write monetary amounts in full Indian market convention: "INR 78.90 crore", never "78.9" alone and never a rounded or reformatted version of the supplied figure.
-- Write percentages with the per-cent sign, exactly as supplied.`;
+- Write percentages with the per-cent sign, exactly as supplied.
+- Use ordinary punctuation only. Do NOT use em dashes or en dashes anywhere in the prose. Where you would reach for one, use a comma, a colon, a semicolon or a full stop instead. A filed offer document is written in plain sentences, and a dash is almost always a sentence that wanted splitting.`;
+
+/**
+ * Replace dashes in model prose with ordinary punctuation.
+ *
+ * The system prompt asks for this, and asking is not enough — the same lesson
+ * the figure validator exists to enforce. Language models reach for an em dash
+ * constantly, it is one of the most recognisable tells that a passage was
+ * machine-written, and an offer document is the last place that should read as
+ * though nobody wrote it.
+ *
+ * A capitalised word after the dash means the clause stands on its own and
+ * wants a full stop. Everything else takes a comma, which is the safest
+ * default: it can occasionally join two clauses that would read better apart,
+ * but it never produces something ungrammatical.
+ *
+ * Ranges between digits keep an en dash, because "2023-24" and "10-15%" are
+ * correct typography rather than a stylistic tic.
+ */
+export function normaliseDashes(text: string): string {
+  return text
+    .replace(/\s*—\s*([A-Z])/g, ". $1")
+    .replace(/\s*—\s*/g, ", ")
+    .replace(/(?<!\d)\s*–\s*(?!\d)/g, ", ")
+    .replace(/\s+,/g, ",")
+    .replace(/,\s*,/g, ",");
+}
 
 /** Numbers appearing in the supplied context, used to validate model output. */
 function collectNumbers(value: any, into: Set<string>): void {
@@ -323,7 +350,7 @@ export interface RevisionFeedback {
 function buildRevisionBlock(feedback: RevisionFeedback): string {
   const parts: string[] = [
     ``,
-    `REVISION REQUIRED — your previous draft of this chapter was rejected. Correct the following and redraft the chapter in full.`,
+    `REVISION REQUIRED. Your previous draft of this chapter was rejected. Correct the following and redraft the chapter in full.`,
   ];
 
   if (feedback.unsupportedFigures?.length) {
@@ -348,7 +375,7 @@ function buildRevisionBlock(feedback: RevisionFeedback): string {
   parts.push(
     ``,
     `Report the issuer's figures exactly as supplied. If two supplied figures disagree with each`,
-    `other, that is not yours to reconcile — state the one this chapter calls for and leave the`,
+    `other, that is not yours to reconcile. State the one this chapter calls for and leave the`,
     `discrepancy to the disclosure check.`,
   );
 
@@ -379,7 +406,7 @@ async function draftWithModel(
     `THIS CHAPTER MUST COVER:`,
     ...request.mustCover.map((item) => `- ${item}`),
     ``,
-    `ISSUER DATA (the complete set of facts you may use — nothing outside this):`,
+    `ISSUER DATA (the complete set of facts you may use, nothing outside this):`,
     JSON.stringify(request.context, null, 2),
     feedback ? buildRevisionBlock(feedback) : ``,
     ``,
@@ -401,7 +428,9 @@ async function draftWithModel(
         maxRetries: 1, // our own backoff below is quota-aware; don't double up
       });
 
-      const text = (result.text ?? "").trim();
+      // Normalise before validating, so every downstream check and the stored
+      // chapter see exactly the prose the reader will.
+      const text = normaliseDashes((result.text ?? "").trim());
       if (text.length < 200) return { text: null, model, error: "response too short" };
 
       // A chapter that hit the token ceiling stops mid-sentence. It would clear

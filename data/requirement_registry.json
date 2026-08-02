@@ -1,14 +1,14 @@
 {
   "registry_version": "2026-07-R4",
-  "regulation_set": "SEBI (ICDR) Regulations, 2018 — Chapter IX (Initial Public Offer by Small and Medium Enterprises), Regulations 227 to 280, read with Schedule VI, as last amended on 8 March 2025, together with the NSE Emerge / BSE SME issuer checklists.",
+  "regulation_set": "SEBI (ICDR) Regulations, 2018. Chapter IX (Initial Public Offer by Small and Medium Enterprises), Regulations 227 to 280, read with Schedule VI, as last amended on 8 March 2025, together with the NSE Emerge / BSE SME issuer checklists.",
   "regulation_set_as_at": "2025-03-08",
   "registry_reviewed_at": "2026-07-23",
-  "note": "Curated disclosure requirement registry for an SME IPO offer document. Each item is the atomic unit tracked by the Gap & Consistency Checker. 'chapters' maps the requirement onto the DRHP tree in drhp_structure.json — this is the single source of truth for chapter-to-requirement traceability. 'evidence_fields' are dotted paths into the issuer data object; coverage is COMPUTED from their presence, never asserted. Regulation references are indicative and simplified for the prototype; a production knowledge base versions these against the live SEBI ICDR text and the exchange checklists. Version R3 extends the registry using evidence from a corpus of 14 filed NSE Emerge SME DRHPs (5,619 pages, 2.6 million words): every requirement added in R3 carries a `corpus_evidence` field recording the share of real filings that contain it. Items appearing in 79-100% of filings but absent from R2 were added; nothing was added on intuition. Registry R4: the numbered regulation citations were checked against the consolidated ICDR text published by SEBI (last amended 8 March 2025). Citations that name a regulation number have been verified against that text; citations that name a Schedule VI section describe where the disclosure sits in the offer document and are not regulation numbers.",
+  "note": "Curated disclosure requirement registry for an SME IPO offer document. Each item is the atomic unit tracked by the Gap & Consistency Checker. 'chapters' maps the requirement onto the DRHP tree in drhp_structure.json, this is the single source of truth for chapter-to-requirement traceability. 'evidence_fields' are dotted paths into the issuer data object; coverage is COMPUTED from their presence, never asserted. Regulation references are indicative and simplified for the prototype; a production knowledge base versions these against the live SEBI ICDR text and the exchange checklists. Version R3 extends the registry using evidence from a corpus of 14 filed NSE Emerge SME DRHPs (5,619 pages, 2.6 million words): every requirement added in R3 carries a `corpus_evidence` field recording the share of real filings that contain it. Items appearing in 79-100% of filings but absent from R2 were added; nothing was added on intuition. Registry R4: the numbered regulation citations were checked against the consolidated ICDR text published by SEBI (last amended 8 March 2025). Citations that name a regulation number have been verified against that text; citations that name a Schedule VI section describe where the disclosure sits in the offer document and are not regulation numbers.",
   "fulfilment_legend": {
     "issuer_data": "Satisfied by information the issuer supplies. Coverage depends on evidence_fields being present.",
     "standard_clause": "Satisfied structurally by standard offer-document text that Drafter generates, with issuer fields merged in. Always flagged for merchant-banker finalisation.",
     "banker_certification": "Can only be discharged by the merchant banker / auditor as part of due diligence and certification. Reported separately so it does not misrepresent the promoter's own progress.",
-    "not_applicable": "Some requirements are sector-conditional. Where the issuer indicates the requirement does not apply (for example installed capacity for a services business), it is reported as 'Not applicable' and excluded from the coverage denominator entirely — it is not an obligation that can be met or missed."
+    "not_applicable": "Some requirements are sector-conditional. Where the issuer indicates the requirement does not apply (for example installed capacity for a services business), it is reported as 'Not applicable' and excluded from the coverage denominator entirely, it is not an obligation that can be met or missed."
   },
   "sections": [
     {
@@ -88,7 +88,7 @@
         {
           "id": "R2.1",
           "requirement": "Description of the business, products/services offered, and the revenue model",
-          "source": "ICDR Sch VI (SME) — Our Business",
+          "source": "ICDR Sch VI (SME). Our Business",
           "evidence": "Intake Step 'Business Overview'",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -104,7 +104,7 @@
         {
           "id": "R2.2",
           "requirement": "Industry overview and the issuer's competitive position within it",
-          "source": "ICDR Sch VI (SME) — Industry Overview",
+          "source": "ICDR Sch VI (SME). Industry Overview",
           "evidence": "Industry data with cited public sources",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -119,7 +119,7 @@
         },
         {
           "id": "R2.3",
-          "requirement": "Customer concentration — identity of key customers and the revenue share attributable to each",
+          "requirement": "Customer concentration, identity of key customers and the revenue share attributable to each",
           "source": "ICDR risk-disclosure principle; exchange checklist",
           "evidence": "Customer-wise revenue schedule certified by the auditor",
           "mandatory": true,
@@ -160,7 +160,7 @@
         {
           "id": "R2.5",
           "requirement": "Installed capacity, capacity utilisation and principal properties/plants",
-          "source": "ICDR Sch VI (SME) — Our Business",
+          "source": "ICDR Sch VI (SME). Our Business",
           "evidence": "Plant records, factory licences",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -179,7 +179,7 @@
         {
           "id": "R2.6",
           "requirement": "Employee strength and human resources",
-          "source": "ICDR Sch VI (SME) — Our Business",
+          "source": "ICDR Sch VI (SME). Our Business",
           "evidence": "Payroll/HR records",
           "mandatory": false,
           "fulfilment": "issuer_data",
@@ -192,8 +192,8 @@
         },
         {
           "id": "R2.7",
-          "requirement": "Intellectual property owned or used by the issuer — trademarks, patents, designs and their registration status",
-          "source": "ICDR Sch VI (SME) — Our Business",
+          "requirement": "Intellectual property owned or used by the issuer: trademarks, patents, designs and their registration status",
+          "source": "ICDR Sch VI (SME). Our Business",
           "evidence": "Trademark/patent registration certificates and applications",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -208,7 +208,7 @@
         {
           "id": "R2.8",
           "requirement": "Immovable properties owned or leased by the issuer, with tenure and the nature of the interest held",
-          "source": "ICDR Sch VI (SME) — Our Business / Our Property",
+          "source": "ICDR Sch VI (SME). Our Business / Our Property",
           "evidence": "Title deeds, lease deeds, rent agreements",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -223,7 +223,7 @@
         {
           "id": "R2.9",
           "requirement": "Narrative disclosures must be written in the impersonal, formal register of an offer document rather than in the first person",
-          "source": "ICDR Sch VI (SME) — presentation; exchange observation on promotional or conversational language",
+          "source": "ICDR Sch VI (SME), presentation; exchange observation on promotional or conversational language",
           "evidence": "The issuer's own narrative answers",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -263,7 +263,7 @@
         {
           "id": "R3.1",
           "requirement": "Company-specific (internal) risk factors derived from the issuer's own business and operations",
-          "source": "ICDR Sch VI (SME) — Risk Factors",
+          "source": "ICDR Sch VI (SME). Risk Factors",
           "evidence": "Derived from the issuer's business, financial and legal disclosures",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -337,7 +337,7 @@
         {
           "id": "R3.5",
           "requirement": "External, industry and issue-related risk factors, including risks relating to the SME platform and limited liquidity",
-          "source": "ICDR Sch VI (SME) — Risk Factors",
+          "source": "ICDR Sch VI (SME). Risk Factors",
           "evidence": "Industry analysis; issue structure",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -376,7 +376,7 @@
         },
         {
           "id": "R4.2",
-          "requirement": "Statement of accounting ratios — basic and diluted EPS, Return on Net Worth, Net Asset Value per share",
+          "requirement": "Statement of accounting ratios: basic and diluted EPS, Return on Net Worth, Net Asset Value per share",
           "source": "ICDR Sch VI (SME)",
           "evidence": "Derived from the restated financial statements",
           "mandatory": true,
@@ -448,7 +448,7 @@
         {
           "id": "R4.5",
           "requirement": "Capitalisation statement showing borrowings and shareholders' funds before and after the issue",
-          "source": "ICDR Sch VI (SME) — Financial Information",
+          "source": "ICDR Sch VI (SME). Financial Information",
           "evidence": "Derived from the restated financial statements and the issue size",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -470,7 +470,7 @@
         {
           "id": "R5.1",
           "requirement": "Pre-issue and post-issue shareholding pattern and the history of the equity share capital build-up",
-          "source": "ICDR Sch VI (SME) — Capital Structure",
+          "source": "ICDR Sch VI (SME). Capital Structure",
           "evidence": "Register of members, share allotment records",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -552,7 +552,7 @@
         {
           "id": "R5.5",
           "requirement": "Net proceeds must equal the gross issue size less the estimated issue-related expenses",
-          "source": "ICDR Sch VI (SME) — Objects of the Issue",
+          "source": "ICDR Sch VI (SME). Objects of the Issue",
           "evidence": "Estimated issue expense schedule",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -594,7 +594,7 @@
         {
           "id": "R5.7",
           "requirement": "Appointment of a monitoring agency for the deployment of issue proceeds, where the issue size excluding the offer for sale exceeds INR 50 crore",
-          "source": "ICDR Reg 262(1) (Chapter IX — SME)",
+          "source": "ICDR Reg 262(1) (Chapter IX, SME)",
           "evidence": "Monitoring agency appointment letter, or the board's basis for non-applicability",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -614,7 +614,7 @@
         {
           "id": "R5.8",
           "requirement": "Basis of the estimated working-capital requirement funded from the net proceeds, with the assumptions and holding periods relied upon",
-          "source": "ICDR Sch VI (SME) — Objects of the Issue",
+          "source": "ICDR Sch VI (SME). Objects of the Issue",
           "evidence": "Working-capital computation certified by the statutory auditor",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -629,7 +629,7 @@
         {
           "id": "R5.9",
           "requirement": "Amount proposed to be deployed towards general corporate purposes, which must not exceed fifteen per cent of the amount being raised or INR 10 crore, whichever is less",
-          "source": "ICDR Reg 230(2) (Chapter IX — SME), as substituted w.e.f. 8 March 2025",
+          "source": "ICDR Reg 230(2) (Chapter IX, SME), as substituted w.e.f. 8 March 2025",
           "evidence": "Objects break-up and gross issue size",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -660,7 +660,7 @@
         {
           "id": "R5.10",
           "requirement": "Break-up of the estimated issue-related expenses by category (fees of the lead manager, registrar, legal advisors, advertising, listing and statutory fees)",
-          "source": "ICDR Sch VI (SME) — Objects of the Issue",
+          "source": "ICDR Sch VI (SME). Objects of the Issue",
           "evidence": "Estimated expense schedule agreed with the lead manager",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -675,7 +675,7 @@
         {
           "id": "R5.11",
           "requirement": "The objects of the issue must not include repayment, directly or indirectly, of any loan taken from a promoter, a member of the promoter group or any related party",
-          "source": "ICDR Reg 230(1)(h) (Chapter IX — SME), inserted w.e.f. 8 March 2025",
+          "source": "ICDR Reg 230(1)(h) (Chapter IX, SME), inserted w.e.f. 8 March 2025",
           "evidence": "Objects of the issue and the schedule of loans proposed to be repaid",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -710,7 +710,7 @@
         {
           "id": "R5.12",
           "requirement": "Where the issue includes an offer for sale, that component must not exceed twenty per cent of the total issue size, and no selling shareholder may offer more than fifty per cent of their pre-issue holding on a fully diluted basis",
-          "source": "ICDR Reg 230(1)(f) and (g) (Chapter IX — SME), inserted w.e.f. 8 March 2025",
+          "source": "ICDR Reg 230(1)(f) and (g) (Chapter IX, SME), inserted w.e.f. 8 March 2025",
           "evidence": "Issue structure showing the fresh issue and offer for sale components",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -748,7 +748,7 @@
       "requirements": [
         {
           "id": "R6.1",
-          "requirement": "Details of directors and key managerial personnel — name, designation, DIN, age, qualification and experience",
+          "requirement": "Details of directors and key managerial personnel: name, designation, DIN, age, qualification and experience",
           "source": "ICDR Sch VI (SME); Companies Act 2013",
           "evidence": "Board records, DIN records, appointment letters",
           "mandatory": true,
@@ -790,7 +790,7 @@
         {
           "id": "R6.3",
           "requirement": "Outstanding litigation and material developments against the company, its directors, promoters and group companies",
-          "source": "ICDR Reg 246; Sch VI (SME) — Legal",
+          "source": "ICDR Reg 246; Sch VI (SME). Legal",
           "evidence": "Legal counsel certificate; case records; tax demand notices",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -818,7 +818,7 @@
         },
         {
           "id": "R6.5",
-          "requirement": "Corporate governance — board composition, independent directors, and constitution of the Audit, Nomination & Remuneration and Stakeholders Relationship Committees",
+          "requirement": "Corporate governance: board composition, independent directors, and constitution of the Audit, Nomination & Remuneration and Stakeholders Relationship Committees",
           "source": "ICDR Sch VI (SME); LODR readiness",
           "evidence": "Board and committee constitution resolutions",
           "mandatory": true,
@@ -846,8 +846,8 @@
         },
         {
           "id": "R6.7",
-          "requirement": "Particulars of the issuer's subsidiaries, if any, with the nature of the holding and their financial position — or an express statement that the issuer has none",
-          "source": "ICDR Sch VI (SME) — Our Subsidiaries",
+          "requirement": "Particulars of the issuer's subsidiaries, if any, with the nature of the holding and their financial position, or an express statement that the issuer has none",
+          "source": "ICDR Sch VI (SME). Our Subsidiaries",
           "evidence": "Shareholding records; MCA filings of each subsidiary",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -867,8 +867,8 @@
       "requirements": [
         {
           "id": "R7.1",
-          "requirement": "Cover page particulars — 'Draft Red Herring Prospectus' label, issue type (fixed price / book built), face value, price band, and the listing platform",
-          "source": "ICDR Sch VI (SME) Part A — cover page",
+          "requirement": "Cover page particulars: 'Draft Red Herring Prospectus' label, issue type (fixed price / book built), face value, price band, and the listing platform",
+          "source": "ICDR Sch VI (SME) Part A, cover page",
           "evidence": "Issue structure decisions; exchange in-principle application",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -885,7 +885,7 @@
         {
           "id": "R7.2",
           "requirement": "Issuer's absolute responsibility statement and the lead manager's responsibility statement",
-          "source": "ICDR Sch VI (SME) Part A — cover page",
+          "source": "ICDR Sch VI (SME) Part A, cover page",
           "evidence": "Signed by the board and the lead manager",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -909,7 +909,7 @@
         {
           "id": "R7.4",
           "requirement": "Definitions and abbreviations, including issue-related, company-related and industry terms",
-          "source": "ICDR Sch VI (SME) — Section I",
+          "source": "ICDR Sch VI (SME). Section I",
           "evidence": "Standard glossary merged with issuer-specific terms",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -920,8 +920,8 @@
         },
         {
           "id": "R7.5",
-          "requirement": "Presentation of financial, industry and market data — currency of presentation, financial year convention, rounding and the sourcing of third-party industry data",
-          "source": "ICDR Sch VI (SME) — Section I",
+          "requirement": "Presentation of financial, industry and market data: currency of presentation, financial year convention, rounding and the sourcing of third-party industry data",
+          "source": "ICDR Sch VI (SME). Section I",
           "evidence": "Standard statement",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -933,7 +933,7 @@
         {
           "id": "R7.6",
           "requirement": "Forward-looking statements caution and the issuer's undertaking on material developments",
-          "source": "ICDR Sch VI (SME) — Section I",
+          "source": "ICDR Sch VI (SME). Section I",
           "evidence": "Standard statement",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -944,8 +944,8 @@
         },
         {
           "id": "R7.7",
-          "requirement": "Summary of the offer document — business, industry, promoters, issue size, objects, restated financials, litigation, related-party transactions and contingent liabilities, presented together at the front of the document",
-          "source": "ICDR Sch VI (SME) — Summary of the Offer Document",
+          "requirement": "Summary of the offer document: business, industry, promoters, issue size, objects, restated financials, litigation, related-party transactions and contingent liabilities, presented together at the front of the document",
+          "source": "ICDR Sch VI (SME). Summary of the Offer Document",
           "evidence": "Derived from the corresponding detailed chapters",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -968,8 +968,8 @@
       "requirements": [
         {
           "id": "R8.1",
-          "requirement": "The Issue table — fresh issue and/or offer for sale, number of equity shares, face value and issue size",
-          "source": "ICDR Sch VI (SME) — The Issue",
+          "requirement": "The Issue table: fresh issue and/or offer for sale, number of equity shares, face value and issue size",
+          "source": "ICDR Sch VI (SME). The Issue",
           "evidence": "Board and shareholder resolutions",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -985,7 +985,7 @@
         },
         {
           "id": "R8.2",
-          "requirement": "Issue structure — allocation between retail individual investors and other-than-retail investors, and the market maker portion",
+          "requirement": "Issue structure: allocation between retail individual investors and other-than-retail investors, and the market maker portion",
           "source": "ICDR Reg 253; Sch VI (SME)",
           "evidence": "Issue structure agreed with the lead manager",
           "mandatory": true,
@@ -1000,8 +1000,8 @@
         },
         {
           "id": "R8.3",
-          "requirement": "Terms of the issue — ranking of equity shares, mode of payment, rights of holders, minimum application size and lot",
-          "source": "ICDR Sch VI (SME) — Terms of the Issue",
+          "requirement": "Terms of the issue: ranking of equity shares, mode of payment, rights of holders, minimum application size and lot",
+          "source": "ICDR Sch VI (SME). Terms of the Issue",
           "evidence": "Standard terms merged with the issue's lot size",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -1012,7 +1012,7 @@
         },
         {
           "id": "R8.4",
-          "requirement": "Issue procedure — ASBA and UPI mechanism, bidding process, basis of allotment and refund timelines",
+          "requirement": "Issue procedure: ASBA and UPI mechanism, bidding process, basis of allotment and refund timelines",
           "source": "ICDR Sch VI (SME); SEBI ASBA/UPI circulars",
           "evidence": "Standard procedure text",
           "mandatory": true,
@@ -1047,7 +1047,7 @@
         {
           "id": "R9.1",
           "requirement": "Qualitative factors supporting the issue price",
-          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "source": "ICDR Sch VI (SME). Basis for Issue Price",
           "evidence": "Derived from competitive strengths",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1060,8 +1060,8 @@
         },
         {
           "id": "R9.2",
-          "requirement": "Quantitative factors — basic and diluted EPS, price-to-earnings ratio at the price band, Return on Net Worth and Net Asset Value per share",
-          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "requirement": "Quantitative factors: basic and diluted EPS, price-to-earnings ratio at the price band, Return on Net Worth and Net Asset Value per share",
+          "source": "ICDR Sch VI (SME). Basis for Issue Price",
           "evidence": "Derived from the restated financial statements",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1078,7 +1078,7 @@
         {
           "id": "R9.3",
           "requirement": "Comparison with listed industry peers, or an express statement that no directly comparable listed peer exists",
-          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "source": "ICDR Sch VI (SME). Basis for Issue Price",
           "evidence": "Peer set with sources; exchange filings of peers",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1092,7 +1092,7 @@
         {
           "id": "R9.4",
           "requirement": "Key performance indicators of the issuer's business, disclosed for each restated period, certified and approved by the audit committee",
-          "source": "ICDR Sch VI (SME) — Basis for Issue Price; SEBI KPI disclosure requirements",
+          "source": "ICDR Sch VI (SME). Basis for Issue Price; SEBI KPI disclosure requirements",
           "evidence": "KPI schedule approved by the audit committee and certified by the statutory auditor",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1107,7 +1107,7 @@
         {
           "id": "R9.5",
           "requirement": "Weighted average cost of acquisition of equity shares by the promoters and selling shareholders, compared against the issue price",
-          "source": "ICDR Sch VI (SME) — Basis for Issue Price; SEBI WACA disclosure requirements",
+          "source": "ICDR Sch VI (SME). Basis for Issue Price; SEBI WACA disclosure requirements",
           "evidence": "Share acquisition history certified by the statutory auditor",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1123,7 +1123,7 @@
         {
           "id": "R9.6",
           "requirement": "Weighted average earnings per share and return on net worth across the restated periods, weighted by the respective period weights",
-          "source": "ICDR Sch VI (SME) — Basis for Issue Price",
+          "source": "ICDR Sch VI (SME). Basis for Issue Price",
           "evidence": "Derived from the restated financial statements",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1145,7 +1145,7 @@
         {
           "id": "R10.1",
           "requirement": "Management's discussion and analysis of the financial condition and results of operations, with year-on-year movement explained",
-          "source": "ICDR Sch VI (SME) — MD&A",
+          "source": "ICDR Sch VI (SME), MD&A",
           "evidence": "Restated financials and management commentary",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1161,7 +1161,7 @@
         {
           "id": "R10.2",
           "requirement": "Significant factors affecting the results of operations and any known trends or uncertainties",
-          "source": "ICDR Sch VI (SME) — MD&A",
+          "source": "ICDR Sch VI (SME), MD&A",
           "evidence": "Management commentary",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1174,8 +1174,8 @@
         },
         {
           "id": "R10.3",
-          "requirement": "Financial indebtedness — secured and unsecured borrowings, principal lenders, security created and material terms",
-          "source": "ICDR Sch VI (SME) — Financial Indebtedness",
+          "requirement": "Financial indebtedness: secured and unsecured borrowings, principal lenders, security created and material terms",
+          "source": "ICDR Sch VI (SME). Financial Indebtedness",
           "evidence": "Sanction letters; charge registers; lender certificates",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1196,7 +1196,7 @@
         {
           "id": "R11.1",
           "requirement": "Government and other statutory approvals held and applied for, and approvals still required",
-          "source": "ICDR Sch VI (SME) — Government and Other Approvals",
+          "source": "ICDR Sch VI (SME). Government and Other Approvals",
           "evidence": "Licences, consents, registrations",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1210,7 +1210,7 @@
         {
           "id": "R11.2",
           "requirement": "Key regulations and policies applicable to the issuer's business",
-          "source": "ICDR Sch VI (SME) — Key Regulations and Policies",
+          "source": "ICDR Sch VI (SME). Key Regulations and Policies",
           "evidence": "Sector regulation mapping",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -1223,8 +1223,8 @@
         },
         {
           "id": "R11.3",
-          "requirement": "Other regulatory and statutory disclosures — SEBI disclaimer, exchange disclaimer, consents, expert opinions, previous public issues and listing particulars",
-          "source": "ICDR Sch VI (SME) — Other Regulatory and Statutory Disclosures",
+          "requirement": "Other regulatory and statutory disclosures: SEBI disclaimer, exchange disclaimer, consents, expert opinions, previous public issues and listing particulars",
+          "source": "ICDR Sch VI (SME). Other Regulatory and Statutory Disclosures",
           "evidence": "Standard clauses with issuer particulars merged",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -1236,7 +1236,7 @@
         {
           "id": "R11.4",
           "requirement": "Price information of past issues handled by the lead manager, and the lead manager's track record",
-          "source": "ICDR Sch VI — Other Regulatory and Statutory Disclosures",
+          "source": "ICDR Sch VI. Other Regulatory and Statutory Disclosures",
           "evidence": "Track record furnished by the lead manager",
           "mandatory": true,
           "fulfilment": "banker_certification",
@@ -1256,8 +1256,8 @@
       "requirements": [
         {
           "id": "R12.1",
-          "requirement": "Promoter particulars — name, age, qualification, experience, and shareholding in the issuer",
-          "source": "ICDR Sch VI (SME) — Our Promoters",
+          "requirement": "Promoter particulars: name, age, qualification, experience, and shareholding in the issuer",
+          "source": "ICDR Sch VI (SME). Our Promoters",
           "evidence": "Promoter declarations; register of members",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1289,7 +1289,7 @@
         {
           "id": "R12.3",
           "requirement": "Confirmation that the issuer, its promoters, promoter group, directors and selling shareholders are not debarred from accessing the capital markets, and that none is a wilful defaulter, a fraudulent borrower or a fugitive economic offender",
-          "source": "ICDR Reg 228 (Chapter IX — entities not eligible to make an initial public offer)",
+          "source": "ICDR Reg 228 (Chapter IX, entities not eligible to make an initial public offer)",
           "evidence": "Promoter and director declarations verified in due diligence",
           "mandatory": true,
           "fulfilment": "banker_certification",
@@ -1310,7 +1310,7 @@
         {
           "id": "R13.1",
           "requirement": "Dividend policy and the dividend declared, if any, in the preceding financial years",
-          "source": "ICDR Sch VI (SME) — Dividend Policy",
+          "source": "ICDR Sch VI (SME). Dividend Policy",
           "evidence": "Board-approved dividend policy; dividend records",
           "mandatory": true,
           "fulfilment": "issuer_data",
@@ -1324,7 +1324,7 @@
         {
           "id": "R13.2",
           "requirement": "Statement of special tax benefits available to the company and its shareholders, certified by the statutory auditor",
-          "source": "ICDR Sch VI (SME) — Statement of Special Tax Benefits",
+          "source": "ICDR Sch VI (SME). Statement of Special Tax Benefits",
           "evidence": "Auditor's tax benefits certificate",
           "mandatory": true,
           "fulfilment": "banker_certification",
@@ -1344,7 +1344,7 @@
         {
           "id": "R14.1",
           "requirement": "Main provisions of the Articles of Association",
-          "source": "ICDR Sch VI (SME) — Section VIII",
+          "source": "ICDR Sch VI (SME). Section VIII",
           "evidence": "Articles of Association",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -1356,7 +1356,7 @@
         {
           "id": "R14.2",
           "requirement": "Material contracts and documents available for inspection",
-          "source": "ICDR Sch VI (SME) — Section IX",
+          "source": "ICDR Sch VI (SME). Section IX",
           "evidence": "Contract register; issue agreements",
           "mandatory": true,
           "fulfilment": "standard_clause",
@@ -1377,7 +1377,7 @@
         {
           "id": "R15.1",
           "requirement": "Declaration by the directors and the Company Secretary confirming compliance with the Companies Act, the SEBI Act and the ICDR Regulations, and that no statement made is contrary to those provisions",
-          "source": "ICDR Sch VI (SME) — Declaration",
+          "source": "ICDR Sch VI (SME). Declaration",
           "evidence": "Signed declaration page",
           "mandatory": true,
           "fulfilment": "banker_certification",

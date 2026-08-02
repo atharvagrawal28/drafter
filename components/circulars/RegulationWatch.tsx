@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Badge, Button, Card, CardContent } from "@/components/ui/primitives";
 
 const LABEL: Record<Relevance, string> = {
-  "chapter-ix": "Chapter IX — SME issues",
+  "chapter-ix": "Chapter IX, SME issues",
   icdr: "ICDR / offer documents",
   "market-wide": "Market-wide",
   "not-relevant": "Not relevant",
@@ -79,7 +79,7 @@ export function RegulationWatch() {
           <p className="mt-1 max-w-3xl text-[13px] text-muted-foreground">
             Drafter holds an issuer to a <strong>versioned</strong> rule set. This page states which
             version that is, when it was built against the regulations, and what SEBI has published
-            since — so the guardrail is checkable rather than asserted.
+            since, so the guardrail is checkable rather than asserted.
           </p>
         </div>
         <Button variant="outline" size="sm" onClick={load} disabled={loading}>
@@ -165,7 +165,7 @@ export function RegulationWatch() {
             SEBI&rsquo;s feed could not be read.
           </p>
           <p className="mt-1 text-muted-foreground">
-            {watch.error} The rule set above is unaffected — this panel reports what is <em>new</em>,
+            {watch.error} The rule set above is unaffected. This panel reports what is <em>new</em>,
             not what Drafter checks. Everything else in the product works normally.
           </p>
         </div>
@@ -190,7 +190,7 @@ export function RegulationWatch() {
         <Card>
           <CardContent className="p-6 text-[13px] text-muted-foreground">
             <p>
-              SEBI&rsquo;s feed carries roughly the last thirty publications — about three days of
+              SEBI&rsquo;s feed carries roughly the last thirty publications, about three days of
               output, most of it enforcement. A circular touching Chapter IX or the ICDR Regulations
               is rare in any given window, so an empty list here is the normal state and not a
               failure.
@@ -203,7 +203,7 @@ export function RegulationWatch() {
       ) : null}
 
       <p className="mt-6 text-[11.5px] text-muted-foreground">
-        Source: {watch?.source ?? "SEBI RSS"}. Classification is rule-based and reproducible — the
+        Source: {watch?.source ?? "SEBI RSS"}. Classification is rule-based and reproducible, the
         matched terms are shown on every item so it can be judged and overruled. Drafter does not
         interpret a circular, and never edits the registry on its own: deciding what a change means
         is a job for the merchant banker.
@@ -252,7 +252,7 @@ function WatchRow({ item, asAt }: { item: ClassifiedItem; asAt: string }) {
             ))}
           </span>
         ) : (
-          <span className="text-muted-foreground">No requirement mapped — read it and judge.</span>
+          <span className="text-muted-foreground">No requirement mapped, read it and judge.</span>
         )}
         {item.matchedTerms.length > 0 ? (
           <span className="text-muted-foreground">

@@ -168,7 +168,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
           state: "not-met",
           finding: `Post-issue paid-up capital works out at ${crore(round(postIssueCapital))}, above the INR 25 crore ceiling for Chapter IX.`,
           action:
-            "An issue of this size is a main-board issue under Chapter II, not an SME issue. Either reduce the issue, or take advice on a main-board listing — the disclosure regime is materially heavier.",
+            "An issue of this size is a main-board issue under Chapter II, not an SME issue. Either reduce the issue, or take advice on a main-board listing. the disclosure regime is materially heavier.",
           values,
         });
       } else {
@@ -213,7 +213,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
             ? "Operating profit has not been supplied for any year, so the test cannot be run."
             : `Operating profit supplied for ${series.length} of the three preceding financial years.`,
         action:
-          "Supply EBITDA — operating profit before interest, depreciation and tax — for each of the last three financial years. Your auditor can derive it from the restated statements, and the financials upload reads it automatically from a labelled row.",
+          "Supply EBITDA, meaning operating profit before interest, depreciation and tax, for each of the last three financial years. Your auditor can derive it from the restated statements, and the financials upload reads it automatically from a labelled row.",
         values: series.map((value, index) => ({
           label: years[index] ?? `Year ${index + 1}`,
           value: crore(value),
@@ -241,7 +241,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
             `Operating profit reached INR 1 crore in ${qualifying.length === 0 ? "none" : "only one"} of the last three financial years. ` +
             `Regulation 229(6) requires at least two.`,
           action:
-            "This condition cannot be drafted around and it cannot be waived. The issue must wait until two of the three most recent financial years each show at least INR 1 crore of operating profit. Confirm the computation with your auditor first — it is EBITDA from operations, not profit after tax, and the two are easily confused.",
+            "This condition cannot be drafted around and it cannot be waived. The issue must wait until two of the three most recent financial years each show at least INR 1 crore of operating profit. Confirm the computation with your auditor first. It is EBITDA from operations, not profit after tax, and the two are easily confused.",
           values,
         });
       }
@@ -329,7 +329,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
         finding:
           "A change of promoter or an acquisition of more than 50% of the shareholding has occurred within the last year.",
         action:
-          "The draft offer document may not be filed until one year has passed from the date of the final change. Fix that date with your merchant banker — the year runs from the change, not from the financial year end.",
+          "The draft offer document may not be filed until one year has passed from the date of the final change. Fix that date with your merchant banker. the year runs from the change, not from the financial year end.",
       });
     }
   }
@@ -392,7 +392,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
       id: "REG-230-1-E",
       path: "eligibility.firm_financing_arrangements",
       requirement:
-        "Firm arrangements of finance, through verifiable means, are in place for 75% of the stated means of finance for any project funded from the issue proceeds — excluding the issue itself and identifiable internal accruals.",
+        "Firm arrangements of finance, through verifiable means, are in place for 75% of the stated means of finance for any project funded from the issue proceeds, excluding the issue itself and identifiable internal accruals.",
       whenFalse:
         "Firm financing arrangements are not in place for 75% of the stated means of finance excluding the issue proceeds.",
       whenMissing:
@@ -425,7 +425,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
           ? "On the figures supplied, this issuer is not currently eligible for an SME IPO."
           : `On the figures supplied, this issuer fails ${notMet.length} eligibility conditions.`,
       detail:
-        `${blocking} ${notMet.length === 1 ? "is" : "are"} not satisfied. Eligibility is a gate, not a disclosure — ` +
+        `${blocking} ${notMet.length === 1 ? "is" : "are"} not satisfied. Eligibility is a gate, not a disclosure. ` +
         `no amount of drafting changes it, and a draft filed in this state is returned. ` +
         `Read the conditions below, then take them to a merchant banker before spending further on the issue.`,
     };
@@ -435,7 +435,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
       headline: `${unknown.length} eligibility condition${unknown.length === 1 ? "" : "s"} cannot yet be judged.`,
       detail:
         `Nothing supplied so far disqualifies this issuer, and ${met.length} condition${met.length === 1 ? " is" : "s are"} satisfied. ` +
-        `But eligibility cannot be confirmed while any condition is unanswered — an unanswered condition is a question, not a pass. ` +
+        `But eligibility cannot be confirmed while any condition is unanswered. An unanswered condition is a question, not a pass. ` +
         `Each one below names exactly what is needed.`,
     };
   } else {
@@ -453,7 +453,7 @@ export function runEligibility(data: IssuerData, issuerName?: string): Eligibili
     issuerName: issuerName ?? getPath(data, "identity.company_name") ?? "the issuer",
     generatedAt: new Date().toISOString(),
     regulationSet:
-      "SEBI (ICDR) Regulations, 2018 — Chapter IX, Regulations 228, 229 and 230(1), as last amended on 8 March 2025",
+      "SEBI (ICDR) Regulations, 2018, Chapter IX, Regulations 228, 229 and 230(1), as last amended on 8 March 2025",
     conditions,
     counts: {
       met: met.length,

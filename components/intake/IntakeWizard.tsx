@@ -105,7 +105,7 @@ export function IntakeWizard() {
         <div>
           <h1 className="font-serif text-[24px] font-bold text-primary">Guided Intake</h1>
           <p className="mt-1 max-w-2xl text-[13px] text-muted-foreground">
-            {questionnaire.note.split(".")[0]}. Answer in plain language — every field is tagged with
+            {questionnaire.note.split(".")[0]}. Answer in plain language. Every field is tagged with
             the DRHP chapter and disclosure requirement it feeds, and your answers autosave.
           </p>
         </div>
@@ -227,7 +227,7 @@ export function IntakeWizard() {
                     <span className="text-[11px] text-muted-foreground">Feeds:</span>
                     {/* Tap a citation to find out what it is. A bare "R5.9" with
                         a hover tooltip is not accessible to a promoter without
-                        specialist knowledge — and on a phone there is no hover. */}
+                        specialist knowledge, and on a phone there is no hover. */}
                     <RequirementExplainer ids={step.feeds} />
                   </div>
                   <h2 className="mt-2 font-serif text-[20px] font-bold text-primary">{step.title}</h2>

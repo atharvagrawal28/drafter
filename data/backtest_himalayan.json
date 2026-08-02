@@ -4,7 +4,7 @@
     "case_name": "Himalayan Solar Limited",
     "sector": "Solar / renewable energy equipment",
     "fictional": false,
-    "purpose": "BACKTEST FIXTURE — NOT a demo issuer. Facts extracted from the company's own Draft Red Herring Prospectus dated 26 September 2025, filed on the NSE Emerge platform and published by NSE. Used solely to measure Drafter's coverage against a genuinely filed SME DRHP. No defects are planted here: any finding the checker raises is a real observation about the issuer data as extracted, and several are artefacts of extraction rather than of the filing (see BACKTEST.md).",
+    "purpose": "BACKTEST FIXTURE, NOT a demo issuer. Facts extracted from the company's own Draft Red Herring Prospectus dated 26 September 2025, filed on the NSE Emerge platform and published by NSE. Used solely to measure Drafter's coverage against a genuinely filed SME DRHP. No defects are planted here: any finding the checker raises is a real observation about the issuer data as extracted, and several are artefacts of extraction rather than of the filing (see BACKTEST.md).",
     "source": {
       "document": "Draft Red Herring Prospectus dated 26 September 2025",
       "platform": "NSE Emerge",
@@ -12,9 +12,9 @@
       "pages": 365,
       "words": 186553,
       "retrieved": "2026-07-22",
-      "note": "Public regulatory filing. Only factual particulars are reproduced here — no drafting language from the filing is copied into Drafter's own output."
+      "note": "Public regulatory filing. Only factual particulars are reproduced here, no drafting language from the filing is copied into Drafter's own output."
     },
-    "extraction_note": "Monetary figures in the filing are stated in INR lakh; they are converted to INR crore here (lakh / 100) because Drafter's engine works in crore. Fields the filing leaves as '[●]' at the draft stage (price band, net proceeds, general corporate purposes) are left ABSENT here rather than guessed — that is exactly the state a real promoter would be in, and it exercises Drafter's placeholder path.",
+    "extraction_note": "Monetary figures in the filing are stated in INR lakh; they are converted to INR crore here (lakh / 100) because Drafter's engine works in crore. Fields the filing leaves as '[●]' at the draft stage (price band, net proceeds, general corporate purposes) are left ABSENT here rather than guessed, that is exactly the state a real promoter would be in, and it exercises Drafter's placeholder path.",
     "planted_defects": []
   },
   "identity": {

@@ -31,7 +31,7 @@ export function ActionPlanPanel() {
             </p>
             <p className="mt-1 text-muted-foreground">
               Every applicable requirement with a collectable evidence field is discharged. What
-              remains is review — the merchant banker&rsquo;s due diligence and the auditor&rsquo;s
+              remains is review, the merchant banker&rsquo;s due diligence and the auditor&rsquo;s
               certifications.
             </p>
           </div>
@@ -53,7 +53,7 @@ export function ActionPlanPanel() {
                 <h2 className="font-serif text-[17px] font-bold text-primary">What to do next</h2>
               </div>
               <p className="mt-1 max-w-2xl text-[12.5px] text-muted-foreground">
-                Ranked by coverage gained per question asked — the cheapest real progress first, not
+                Ranked by coverage gained per question asked, the cheapest real progress first, not
                 the biggest pile of work. Each figure is computed with the same weighted formula that
                 produces the score above.
               </p>
@@ -101,12 +101,12 @@ export function ActionPlanPanel() {
             <div className="flex items-start gap-3">
               <BriefcaseBusiness className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
               <div className="min-w-0 flex-1">
-                <h3 className="text-[13px] font-semibold">Not yours to do — chase, don&rsquo;t draft</h3>
+                <h3 className="text-[13px] font-semibold">Not yours to do, chase, don&rsquo;t draft</h3>
                 <p className="mt-1 text-[12px] text-muted-foreground">
                   {bankerActions.reduce((sum, action) => sum + action.fields.length, 0)} item
                   {bankerActions.reduce((sum, action) => sum + action.fields.length, 0) === 1 ? "" : "s"}{" "}
                   are reserved to the merchant banker or the statutory auditor. They are excluded from
-                  the projection above, because no amount of work by the promoter closes them — but
+                  the projection above, because no amount of work by the promoter closes them, but
                   they are on the critical path, and they are commonly the last thing to arrive.
                 </p>
                 <div className="mt-2.5 flex flex-wrap gap-1.5">

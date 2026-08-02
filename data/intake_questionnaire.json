@@ -1,11 +1,11 @@
 {
-  "title": "Drafter Guided Intake — Speak Business, Not Legalese",
+  "title": "Drafter Guided Intake. Speak Business, Not Legalese",
   "note": "Guided steps mirroring the SME offer-document structure. Each question is tagged to the disclosure requirement(s) it feeds and bound to a dotted path in the issuer data, so the on-screen coverage score moves as the promoter answers. In the demo, answers are pre-filled from the selected sample issuer so a full run takes under a minute on screen.",
   "steps": [
     {
       "step": 1,
       "title": "Eligibility & Standing",
-      "help": "Before anything is drafted: can this company make an SME IPO at all? These are gate conditions under Chapter IX — they are not disclosures, and no amount of drafting works around them.",
+      "help": "Before anything is drafted: can this company make an SME IPO at all? These are gate conditions under Chapter IX: they are not disclosures, and no amount of drafting works around them.",
       "feeds": [
         "R12.3"
       ],
@@ -152,13 +152,13 @@
           "path": "business.industry_overview",
           "label": "In a few sentences, describe your industry and what drives demand",
           "type": "textarea",
-          "help": "Do not quote market-size or growth figures here unless you can cite a public source — those are added by your merchant banker."
+          "help": "Do not quote market-size or growth figures here unless you can cite a public source, those are added by your merchant banker."
         },
         {
           "path": "business.revenue_stated",
           "label": "Total revenue from operations last year (INR crore)",
           "type": "number",
-          "help": "This must match your audited financials — Drafter cross-checks it."
+          "help": "This must match your audited financials. Drafter cross-checks it."
         },
         {
           "path": "business.top_customers",
@@ -169,7 +169,7 @@
           "path": "business.suppliers",
           "label": "Who are your key suppliers, and do any belong to your promoter group?",
           "type": "textarea",
-          "help": "Be candid about promoter-owned suppliers — an undisclosed one is a common cause of exchange objections."
+          "help": "Be candid about promoter-owned suppliers, an undisclosed one is a common cause of exchange objections."
         },
         {
           "path": "business.plants_capacity",
@@ -195,7 +195,7 @@
           "path": "business.intellectual_property",
           "label": "Trademarks, patents or designs you own or use, and their registration status",
           "type": "textarea",
-          "help": "If you own none, say so — an express nil statement discharges the disclosure; silence does not."
+          "help": "If you own none, say so, an express nil statement discharges the disclosure; silence does not."
         },
         {
           "path": "business.immovable_properties",
@@ -207,13 +207,13 @@
           "path": "business.kpis",
           "label": "Key performance indicators of your business, for each of the last three years",
           "type": "textarea",
-          "help": "The operating metrics you actually run the business on — order book, capacity utilisation, revenue per site, realisation per unit. These must be certified and approved by your audit committee."
+          "help": "The operating metrics you actually run the business on: order book, capacity utilisation, revenue per site, realisation per unit. These must be certified and approved by your audit committee."
         },
         {
           "path": "business.mda_drivers",
           "label": "What drove the change in your revenue and margins over the last three years?",
           "type": "textarea",
-          "help": "Plain-language reasons — feeds the Management Discussion & Analysis chapter."
+          "help": "Plain-language reasons, feeds the Management Discussion & Analysis chapter."
         }
       ]
     },
@@ -235,7 +235,7 @@
           "path": "financials.upload",
           "label": "Upload audited financials (Excel / CSV / PDF)",
           "type": "upload",
-          "help": "Drafter reads the three-year series and the year headings automatically — revenue, profit, net worth, EPS, RoNW and operating cash flow — and fills the table below. Optional, but it discharges five disclosures at once."
+          "help": "Drafter reads the three-year series and the year headings automatically: revenue, profit, net worth, EPS, RoNW and operating cash flow, and fills the table below. Optional, but it discharges five disclosures at once."
         },
         {
           "path": "financials.years",
@@ -313,13 +313,13 @@
           "path": "financials.peer_comparison",
           "label": "Listed companies comparable to yours, with their key ratios",
           "type": "textarea",
-          "help": "If no directly comparable listed peer exists, say exactly that — it is an accepted disclosure and Drafter will render it as one."
+          "help": "If no directly comparable listed peer exists, say exactly that, it is an accepted disclosure and Drafter will render it as one."
         },
         {
           "path": "issue.objects_breakup",
           "label": "What will you use the IPO money for? (purpose + amount in INR crore)",
           "type": "objects",
-          "help": "The amounts must add up to your net proceeds — Drafter reconciles them."
+          "help": "The amounts must add up to your net proceeds. Drafter reconciles them."
         }
       ]
     },
@@ -414,7 +414,7 @@
           "path": "issue.working_capital_basis",
           "label": "How did you arrive at the working-capital amount you are raising?",
           "type": "textarea",
-          "help": "The assumptions and holding periods you relied on — debtor days, inventory days, creditor days. An unexplained working-capital object is a standard exchange query."
+          "help": "The assumptions and holding periods you relied on: debtor days, inventory days, creditor days. An unexplained working-capital object is a standard exchange query."
         },
         {
           "path": "issue.issue_expenses_breakup",
@@ -440,7 +440,7 @@
           "path": "capital_structure.share_capital_history",
           "label": "History of your equity share capital",
           "type": "rows",
-          "help": "Every allotment since incorporation — subscription to the MOA, preferential allotments, private placements, bonus and rights issues.",
+          "help": "Every allotment since incorporation: subscription to the MOA, preferential allotments, private placements, bonus and rights issues.",
           "columns": [
             {
               "key": "date",
@@ -551,7 +551,7 @@
           "path": "management.subsidiaries",
           "label": "Subsidiaries, if any",
           "type": "textarea",
-          "help": "Name, holding and financial position of each. If you have none, write that you have none — the express statement is the disclosure."
+          "help": "Name, holding and financial position of each. If you have none, write that you have none, the express statement is the disclosure."
         },
         {
           "path": "management.corporate_governance_committees",
@@ -590,7 +590,7 @@
           "path": "promoters.lock_in_confirmation",
           "label": "Do you confirm the promoter contribution will be locked in for the prescribed period, and the balance pre-issue capital for the shorter period?",
           "type": "confirm",
-          "help": "Answer 'Not yet confirmed' if this has not been settled with your merchant banker — Drafter will report it as outstanding rather than assume it."
+          "help": "Answer 'Not yet confirmed' if this has not been settled with your merchant banker. Drafter will report it as outstanding rather than assume it."
         },
         {
           "path": "promoters.promoter_disqualification_confirmation",
@@ -615,7 +615,7 @@
           "path": "legal.litigation",
           "label": "Pending litigation against the company, its directors or promoters",
           "type": "textarea",
-          "help": "Include tax demands and regulatory notices. If a matter is mentioned anywhere in your answers, it must appear here — Drafter cross-checks."
+          "help": "Include tax demands and regulatory notices. If a matter is mentioned anywhere in your answers, it must appear here. Drafter cross-checks."
         },
         {
           "path": "tax.special_tax_benefits_certificate",
@@ -726,7 +726,7 @@
           "path": "issue_structure.lead_manager_track_record",
           "label": "Price information of past issues handled by your lead manager",
           "type": "textarea",
-          "help": "Your lead manager supplies this — the issues they have handled and how those shares have traded since listing. Ask them for it early; it is a common late item."
+          "help": "Your lead manager supplies this, the issues they have handled and how those shares have traded since listing. Ask them for it early; it is a common late item."
         }
       ]
     }

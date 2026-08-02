@@ -3,13 +3,13 @@
     "issuer_id": "specchem",
     "case_name": "Aarna Specialty Chemicals Limited",
     "sector": "Specialty chemicals",
-    "purpose": "Second demo issuer, in a different sector, proving the engine and checker are not hardcoded to one company. THREE defects are planted — deliberately chosen to be the three exchange-return patterns named in POSITIONING.md: unreconciled figures, undisclosed related parties, and a missing auditor reference. Note that this issuer's revenue figures DO reconcile and its litigation IS properly disclosed, so it fails on a different axis from the auto-components issuer.",
+    "purpose": "Second demo issuer, in a different sector, proving the engine and checker are not hardcoded to one company. FOUR defects are planted, chosen to be exchange-return patterns: objects that do not aggregate to the net proceeds, undisclosed related parties, a missing auditor reference, and a general-corporate-purposes allocation above the Chapter IX ceiling. Note that this issuer's revenue figures DO reconcile and its litigation IS properly disclosed, so it fails on a different axis from the auto-components issuer.",
     "fictional": true,
     "planted_defects": [
       {
         "id": "DEFECT-1",
         "type": "objects_sum_mismatch",
-        "where": "Objects of the Issue (Chapter III.5) list utilisations aggregating INR 19.75 crore against stated net proceeds of INR 21.00 crore — a shortfall of INR 1.25 crore that is never explained.",
+        "where": "Objects of the Issue (Chapter III.5) list utilisations aggregating INR 19.75 crore against stated net proceeds of INR 21.00 crore, a shortfall of INR 1.25 crore that is never explained.",
         "should_be_caught_by": "R5.4 sum_reconciliation"
       },
       {
@@ -27,7 +27,7 @@
       {
         "id": "DEFECT-4",
         "type": "gcp_ceiling_breach",
-        "where": "Objects of the Issue (Chapter III.5) allocates INR 6.00 crore to general corporate purposes against a gross issue size of INR 22.50 crore — 26.7%, above the 25% ceiling prescribed under the ICDR Regulations.",
+        "where": "Objects of the Issue (Chapter III.5) allocates INR 6.00 crore to general corporate purposes against a gross issue size of INR 22.50 crore, being 26.7%. Regulation 230(2) caps this at the lower of 15% of the amount raised or INR 10 crore, so the ceiling here is INR 3.38 crore.",
         "should_be_caught_by": "R5.9 percentage_cap"
       }
     ]
@@ -52,15 +52,15 @@
     "industry": "Specialty chemicals",
     "industry_overview": "The Indian specialty chemicals sector supplies performance additives to downstream coatings, textile and crop-protection formulators. Demand is linked to construction and infrastructure activity in the coatings segment, to textile processing volumes, and to the crop-protection cycle. Participants compete on formulation know-how, consistency of supply, environmental compliance at the manufacturing site, and the ability to develop products jointly with the customer's technical team. Access to effluent treatment capacity and to environmental consents is a structural constraint on capacity addition in the sector.",
     "revenue_stated": 54.3,
-    "top_customers": "1) Coatings formulator PQR Industries Limited — 31% of revenue; 2) STU Agro Sciences Limited (contract manufacturing) — 24%; 3) VWX Textiles Processing Limited — 12%; 4) YZA Paints Private Limited — 8%; 5) BCD Chemicals — 5%.",
+    "top_customers": "1) Coatings formulator PQR Industries Limited, 31% of revenue; 2) STU Agro Sciences Limited (contract manufacturing), 24%; 3) VWX Textiles Processing Limited, 12%; 4) YZA Paints Private Limited, 8%; 5) BCD Chemicals, 5%.",
     "customer_concentration_pct": 55,
     "suppliers": "Key raw materials are acrylic monomers and specialty surfactants procured from two domestic petrochemical distributors on 30-day terms. Spent solvent is sent for recovery and returned for reuse under a tolling arrangement with Aarna Enviro Solutions LLP.",
-    "plants_capacity": "MIDC Tarapur, Boisar — three reactor trains with an aggregate installed capacity of 4,800 metric tonnes per annum; utilisation 74% in FY26. The facility operates under a consent to operate issued by the Maharashtra Pollution Control Board.",
+    "plants_capacity": "MIDC Tarapur, Boisar, three reactor trains with an aggregate installed capacity of 4,800 metric tonnes per annum; utilisation 74% in FY26. The facility operates under a consent to operate issued by the Maharashtra Pollution Control Board.",
     "employees": "168 permanent employees as at 31 March 2026, comprising 24 in process development and quality control, 108 in plant operations and 36 in commercial and administrative functions.",
     "competitive_strengths": "An in-house application development laboratory that allows formulations to be tailored to customer processes; ISO 9001 and ISO 14001 certified operations; an established consent to operate at a location where fresh environmental consents are difficult to obtain; a seven-year relationship with its largest coatings customer.",
     "business_strategies": "Commission a fourth reactor train to relieve the capacity constraint at Tarapur; reduce dependence on contract manufacturing by growing the direct additives business; develop two import-substitution products for the coatings segment; obtain approval as a supplier to a multinational coatings group.",
     "mda_drivers": "Revenue growth over the three-year period was driven by higher volumes in the coatings additives portfolio and by the commencement of contract manufacturing for an agrochemical formulator in FY25. Gross margins are sensitive to acrylic monomer prices, which are re-priced quarterly under most customer arrangements with a one-quarter lag. Effluent treatment and solvent recovery costs increased following tighter state pollution control norms.",
-    "internal_notes_for_checker": "Customer concentration is significant — the top two customers account for 55% of revenue and one of them is a single contract-manufacturing counterparty. Solvent recovery is tolled through Aarna Enviro Solutions LLP, which is owned by the promoter family. The Tarapur premises are partly leased from the managing director in his personal capacity at an annual rent of INR 0.36 crore.",
+    "internal_notes_for_checker": "Customer concentration is significant. The top two customers account for 55% of revenue and one of them is a single contract-manufacturing counterparty. Solvent recovery is tolled through Aarna Enviro Solutions LLP, which is owned by the promoter family. The Tarapur premises are partly leased from the managing director in his personal capacity at an annual rent of INR 0.36 crore.",
     "intellectual_property": "The Company holds two registered trademarks covering its additive product range. Formulations for the rheology modifier range are maintained as trade secrets and are not patented. The Company has applied for registration of one further mark, which is pending.",
     "immovable_properties": "The manufacturing facility at Plot D-22, MIDC Tarapur is held under a lease from the Maharashtra Industrial Development Corporation expiring in 2061. Part of the adjoining premises is leased from the Managing Director in his personal capacity at an annual rent of INR 0.36 crore. The corporate office at Andheri (East), Mumbai is held on a five-year commercial lease.",
     "kpis": [
@@ -303,7 +303,7 @@
     "related_parties": "Nil.",
     "related_party_amount": null,
     "group_companies": "Aarna Enviro Solutions LLP; Deshmukh Trading Company.",
-    "corporate_governance_committees": "Audit Committee (Farah Sheikh — Chairperson, Dr. Ramesh Iyer, Nikhil Deshmukh); Nomination and Remuneration Committee (Dr. Ramesh Iyer — Chairperson, Farah Sheikh, Shalini Deshmukh); Stakeholders Relationship Committee (Dr. Ramesh Iyer — Chairperson, Nikhil Deshmukh, Shalini Deshmukh). The board comprises four directors of whom two are independent.",
+    "corporate_governance_committees": "Audit Committee (Farah Sheikh as Chairperson, Dr. Ramesh Iyer, Nikhil Deshmukh); Nomination and Remuneration Committee (Dr. Ramesh Iyer as Chairperson, Farah Sheikh, Shalini Deshmukh); Stakeholders Relationship Committee (Dr. Ramesh Iyer as Chairperson, Nikhil Deshmukh, Shalini Deshmukh). The board comprises four directors of whom two are independent.",
     "subsidiaries": "The Company does not have any subsidiary as at the date of this Draft Red Herring Prospectus."
   },
   "promoters": {
@@ -320,7 +320,7 @@
     "litigation_matters": [
       {
         "party": "Maharashtra Pollution Control Board",
-        "nature": "Show-cause notice — effluent parameter exceedance",
+        "nature": "Show-cause notice, effluent parameter exceedance",
         "amount": null,
         "status": "Reply filed; pending"
       },

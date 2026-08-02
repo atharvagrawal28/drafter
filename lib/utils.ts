@@ -8,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 
 /** Render an ISO timestamp as "22 July 2026, 14:32". */
 export function formatTimestamp(iso: string): string {
-  if (!iso) return "—";
+  if (!iso) return "–";
   const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "–";
   return date.toLocaleString("en-IN", {
     day: "numeric",
     month: "long",
@@ -28,9 +28,9 @@ export function formatTimestamp(iso: string): string {
  * joins date and time with "at" rather than a comma.
  */
 export function formatDate(iso: string): string {
-  if (!iso) return "—";
+  if (!iso) return "–";
   const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "–";
   return date.toLocaleDateString("en-IN", {
     day: "numeric",
     month: "long",

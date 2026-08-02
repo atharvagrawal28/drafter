@@ -133,7 +133,7 @@ export function EligibilityPanel() {
             <p className="px-1 pt-2 text-[11.5px] leading-relaxed text-muted-foreground">
               Assessed against {eligibility.regulationSet}. The SME exchange applies its own track-record
               and net-worth criteria under Regulation 229(3), which are not tested here. Eligibility is
-              confirmed by the merchant banker in due diligence — this is a pre-screen, so that a
+              confirmed by the merchant banker in due diligence, this is a pre-screen, so that a
               disqualifying condition is found in week one rather than month three.
             </p>
           </div>

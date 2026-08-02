@@ -60,7 +60,7 @@ export const ROLES: Record<Role, RoleProfile> = {
     label: "Merchant Banker",
     identity: "You are the certifying intermediary.",
     purpose:
-      "Review the issuer's draft as work product — documents required against provided, chapter-to-requirement traceability, and the findings an exchange pre-check would raise.",
+      "Review the issuer's draft as work product: documents required against provided, chapter-to-requirement traceability, and the findings an exchange pre-check would raise.",
     obligation:
       "Drafter has verified nothing. Every figure traces to an issuer answer, not to evidence. Due diligence, certification and filing remain yours, and the draft is not signed off by anything here.",
     primary: ["/banker", "/gaps", "/document", "/trace", "/observations"],

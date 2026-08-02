@@ -21,7 +21,7 @@
   "sections": [
     {
       "id": "I",
-      "title": "Section I — General",
+      "title": "Section I. General",
       "chapters": [
         {
           "id": "I.1",
@@ -61,7 +61,7 @@
     },
     {
       "id": "II",
-      "title": "Section II — Risk Factors",
+      "title": "Section II. Risk Factors",
       "chapters": [
         {
           "id": "II.1",
@@ -82,7 +82,7 @@
     },
     {
       "id": "III",
-      "title": "Section III — Introduction",
+      "title": "Section III. Introduction",
       "chapters": [
         {
           "id": "III.1",
@@ -128,7 +128,7 @@
     },
     {
       "id": "IV",
-      "title": "Section IV — About the Company",
+      "title": "Section IV. About the Company",
       "chapters": [
         {
           "id": "IV.1",
@@ -198,7 +198,7 @@
     },
     {
       "id": "V",
-      "title": "Section V — Financial Information",
+      "title": "Section V. Financial Information",
       "chapters": [
         {
           "id": "V.1",
@@ -228,7 +228,7 @@
     },
     {
       "id": "VI",
-      "title": "Section VI — Legal and Other Information",
+      "title": "Section VI. Legal and Other Information",
       "chapters": [
         {
           "id": "VI.1",
@@ -255,7 +255,7 @@
     },
     {
       "id": "VII",
-      "title": "Section VII — Issue Related Information",
+      "title": "Section VII. Issue Related Information",
       "chapters": [
         {
           "id": "VII.1",
@@ -282,7 +282,7 @@
     },
     {
       "id": "VIII",
-      "title": "Section VIII — Main Provisions of the Articles of Association",
+      "title": "Section VIII. Main Provisions of the Articles of Association",
       "chapters": [
         {
           "id": "VIII.1",
@@ -293,7 +293,7 @@
     },
     {
       "id": "IX",
-      "title": "Section IX — Other Information",
+      "title": "Section IX. Other Information",
       "chapters": [
         {
           "id": "IX.1",

@@ -74,7 +74,7 @@ export function HowItWorks() {
       step: "01",
       title: "Ask, in plain language",
       icon: <ListChecks className="h-4 w-4" />,
-      what: `${questionCount} questions across ${(quiz.steps ?? []).length} steps, written the way a promoter would describe their own business — not in regulatory vocabulary.`,
+      what: `${questionCount} questions across ${(quiz.steps ?? []).length} steps, written the way a promoter would describe their own business, not in regulatory vocabulary.`,
       why: "Every question is tagged with the disclosure requirement and the DRHP chapter it feeds, so an answer is never collected without a reason it can be shown.",
       otherwise:
         "A questionnaire written from the regulations asks a promoter about 'the aggregate of the pre-issue paid-up capital'. They stop, ring somebody, and the tool has failed at the first screen.",
@@ -87,7 +87,7 @@ export function HowItWorks() {
       title: "Assemble the document",
       icon: <ScrollText className="h-4 w-4" />,
       what: `${flatChapters.length} chapters across nine sections, built from a structure file rather than hard-coded. Factual chapters become real tables from issuer answers; standard text is written out in full.`,
-      why: "The document is a tree of typed blocks, and every block carries provenance recording where its content came from — an issuer answer, a calculation, standard text, or the model.",
+      why: "The document is a tree of typed blocks, and every block carries provenance recording where its content came from: an issuer answer, a calculation, standard text, or the model.",
       otherwise:
         "A document built as one long string can be read but never audited. You could not answer 'where did this sentence come from' without asking whoever wrote the prompt.",
       href: "/document",
@@ -99,9 +99,9 @@ export function HowItWorks() {
       title: "Refuse what the model invents",
       icon: <ShieldAlert className="h-4 w-4" />,
       what: "Every figure the language model writes is checked against the issuer data it was given. A number that appears nowhere in that data causes the entire chapter to be discarded and redrafted.",
-      why: "The prompt forbids rounding in two separate places, and models round anyway — INR 78.90 crore comes back as 79. Prompting is a request; validation is a guarantee.",
+      why: "The prompt forbids rounding in two separate places, and models round anyway, INR 78.90 crore comes back as 79. Prompting is a request; validation is a guarantee.",
       otherwise:
-        "Trusting the instruction means a wrong figure reaches an offer document, reads as confident, and is caught — if at all — by the exchange, weeks later.",
+        "Trusting the instruction means a wrong figure reaches an offer document, reads as confident, and is caught, if at all, by the exchange, weeks later.",
       href: "/trace",
       hrefLabel: "See what was refused",
     },
@@ -110,7 +110,7 @@ export function HowItWorks() {
       step: "04",
       title: "Check it like an exchange would",
       icon: <ShieldCheck className="h-4 w-4" />,
-      what: `${requirementCount} tracked disclosure requirements, a Chapter IX eligibility gate, and cross-section consistency rules — all deterministic code with no model involved.`,
+      what: `${requirementCount} tracked disclosure requirements, a Chapter IX eligibility gate, and cross-section consistency rules, all deterministic code with no model involved.`,
       why: "Compliance must not depend on a language model being in a good mood. Turn the model off entirely and the coverage score, the eligibility verdict and every finding are identical.",
       otherwise:
         "A checker that asks a model whether a document is compliant produces a different answer on Tuesday, and cannot tell you which rule it applied.",
@@ -151,11 +151,11 @@ export function HowItWorks() {
         <Metric value={String(answered)} label="Answers supplied" />
         <Metric value={`${gapReport.coveragePct}%`} label="Disclosure coverage" />
         <Metric
-          value={document ? String(document.chapters.length) : "—"}
+          value={document ? String(document.chapters.length) : "–"}
           label={document ? "Chapters drafted" : "No draft yet"}
         />
         <Metric
-          value={rejected.length > 0 ? String(rejected.length) : document ? "0" : "—"}
+          value={rejected.length > 0 ? String(rejected.length) : document ? "0" : "–"}
           label="Figures refused"
           tone={rejected.length > 0 ? "text-[hsl(var(--status-defect))]" : undefined}
         />
@@ -257,7 +257,7 @@ export function HowItWorks() {
             <>
               The output is a preparatory draft. Submission is solely through the authorised{" "}
               <Explain term="merchant banker">merchant banker</Explain> after{" "}
-              <Explain term="due diligence">due diligence</Explain> and certification — a separation
+              <Explain term="due diligence">due diligence</Explain> and certification, a separation
               the regulations require and this product is built to preserve.
             </>
           }

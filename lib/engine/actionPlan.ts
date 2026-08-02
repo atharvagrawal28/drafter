@@ -119,7 +119,7 @@ function buildQuestionIndex(): Map<string, QuestionIndexEntry> {
       };
       if (question.path) record(question.path, question.label);
       // A series question owns one field per metric, each with its own label.
-      for (const row of question.rows ?? []) record(row.path, `${question.label} — ${row.label}`);
+      for (const row of question.rows ?? []) record(row.path, `${question.label}: ${row.label}`);
     }
   }
 
@@ -185,7 +185,7 @@ export function buildActionPlan(report: GapReport): ActionPlan {
               ? "Reserved to the merchant banker or auditor"
               : question
                 ? `Step ${question.stepNumber} · ${question.stepTitle}`
-                : `Other — ${humanisePath(path.split(".")[0])}`,
+                : `Other: ${humanisePath(path.split(".")[0])}`,
           owner,
           fields: new Map(),
           requirementIds: new Set(),

@@ -80,7 +80,7 @@ export function isExplicitNil(value: any): boolean {
  * wrong is immediately visible to a securities-markets reader.
  */
 export function formatIndianNumber(value: number | string | null | undefined): string {
-  if (value === null || value === undefined || value === "") return "—";
+  if (value === null || value === undefined || value === "") return "–";
   const num = typeof value === "string" ? Number(value) : value;
   if (!Number.isFinite(num)) return String(value);
 
@@ -109,7 +109,7 @@ export function formatIndianNumber(value: number | string | null | undefined): s
  * must always carry two decimals.
  */
 export function formatCrore(value: number | null | undefined): string {
-  if (value === null || value === undefined || !Number.isFinite(Number(value))) return "—";
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) return "–";
   const num = Number(value);
   const negative = num < 0;
   const [intPart, decPart] = Math.abs(num).toFixed(2).split(".");
@@ -143,7 +143,7 @@ export function money(value: number | null | undefined, unit?: string): string {
 
 /** Format a percentage to one decimal place. */
 export function formatPct(value: number | null | undefined, decimals = 2): string {
-  if (value === null || value === undefined || !Number.isFinite(Number(value))) return "—";
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) return "–";
   return `${Number(value).toFixed(decimals)}%`;
 }
 

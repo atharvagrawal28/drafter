@@ -99,8 +99,8 @@ export function BankerWorkspace() {
         <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
           This draft is a preparatory document. It is not a filing and may be submitted only by the
           authorised merchant banker after due diligence and certification. Drafter reduces the
-          early-stage effort of first-draft preparation; the accountability chain — banker due
-          diligence, auditor certification, exchange examination and SEBI oversight — is unchanged.
+          early-stage effort of first-draft preparation; the accountability chain, banker due
+          diligence, auditor certification, exchange examination and SEBI oversight, is unchanged.
         </p>
       </div>
 

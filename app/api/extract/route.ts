@@ -249,7 +249,7 @@ export async function POST(request: NextRequest) {
             ? `, including ${seriesFound} ${yearsFound ? `${yearsFound}-year` : "multi-year"} series, which discharge the restated-financials, capitalisation and weighted-average disclosures`
             : `, including the latest-year revenue, which now feeds the gap check`) +
           `. Verify every figure against the source document.`
-        : `Parsed ${name} but could not confidently identify the revenue line. Key the summary figures in manually — a wrong figure lifted automatically is worse than one you enter yourself.`,
+        : `Parsed ${name} but could not confidently identify the revenue line. Key the summary figures in manually, a wrong figure lifted automatically is worse than one you enter yourself.`,
     });
   } catch (error) {
     return NextResponse.json(

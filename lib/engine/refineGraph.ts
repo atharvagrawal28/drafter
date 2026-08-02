@@ -431,7 +431,7 @@ export function buildRefineGraph() {
         if (!budgetSpent) {
           budgetSpent = true;
           log.push(
-            `time budget spent — remaining chapters take the deterministic template rather than risking a timeout`,
+            `time budget spent, so remaining chapters take the deterministic template rather than risking a timeout`,
           );
         }
         continue;
@@ -462,7 +462,7 @@ export function buildRefineGraph() {
         } else {
           pending.push(job.chapterId);
           log.push(
-            `${job.chapterId}: first pass omitted ${missing.length} required topic(s) — queued for revision.`,
+            `${job.chapterId}: first pass omitted ${missing.length} required topic(s), queued for revision.`,
           );
         }
       } else {
@@ -471,12 +471,12 @@ export function buildRefineGraph() {
         pending.push(job.chapterId);
         log.push(
           result.rejected?.length
-            ? `${job.chapterId}: first pass used unsupported figure(s) ${result.rejected.join(", ")} — queued for revision.`
+            ? `${job.chapterId}: first pass used unsupported figure(s) ${result.rejected.join(", ")}, queued for revision.`
             : result.chainExhausted
-              ? `${job.chapterId}: every model in the fallback chain is out of quota — queued for retry.`
+              ? `${job.chapterId}: every model in the fallback chain is out of quota, queued for retry.`
               : result.rateLimited
-                ? `${job.chapterId}: provider rate limit hit — queued for retry.`
-                : `${job.chapterId}: first pass failed (${result.error ?? "unknown"}) — queued for revision.`,
+                ? `${job.chapterId}: provider rate limit hit, queued for retry.`
+                : `${job.chapterId}: first pass failed (${result.error ?? "unknown"}), queued for revision.`,
         );
       }
 

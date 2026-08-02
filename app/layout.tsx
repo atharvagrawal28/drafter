@@ -44,7 +44,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Drafter — SME IPO offer-document generation",
+  title: "Drafter · SME IPO offer-document generation",
   description:
     "Turn an SME promoter's plain-language answers into a structured, disclosure-mapped draft DRHP with an exchange-style gap and consistency check. SEBI Securities Market TechSprint @ GFF 2026, Track 04.",
 };

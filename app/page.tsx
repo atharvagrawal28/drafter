@@ -64,7 +64,7 @@ export default function OverviewPage() {
           <p className="mt-6 max-w-[62ch] text-[15.5px] leading-[1.7] text-muted-foreground">
             An SME promoter answers plain-language questions. Drafter assembles a substantially
             complete, correctly structured, disclosure-mapped draft offer document across all nine
-            sections of the SME DRHP — then runs an exchange-style gap and consistency check over it
+            sections of the SME DRHP, then runs an exchange-style gap and consistency check over it
             before the merchant banker ever sees it.
           </p>
 
@@ -82,7 +82,7 @@ export default function OverviewPage() {
           </div>
 
           <p className="mt-5 text-[12.5px] leading-relaxed text-muted-foreground">
-            Currently loaded: <span className="font-medium text-foreground">{issuer?.name}</span> —{" "}
+            Currently loaded: <span className="font-medium text-foreground">{issuer?.name}</span>, {" "}
             {issuer?.sector}. Switch issuers from the selector in the header to see the same engine
             run against a different sector.
           </p>
@@ -111,7 +111,7 @@ export default function OverviewPage() {
               }
             />
             <p className="mt-2 text-[11.5px] text-muted-foreground">
-              Computed live across {gapReport.counts.total} disclosure requirements — it moves as the
+              Computed live across {gapReport.counts.total} disclosure requirements, it moves as the
               intake is filled in. {gapReport.issuerCoveragePct}% on the items the issuer itself can
               discharge.
             </p>
@@ -170,7 +170,7 @@ export default function OverviewPage() {
           step="03"
           icon={<ShieldCheck className="h-5 w-5" />}
           title="Gap & Consistency"
-          body="Opens with the Chapter IX eligibility gate — may this issuer make the issue at all? Then cross-section reconciliation, red flags, a ranked action plan, and per-requirement status with exact locations."
+          body="Opens with the Chapter IX eligibility gate: may this issuer make the issue at all? Then cross-section reconciliation, red flags, a ranked action plan, and per-requirement status with exact locations."
         />
         <StepCard
           href="/banker"
@@ -232,7 +232,7 @@ export default function OverviewPage() {
             </h2>
             <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
               BSE&apos;s GenAI DRHP pre-check has cut exchange review from around seven days to under
-              forty minutes — but it acts on a draft that someone has already written. Nobody helps the
+              forty minutes, but it acts on a draft that someone has already written. Nobody helps the
               SME write it. Drafter fills that gap, and deliberately targets the same return patterns
               the exchange flags, so a draft clears pre-check instead of bouncing:
             </p>
@@ -275,7 +275,7 @@ export default function OverviewPage() {
                 ? "Checking drafting mode…"
                 : llmAvailable
                   ? `Narrative drafting is live via ${llmModel}. Factual chapters are unaffected by the model either way.`
-                  : "No language-model key is configured, so narrative chapters come from deterministic templates. The product is fully functional in this mode — that is by design, so a live demo cannot fail."}
+                  : "No language-model key is configured, so narrative chapters come from deterministic templates. The product is fully functional in this mode, that is by design, so a live demo cannot fail."}
             </p>
           </CardContent>
         </Card>

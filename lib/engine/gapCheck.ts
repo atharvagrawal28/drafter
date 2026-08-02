@@ -231,9 +231,9 @@ function detectInformalRegister(text: string): RegisterMarker[] {
     { re: /\bright now\b/gi, label: "“right now”", fixable: "auto" },
     { re: /\b(?:roughly|around|about)\s+\d/gi, label: "approximation (“about 19 percent”)", fixable: "auto" },
     { re: /\bpercent\b/gi, label: "“percent” written out rather than %", fixable: "auto" },
-    { re: /\bnothing much\b|\bnothing major\b/gi, label: "“nothing much” — vague where a disclosure is required", fixable: "issuer" },
-    { re: /\ba few\b/gi, label: "“a few” — unquantified", fixable: "issuer" },
-    { re: /\blot of\b|\blots of\b/gi, label: "“lots of” — unquantified", fixable: "issuer" },
+    { re: /\bnothing much\b|\bnothing major\b/gi, label: "“nothing much”, vague where a disclosure is required", fixable: "issuer" },
+    { re: /\ba few\b/gi, label: "“a few”, unquantified", fixable: "issuer" },
+    { re: /\blot of\b|\blots of\b/gi, label: "“lots of”, unquantified", fixable: "issuer" },
     { re: /\bkind of\b|\bsort of\b/gi, label: "hedging (“sort of”)", fixable: "issuer" },
     { re: /\bthey pay\b|\bpay on time\b/gi, label: "conversational claim about a third party", fixable: "issuer" },
   ];
@@ -325,7 +325,7 @@ function runConsistencyCheck(
             severity: "high",
             requirementId: requirement.id,
             locations,
-            title: `Figures differ by exactly ${scale.factorLabel} — this looks like a ${scale.likelyUnitError}`,
+            title: `Figures differ by exactly ${scale.factorLabel}, which looks like a ${scale.likelyUnitError}`,
             observation:
               `${spec.label_a} states ${money(a, unit)} and ${spec.label_b} shows ${money(b, unit)}. ` +
               `One figure is almost exactly ${scale.factorLabel} the other, which usually means the two were ` +
@@ -358,7 +358,7 @@ function runConsistencyCheck(
           observation:
             `The same figure is stated differently in two chapters. ` +
             `${spec.label_a} states ${money(a, unit)}, while ` +
-            `${spec.label_b} shows ${money(b, unit)} — a difference of ` +
+            `${spec.label_b} shows ${money(b, unit)}, a difference of ` +
             `${money(Math.abs(round(a - b)), unit)} (${diff.toFixed(1)}%).`,
           exchangePattern,
           remediation:
@@ -533,7 +533,7 @@ function runConsistencyCheck(
           observation:
             `The shareholding pattern lists holdings totalling ` +
             `${formatIndianNumber(sum)} equity shares, but the pre-issue paid-up capital ` +
-            `is stated as ${formatIndianNumber(total)} equity shares — a difference of ` +
+            `is stated as ${formatIndianNumber(total)} equity shares, a difference of ` +
             `${formatIndianNumber(Math.abs(sum - total))} shares.`,
           exchangePattern,
           remediation:
@@ -591,7 +591,7 @@ function runConsistencyCheck(
           remediation:
             `Disclose the matter in Outstanding Litigation and Material Developments with ` +
             `the forum, the amount involved, the present status, and the financial impact ` +
-            `if determined adversely — and carry a corresponding risk factor. A matter ` +
+            `if determined adversely, and carry a corresponding risk factor. A matter ` +
             `referenced in the issuer's own records but omitted from the Legal chapter is ` +
             `treated as a material non-disclosure.`,
           values: hits.slice(0, 3).map((hit) => ({
@@ -714,7 +714,7 @@ function runConsistencyCheck(
             (capAbsolute === null
               ? `${citation} this at ${capPct}%, being ${money(ceiling, unit)}.`
               : `${citation} this at ${capPct}% of the amount being raised or ` +
-                `${money(capAbsolute, unit)}, whichever is less — here ${bindingLimb} binds, giving ` +
+                `${money(capAbsolute, unit)}, whichever is less. Here ${bindingLimb} binds, giving ` +
                 `${money(ceiling, unit)}.`),
           exchangePattern,
           remediation:
@@ -833,7 +833,7 @@ function runConsistencyCheck(
             observation:
               `${offenders.length} of the issuer's narrative answers were supplied in the first person or ` +
               `in informal register (${autoCount} markers). Drafter rewrote these into impersonal register ` +
-              `— "we do" to "the Company does", "about 19 percent" to "approximately 19%" — while leaving ` +
+              `so "we do" becomes "the Company does" and "about 19 percent" becomes "approximately 19%", while leaving ` +
               `every figure exactly as supplied. Example, as supplied by the issuer, from ` +
               `${humanField(offenders[0].field)}: "${offenders[0].excerpt}…"`,
             exchangePattern:
@@ -869,7 +869,7 @@ function runConsistencyCheck(
           exchangePattern:
             "Conversational or promotional language in an offer document draws an exchange observation on presentation, and marketing register in particular is expressly discouraged.",
           remediation:
-            `Replace each vague phrase with the specific position — a count, an amount, a date, or an ` +
+            `Replace each vague phrase with the specific position: a count, an amount, a date, or an ` +
             `express nil statement such as "there are no outstanding proceedings against the Company". ` +
             `The figures already supplied are not in question; what is needed is the particular the ` +
             `phrase stands in for.`,
@@ -948,7 +948,7 @@ function humanField(path: string): string {
     .replace(/\s*for checker\b/i, "")
     .trim();
   const groupLabel = group.replace(/_/g, " ");
-  return `${groupLabel.charAt(0).toUpperCase()}${groupLabel.slice(1)} — ${label}`;
+  return `${groupLabel.charAt(0).toUpperCase()}${groupLabel.slice(1)}: ${label}`;
 }
 
 // ---------------------------------------------------------------------------

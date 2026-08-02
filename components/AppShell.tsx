@@ -53,7 +53,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex h-[68px] max-w-[1600px] items-center gap-5 px-5 sm:px-7">
           <Link href="/" className="group flex shrink-0 items-center gap-3">
             {/* The seal. A brass hairline inside the ink block reads as a stamp
-                rather than an app icon — and it is the only place the accent
+                rather than an app icon, and it is the only place the accent
                 appears in the masthead. */}
             <span className="relative flex h-9 w-9 items-center justify-center rounded-[9px] bg-primary text-primary-foreground shadow-sm ring-1 ring-inset ring-accent/25 transition-shadow duration-200 ease-smooth group-hover:shadow-md">
               <FileText className="h-[17px] w-[17px]" />
@@ -70,7 +70,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
           <div className="hidden h-7 w-px bg-border lg:block" />
 
-          {/* Issuer selector — proves the engine is not hardcoded to one company */}
+          {/* Issuer selector, proves the engine is not hardcoded to one company */}
           <div className="hidden min-w-0 items-center gap-2 lg:flex">
             <span className="shrink-0 text-xs font-medium text-muted-foreground">Issuer</span>
             <Select
@@ -92,7 +92,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
           <div className="flex-1" />
 
-          {/* Live coverage — recomputed from issuer data on every change */}
+          {/* Live coverage, recomputed from issuer data on every change */}
           <Link
             href="/gaps"
             className="hidden items-center gap-2.5 rounded-lg border border-border bg-card px-3 py-1.5 shadow-xs transition-[border-color,box-shadow] duration-200 ease-smooth hover:border-input hover:shadow-sm md:flex"
@@ -145,7 +145,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             they built in the first minute, and it camouflages the one thing
             that actually differs between the two roles.
 
-            Nothing is hidden either — a promoter should be able to look ahead
+            Nothing is hidden either, a promoter should be able to look ahead
             at the banker's workspace, and a reviewer should see the whole
             product without hunting for a toggle. */}
         <nav className="mx-auto flex max-w-[1600px] items-center gap-0.5 overflow-x-auto px-5 thin-scrollbar sm:px-7">
@@ -175,7 +175,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   <Icon className={cn("h-3.5 w-3.5 transition-colors", active && "text-accent")} />
                   {item.label}
                   {/* The rule is a child, not a border, so it can be inset and
-                      rounded — a full-width border-bottom reads as a tab strip. */}
+                      rounded, a full-width border-bottom reads as a tab strip. */}
                   <span
                     className={cn(
                       "absolute inset-x-2 bottom-0 h-[2px] rounded-full transition-all duration-200 ease-smooth",
@@ -190,7 +190,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Standing guardrail — visible on every screen, never dismissible   */}
+      {/* Standing guardrail, visible on every screen, never dismissible   */}
       {/* ---------------------------------------------------------------- */}
       <div className="border-b border-accent/20 bg-accent/[0.055]">
         <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-1 px-5 py-2 text-[11px] sm:px-7">
@@ -226,7 +226,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Role context — who you are in this seat, and what you carry       */}
+      {/* Role context: who you are in this seat, and what you carry       */}
       {/*                                                                   */}
       {/* The separation between the issuer who asserts and the intermediary */}
       {/* who verifies is one of the things this product exists to preserve, */}
@@ -263,11 +263,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <footer className="mt-4 border-t border-border bg-card">
         <div className="mx-auto flex max-w-[1600px] flex-col gap-1.5 px-5 py-7 text-[11.5px] leading-relaxed text-muted-foreground sm:px-7">
           <p className="font-serif text-[13.5px] font-semibold text-foreground">
-            Drafter — SEBI Securities Market TechSprint @ GFF 2026 · Track 04: Fund Raising
+            Drafter, SEBI Securities Market TechSprint @ GFF 2026 · Track 04: Fund Raising
           </p>
           <p>
             Built by postgraduates in Securities Markets, NISM. Regulation set:
-            SEBI (ICDR) Regulations, 2018 — Chapter IX and Schedule VI, as identified in the Impact view.
+            SEBI (ICDR) Regulations, 2018. Chapter IX and Schedule VI, as identified in the Impact view.
             Drafter produces a preparatory draft and does not replace the merchant banker&apos;s due
             diligence, review or certification.
           </p>

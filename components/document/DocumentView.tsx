@@ -96,7 +96,7 @@ export function DocumentView() {
         <EmptyState
           icon={<ScrollText className="h-8 w-8" />}
           title="No draft generated yet"
-          description="Drafter builds the document from the SME DRHP structure — Sections I to IX, 34 chapters — filling each chapter from the issuer data you supply in the guided intake."
+          description="Drafter builds the document from the SME DRHP structure, Sections I to IX, 34 chapters, filling each chapter from the issuer data you supply in the guided intake."
           action={
             <Button onClick={generate} disabled={generating}>
               {generating ? <Loader2 className="animate-spin" /> : <ScrollText />}
@@ -142,7 +142,7 @@ export function DocumentView() {
             variant={showProvenance ? "default" : "outline"}
             size="sm"
             onClick={() => setShowProvenance((value) => !value)}
-            title="Show the source of every block — the disclosure trail"
+            title="Show the source of every block, the disclosure trail"
           >
             {showProvenance ? <EyeOff /> : <Eye />}
             {showProvenance ? "Hide" : "Show"} disclosure trail
@@ -166,7 +166,7 @@ export function DocumentView() {
             <ProvenanceLegend />
             <p className="mt-2 text-[11.5px] text-muted-foreground">
               Every block records where its content came from and which disclosure requirements it
-              discharges. This is what makes the draft auditable — and it is the same structure a
+              discharges. This is what makes the draft auditable, and it is the same structure a
               supervisor could consume as machine-readable data.
             </p>
           </div>
@@ -217,7 +217,7 @@ export function DocumentView() {
                     </div>
                     <h3 className="prospectus-h1 mt-2 !text-[22px]">{chapter.title}</h3>
 
-                    {/* Requirement mapping — shown on every chapter, always */}
+                    {/* Requirement mapping, shown on every chapter, always */}
                     <div className="mt-3 flex flex-wrap items-center gap-1.5">
                       <span className="font-sans text-[10.5px] uppercase tracking-wider text-muted-foreground">
                         Maps to disclosure requirements

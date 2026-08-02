@@ -499,7 +499,7 @@ const factualBuilders: Record<string, Builder> = {
       blocks.push({
         kind: "list",
         items: objects.map(
-          (object: any) => `${renderValue(object.purpose)} — INR ${formatCrore(object.amount)} crore`,
+          (object: any) => `${renderValue(object.purpose)}: INR ${formatCrore(object.amount)} crore`,
         ),
         provenance: { origin: "issuer-input", fields: ["issue.objects_breakup"], requirementIds: reqs },
       });
@@ -852,7 +852,7 @@ const factualBuilders: Record<string, Builder> = {
       blocks.push(
         placeholder(
           "Particulars of the remaining intermediaries and advisors to the Issue.",
-          missingParties.map(([label]) => `${label} — name, address, contact and SEBI registration number`),
+          missingParties.map(([label]) => `${label}: name, address, contact and SEBI registration number`),
           reqs,
         ),
       );
@@ -994,8 +994,8 @@ const factualBuilders: Record<string, Builder> = {
           renderValue(holder.name),
           renderValue(holder.category),
           formatIndianNumber(shares),
-          totalPre ? `${((shares / totalPre) * 100).toFixed(2)}%` : "—",
-          totalPost ? `${((shares / totalPost) * 100).toFixed(2)}%` : "—",
+          totalPre ? `${((shares / totalPre) * 100).toFixed(2)}%` : "–",
+          totalPost ? `${((shares / totalPost) * 100).toFixed(2)}%` : "–",
         ];
       });
 
@@ -1004,8 +1004,8 @@ const factualBuilders: Record<string, Builder> = {
           "Investors in the Issue",
           "Public",
           formatIndianNumber(issue.fresh_issue_shares),
-          "—",
-          totalPost ? `${((Number(issue.fresh_issue_shares) / totalPost) * 100).toFixed(2)}%` : "—",
+          "–",
+          totalPost ? `${((Number(issue.fresh_issue_shares) / totalPost) * 100).toFixed(2)}%` : "–",
         ]);
       }
 
@@ -1013,7 +1013,7 @@ const factualBuilders: Record<string, Builder> = {
         "Total",
         "",
         formatIndianNumber(totalPost),
-        totalPre ? "100.00%" : "—",
+        totalPre ? "100.00%" : "–",
         "100.00%",
       ]);
 
@@ -1125,14 +1125,14 @@ const factualBuilders: Record<string, Builder> = {
         String(index + 1),
         renderValue(object.purpose),
         formatCrore(object.amount),
-        Number.isFinite(net) && net > 0 ? `${((Number(object.amount) / net) * 100).toFixed(2)}%` : "—",
-        renderValue(object.deployment) || "—",
+        Number.isFinite(net) && net > 0 ? `${((Number(object.amount) / net) * 100).toFixed(2)}%` : "–",
+        renderValue(object.deployment) || "–",
       ]);
       rows.push([
         "",
         "Total",
         formatCrore(total),
-        Number.isFinite(net) && net > 0 ? `${((total / net) * 100).toFixed(2)}%` : "—",
+        Number.isFinite(net) && net > 0 ? `${((total / net) * 100).toFixed(2)}%` : "–",
         "",
       ]);
 
@@ -1193,7 +1193,7 @@ const factualBuilders: Record<string, Builder> = {
         formatCrore(row.amount),
         Number.isFinite(Number(issue.issue_size)) && Number(issue.issue_size) > 0
           ? `${((Number(row.amount) / Number(issue.issue_size)) * 100).toFixed(2)}%`
-          : "—",
+          : "–",
       ]);
       rows.push(["Total estimated Issue expenses", formatCrore(totalExpenses), ""]);
       blocks.push(
@@ -1375,16 +1375,16 @@ const factualBuilders: Record<string, Builder> = {
 
       const rows = years.map((year, index) => [
         year,
-        epsSeries[index] !== undefined ? String(epsSeries[index]) : "—",
-        ronwSeries[index] !== undefined ? `${ronwSeries[index]}%` : "—",
+        epsSeries[index] !== undefined ? String(epsSeries[index]) : "–",
+        ronwSeries[index] !== undefined ? `${ronwSeries[index]}%` : "–",
         String(weights[index]),
       ]);
       const weightedEps = weighted(epsSeries);
       const weightedRonw = weighted(ronwSeries);
       rows.push([
         "Weighted average",
-        weightedEps !== null ? weightedEps.toFixed(2) : "—",
-        weightedRonw !== null ? `${weightedRonw.toFixed(2)}%` : "—",
+        weightedEps !== null ? weightedEps.toFixed(2) : "–",
+        weightedRonw !== null ? `${weightedRonw.toFixed(2)}%` : "–",
         "",
       ]);
 
@@ -2078,12 +2078,12 @@ const factualBuilders: Record<string, Builder> = {
       const rows = [
         ["Market Maker reservation portion", formatIndianNumber(mm), `${((mm / fresh) * 100).toFixed(2)}%`],
         [
-          "Net Issue to the public — retail individual investors",
+          "Net Issue to the public, retail individual investors",
           formatIndianNumber(half),
           `${((half / fresh) * 100).toFixed(2)}%`,
         ],
         [
-          "Net Issue to the public — other than retail individual investors",
+          "Net Issue to the public, other than retail individual investors",
           formatIndianNumber(net - half),
           `${(((net - half) / fresh) * 100).toFixed(2)}%`,
         ],
@@ -2624,7 +2624,7 @@ export async function generateDocument(
     generationMode: llmUsed ? "llm" : "template",
     generationNote: llmUsed
       ? `Narrative chapters drafted by ${options.llmModel ?? "the configured language model"} under a constrained prompt limited to the issuer data. Factual chapters are built deterministically from issuer data and contain no model output.`
-      : `No language-model key is configured, so narrative chapters were drafted from Drafter's deterministic templates. Factual chapters are unaffected — they are always built directly from issuer data.`,
+      : `No language-model key is configured, so narrative chapters were drafted from Drafter's deterministic templates. Factual chapters are unaffected. they are always built directly from issuer data.`,
     stats,
   };
 }

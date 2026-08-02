@@ -24,12 +24,12 @@ const VERDICT_META = {
     badge: "complete" as const,
   },
   "out-of-scope": {
-    label: "Document to be produced — not Drafter's to draft",
+    label: "Document to be produced, not Drafter's to draft",
     icon: MinusCircle,
     badge: "outline" as const,
   },
   unmapped: {
-    label: "Not in the registry — a gap",
+    label: "Not in the registry, a gap",
     icon: AlertTriangle,
     badge: "defect" as const,
   },
@@ -47,14 +47,14 @@ export function ObservationReplay() {
   return (
     <div className="mx-auto max-w-[1100px] px-4 py-10 sm:px-6">
       <Badge variant="accent" className="mb-3">
-        Closing the loop — exchange observations back onto the registry
+        Closing the loop, exchange observations back onto the registry
       </Badge>
       <h1 className="font-serif text-[30px] font-bold leading-tight text-primary">
         Observation replay
       </h1>
       <p className="mt-4 max-w-3xl text-[14.5px] leading-relaxed text-muted-foreground">
         Every other claim Drafter makes about its requirement registry is
-        self-referential — the registry says the draft is complete because the registry says so.
+        self-referential, the registry says the draft is complete because the registry says so.
         This is the one check that comes from outside. Paste the observation letter the exchange
         returned on a draft offer document and Drafter maps each observation to the requirement and
         chapter it belongs to, then reports how much of the letter it would have raised{" "}
@@ -66,7 +66,7 @@ export function ObservationReplay() {
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
           <p className="text-[12.5px] leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground">Your letter stays in this browser.</span>{" "}
-            Parsing and mapping run entirely client-side — an observation letter names an unlisted
+            Parsing and mapping run entirely client-side, an observation letter names an unlisted
             issuer and the defects in its draft, so there is no reason for it to reach a server to
             be split on its numbering. Nothing is uploaded, stored or logged.
           </p>
@@ -125,7 +125,7 @@ export function ObservationReplay() {
                     Raised by Drafter first
                   </p>
                   <p className="mt-1 font-serif text-[38px] font-bold leading-none tabular-nums text-primary">
-                    {report.coveragePct === null ? "—" : `${report.coveragePct}%`}
+                    {report.coveragePct === null ? "–" : `${report.coveragePct}%`}
                   </p>
                   <p className="mt-1.5 text-[11.5px] text-muted-foreground">
                     of in-scope observations
@@ -134,14 +134,14 @@ export function ObservationReplay() {
                 <div className="grid gap-1.5 text-[12.5px]">
                   <Row label="Observations read" value={report.counts.total} />
                   <Row label="Mapped to a requirement Drafter checks" value={report.counts.mapped} tone="good" />
-                  <Row label="Registry gaps — not covered" value={report.counts.unmapped} tone={report.counts.unmapped > 0 ? "bad" : undefined} />
-                  <Row label="Documents to produce — outside scope" value={report.counts.outOfScope} tone="muted" />
+                  <Row label="Registry gaps, not covered" value={report.counts.unmapped} tone={report.counts.unmapped > 0 ? "bad" : undefined} />
+                  <Row label="Documents to produce, outside scope" value={report.counts.outOfScope} tone="muted" />
                 </div>
               </div>
 
               <p className="mt-5 border-t border-border pt-4 text-[11.5px] leading-relaxed text-muted-foreground">
                 The percentage is computed over in-scope observations only. Document-production
-                items — a consent, a peer review certificate, an executed agreement — are removed
+                items, a consent, a peer review certificate, an executed agreement, are removed
                 from the denominator rather than counted as successes, because Drafter does not
                 produce them and should not take credit for them. Registry gaps stay in the
                 denominator and pull the number down; they are the most useful thing this screen
@@ -231,7 +231,7 @@ function ObservationCard({ observation }: { observation: MappedObservation }) {
       {observation.verdict === "unmapped" ? (
         <p className="mt-3 border-l-2 border-[hsl(var(--status-defect))]/40 pl-3 text-[12px] leading-relaxed text-muted-foreground">
           No requirement in the registry would have prompted the issuer for this. Recorded as a
-          gap rather than absorbed — this is what the replay is for.
+          gap rather than absorbed, this is what the replay is for.
         </p>
       ) : null}
 
