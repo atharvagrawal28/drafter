@@ -14,5 +14,5 @@ and each carries the evidence for its own changes in comments.
 
 **They are not re-runnable.** Their output is already committed in `data/`, and
 running one again would apply the same edit twice. Nothing in the build, the
-app or the verification suites imports them — `npm run verify` is what protects
+app or the verification suites imports them, `npm run verify` is what protects
 those files now.
