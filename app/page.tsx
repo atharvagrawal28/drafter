@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -19,9 +20,29 @@ import { Badge, Button, Card, CardContent, Progress } from "@/components/ui/prim
 import { Explain } from "@/components/ui/Explain";
 
 export default function OverviewPage() {
-  const { gapReport, document, generate, generating, issuerId, issuerData, llmAvailable, llmModel } =
-    useDrafter();
+  const {
+    gapReport,
+    document,
+    refineTrace,
+    generate,
+    generating,
+    issuerId,
+    issuerData,
+    llmAvailable,
+    llmModel,
+  } = useDrafter();
   const issuer = sampleIssuers.find((candidate) => candidate.id === issuerId);
+
+  // Distinct figures the output validator refused across the whole run.
+  const rejectedFigures = React.useMemo(
+    () =>
+      Array.from(
+        new Set(
+          (refineTrace?.chapters ?? []).flatMap((chapter) => chapter.rejectedFigures.flat()).filter(Boolean),
+        ),
+      ),
+    [refineTrace],
+  );
 
   return (
     <div className="mx-auto max-w-[1600px] px-5 py-12 sm:px-7 lg:py-16">
@@ -159,6 +180,45 @@ export default function OverviewPage() {
           body="The same draft, seen as due-diligence work product: documents required against provided, chapter-to-requirement mapping, risk flags, and a version diff of the banker's amendments."
         />
       </div>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Proof, shown only when there is some                              */}
+      {/*                                                                   */}
+      {/* Appears when the loop actually refused something the model wrote. */}
+      {/* Claiming the guarantee on an empty run would be the same kind of  */}
+      {/* unearned assertion the product exists to prevent.                  */}
+      {/* ---------------------------------------------------------------- */}
+      {rejectedFigures.length > 0 ? (
+        <Link href="/trace" className="group mt-8 block">
+          <Card className="border-[hsl(var(--status-defect))]/25 bg-[hsl(var(--status-defect))]/[0.035] transition-shadow duration-200 ease-smooth group-hover:shadow-md">
+            <CardContent className="flex flex-wrap items-center gap-x-4 gap-y-2 p-5">
+              <ShieldCheck className="h-5 w-5 shrink-0 text-[hsl(var(--status-defect))]" />
+              <div className="min-w-0 flex-1">
+                <p className="font-serif text-[16px] font-semibold leading-snug text-[hsl(var(--status-defect))]">
+                  Drafter refused {rejectedFigures.length === 1 ? "a figure" : `${rejectedFigures.length} figures`} its own
+                  language model invented
+                </p>
+                <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
+                  The model wrote{" "}
+                  {rejectedFigures.map((figure, index) => (
+                    <span key={figure}>
+                      {index > 0 ? ", " : ""}
+                      <span className="rounded border border-[hsl(var(--status-defect))]/30 bg-card px-1 py-0.5 font-mono text-[11.5px] font-semibold text-[hsl(var(--status-defect))]">
+                        {figure}
+                      </span>
+                    </span>
+                  ))}
+                  , absent from this issuer&apos;s answers. Each affected chapter was thrown away and
+                  redrafted rather than published.
+                </p>
+              </div>
+              <span className="shrink-0 text-[12px] font-medium text-primary underline-offset-4 group-hover:underline">
+                See the drafting record →
+              </span>
+            </CardContent>
+          </Card>
+        </Link>
+      ) : null}
 
       {/* ---------------------------------------------------------------- */}
       {/* Positioning + guardrails                                          */}

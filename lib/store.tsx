@@ -28,6 +28,7 @@ import {
 import { runEligibility, type EligibilityReport } from "./engine/eligibility";
 import { runGapCheck } from "./engine/gapCheck";
 import { generateDocument } from "./engine/generate";
+import type { RefineTrace } from "./engine/refineGraph";
 import { getPath, setPath } from "./engine/utils";
 import type { DrhpDocument, GapReport, IssuerData } from "./types";
 
@@ -49,6 +50,11 @@ interface SessionState {
   issuerId: string;
   issuerData: IssuerData;
   document: DrhpDocument | null;
+  /**
+   * What the self-correction loop did to produce the current document, or null
+   * where it did not run — no key, or a template-only generation.
+   */
+  refineTrace: RefineTrace | null;
   bankerEdits: Record<string, BankerEdit>;
   /** Provenance note for uploaded financials, shown next to extracted figures. */
   uploadNote: string | null;
@@ -100,6 +106,7 @@ function initialState(): SessionState {
     issuerId: issuer.id,
     issuerData: cloneIssuerData(issuer.data),
     document: null,
+    refineTrace: null,
     bankerEdits: {},
     uploadNote: null,
     effort: emptyEffort(),
@@ -129,6 +136,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
             issuerId: parsed.issuerId!,
             issuerData: parsed.issuerData!,
             document: parsed.document ?? null,
+            refineTrace: parsed.refineTrace ?? null,
             bankerEdits: parsed.bankerEdits ?? {},
             uploadNote: parsed.uploadNote ?? null,
             // A session saved before the meter existed has no log. Starting a
@@ -250,6 +258,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       issuerId: BLANK_ISSUER_ID,
       issuerData: buildBlankIssuerData(),
       document: null,
+      refineTrace: null,
       bankerEdits: {},
       uploadNote: null,
       effort: emptyEffort(),
@@ -265,6 +274,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       issuerId: issuer.id,
       issuerData: cloneIssuerData(issuer.data),
       document: null,
+      refineTrace: null,
       bankerEdits: {},
       uploadNote: null,
       effort: emptyEffort(),
@@ -330,6 +340,11 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       setState((current) => ({
         ...current,
         document: payload.document,
+        // The self-correction loop's own record of what it did. Kept because a
+        // model that rejects its own output is the least visible and most
+        // consequential thing this product does, and until it is on screen the
+        // user is being asked to take it on trust.
+        refineTrace: payload.refineTrace ?? null,
         effort: current.issuerId === BLANK_ISSUER_ID ? recordDraft(current.effort) : current.effort,
       }));
     } catch (error) {
@@ -340,6 +355,7 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       setState((current) => ({
         ...current,
         document: fallback,
+        refineTrace: null,
         effort: current.issuerId === BLANK_ISSUER_ID ? recordDraft(current.effort) : current.effort,
       }));
       setGenerationError(
