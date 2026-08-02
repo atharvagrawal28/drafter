@@ -251,7 +251,11 @@ export function GapReportView() {
       <div>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <h2 className="font-serif text-[18px] font-bold text-primary">
-            Requirement register ({filteredItems.length} of {gapReport.counts.total})
+            {/* The denominator is the whole registry, not counts.total, which is the
+                APPLICABLE subset used as the coverage denominator. The register lists
+                every requirement including the not-applicable ones, so pairing the two
+                read "76 of 74". */}
+            Requirement register ({filteredItems.length} of {gapReport.items.length})
           </h2>
           <Select
             value={statusFilter}

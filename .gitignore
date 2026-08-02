@@ -37,6 +37,12 @@ legacy_streamlit/exports/*.docx
 # useful to the team and irrelevant to a reader of the repository — the product,
 # the README and BACKTEST.md are what stand on their own. It stays on disk.
 FINAL_BUILD_PROMPT.md
+#
+# DEMO_SCRIPT.md is the presenter's own notes for recording the walkthrough
+# video. Same reasoning: written for the person speaking, not for a reader of
+# this repository. The reader-facing tour is the "Demo script" section of the
+# README. It stays on disk.
+DEMO_SCRIPT.md
 
 # Editor and agent configuration — local tooling, not project source.
 .claude/
