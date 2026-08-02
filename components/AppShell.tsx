@@ -8,6 +8,7 @@ import {
   BriefcaseBusiness,
   FileText,
   Info,
+  Route,
   ListChecks,
   Loader2,
   MailWarning,
@@ -34,6 +35,7 @@ const NAV = [
   { href: "/banker", label: "Merchant Banker", icon: BriefcaseBusiness },
   { href: "/observations", label: "Observation Replay", icon: MailWarning },
   { href: "/circulars", label: "Regulation Watch", icon: Scale },
+  { href: "/how", label: "How it works", icon: Route },
   { href: "/about", label: "Impact", icon: Info },
 ];
 

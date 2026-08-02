@@ -51,7 +51,7 @@ export const ROLES: Record<Role, RoleProfile> = {
     obligation:
       "Everything factual in the draft comes from your answers, and you are responsible for their accuracy. Nothing here is filed until your merchant banker has verified and certified it.",
     primary: ["/intake", "/document", "/gaps"],
-    secondary: ["/trace", "/banker", "/observations", "/circulars", "/about"],
+    secondary: ["/how", "/trace", "/banker", "/observations", "/circulars", "/about"],
     generateLabel: "Generate draft",
   },
   banker: {
@@ -63,7 +63,7 @@ export const ROLES: Record<Role, RoleProfile> = {
     obligation:
       "Drafter has verified nothing. Every figure traces to an issuer answer, not to evidence. Due diligence, certification and filing remain yours, and the draft is not signed off by anything here.",
     primary: ["/banker", "/gaps", "/document", "/trace", "/observations"],
-    secondary: ["/intake", "/circulars", "/about"],
+    secondary: ["/intake", "/circulars", "/how", "/about"],
     generateLabel: "Regenerate draft",
   },
 };
