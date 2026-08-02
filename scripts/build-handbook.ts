@@ -43,7 +43,12 @@ import { generateDocument } from "../lib/engine/generate";
 import { runGapCheck } from "../lib/engine/gapCheck";
 import { runEligibility } from "../lib/engine/eligibility";
 import { MODEL_CHAIN, MAX_COMPLETION_TOKENS } from "../lib/engine/llm";
-import { MODEL_TPM_BUCKET, draftConcurrencyFor, tpmBucketFor } from "../lib/engine/refineGraph";
+import {
+  MODEL_TPM_BUCKET,
+  WORST_CASE_PROMPT_TOKENS,
+  draftConcurrencyFor,
+  tpmBucketFor,
+} from "../lib/engine/refineGraph";
 import problemStatement from "../data/problem_statement.json";
 import questionnaire from "../data/intake_questionnaire.json";
 
@@ -64,7 +69,22 @@ const GOOD = "1E6B3A";
 const CONTENT_WIDTH = 9026; // A4 minus 1in margins each side, in DXA
 const FONT = "Calibri";
 
-const REVISION = { version: "1.0", date: "1 August 2026" };
+const REVISION = { version: "1.1", date: "2 August 2026" };
+
+/**
+ * Newest first. Add a row when the product changes in a way a reader of this
+ * handbook would want to know about, and bump REVISION above. Everything else
+ * in the document re-derives itself, so this is the one list that needs a
+ * human.
+ */
+const HISTORY: [string, string, string][] = [
+  [
+    "1.1",
+    "2 August 2026",
+    "Standard offer-document text written out in full; narrative chapters deepened; risk factors numbered at render time; model fallback chain and deadline-aware retries documented.",
+  ],
+  ["1.0", "1 August 2026", "First issue."],
+];
 
 // ---------------------------------------------------------------------------
 // Small builders
@@ -330,6 +350,50 @@ async function gatherFacts() {
   const blankGap: any = runGapCheck({} as any, { issuerId: "blank", issuerName: "Blank" });
   const blankElig: any = runEligibility({} as any, "Blank");
 
+  // Render the PDF to count its pages. Slower than hard-coding the number, and
+  // the whole reason this document is a script: a page count typed into prose
+  // is wrong the first time anyone adds a chapter.
+  const React = (await import("react")).default;
+  const { renderToBuffer } = await import("@react-pdf/renderer");
+  const { DrhpPdf } = await import("../lib/export/pdf");
+  const pdf = await renderToBuffer(
+    React.createElement(DrhpPdf, { document: issuers[0].doc }) as any,
+  );
+  const pdfPages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
+
+  // Measured across the corpus of filed SME DRHPs held in backtest_output.
+  const CORPUS = { filings: 17, meanPages: 398, meanWords: 187_459 };
+
+  // The real worst-case narrative prompt, so the handbook cannot quote a
+  // constant the code has since outgrown.
+  let measuredWorstPrompt = 0;
+  for (const issuer of sampleIssuers) {
+    await generateDocument(issuer.data, {
+      issuerId: issuer.id,
+      useLlm: true,
+      llmPriorityOnly: false,
+      draftNarrative: async (request) => {
+        const prompt = [
+          request.chapterTitle,
+          request.instruction,
+          ...request.mustCover,
+          JSON.stringify(request.context, null, 2),
+        ].join("\n");
+        measuredWorstPrompt = Math.max(measuredWorstPrompt, Math.round(prompt.length / 4) + 700);
+        return null;
+      },
+    });
+  }
+
+  // Risk factors are numbered at render time, so the count is a property of
+  // the issuer's data rather than of the template.
+  const riskFactorCount = (doc: any) => {
+    const chapter = doc.chapters.find((c: any) => c.id === "II.1");
+    return (chapter?.blocks ?? []).filter(
+      (b: any) => typeof b.text === "string" && /^\d+\.\s/.test(b.text),
+    ).length;
+  };
+
   const questions = (quiz.steps ?? []).reduce(
     (sum: number, s: any) => sum + (s.questions ?? s.fields ?? []).length,
     0,
@@ -352,6 +416,10 @@ async function gatherFacts() {
     steps: quiz.steps ?? [],
     chapters: flatChapters.length,
     priorityChapters: flatChapters.filter((c: any) => c.priority).length,
+    pdfPages,
+    corpus: CORPUS,
+    measuredWorstPrompt,
+    riskFactorCount,
   };
 }
 
@@ -406,7 +474,14 @@ async function build() {
         ["Regenerate with", "npm run handbook"],
       ],
     }),
-    spacer(300),
+    spacer(240),
+    h3("Revision history"),
+    table({
+      widths: [1100, 1900, 6026],
+      header: ["Version", "Issued", "What changed"],
+      rows: HISTORY.map(([v, d, note]) => [v, d, note]),
+    }),
+    spacer(240),
     callout(
       "This document is generated, not typed",
       "Every count, percentage and threshold in this handbook is read from the codebase when it is built. If you change a requirement, a regulation ceiling or a model, run npm run handbook and the document corrects itself. Do not hand-edit the .docx — edit scripts/build-handbook.ts, or the change will be lost on the next build.",
@@ -808,7 +883,18 @@ async function build() {
       "warn",
     ),
     spacer(),
-    h2("5.6  Supporting engines"),
+    h2("5.6  Standard text and render-time numbering"),
+    p(
+      `The boilerplate chapters are assembled from clauses held in knowledge_base/section_templates.json rather than in code. A clause may be a heading, a paragraph, a list, a definition table, a structured placeholder, a note to the merchant banker, or a risk factor — and any of them may carry a condition, so a clause about leased premises does not appear for an issuer that owns its properties.`,
+    ),
+    p(
+      `Risk factors are numbered at RENDER time, after that filter, and this is not cosmetic. The numbers were once written into the template text while several factors were conditional, so an issuer with no litigation, no related-party dealings and no borrowings rendered "1, 2, 3, 5, 9, 10 …". Nothing threw an error. The document simply looked defective and the promoter had no way to know why. A filed offer document with gaps in its risk-factor numbering invites exactly the kind of query this product exists to prevent.`,
+    ),
+    p(
+      `A factual chapter can also carry standard text after its factual blocks. Issue Structure is the clear case: the allocation table and the market-maker reservation come from issuer data, while the terms of payment, the revision rules and the minimum-subscription consequence are identical in every SME offer document.`,
+    ),
+    spacer(),
+    h2("5.7  Supporting engines"),
     table({
       widths: [2200, 6826],
       header: ["Module", "What it does"],
@@ -837,15 +923,15 @@ async function build() {
       ],
     }),
     spacer(),
-    h2("5.7  Observation replay"),
+    h2("5.8  Observation replay"),
     p(
       "An exchange observation letter is pasted in, parsed into individual observations, and each is mapped onto the requirements Drafter already tracks. The point is to answer 'would we have caught this?' with evidence rather than opinion. The map holds 70 entries covering 75 distinct requirement references. Parsing and mapping happen entirely in the browser — an observation letter is confidential and is never transmitted.",
     ),
-    h2("5.8  Regulation watch"),
+    h2("5.9  Regulation watch"),
     p(
       "The SEBI RSS feed is read and filtered for items that touch the requirement registry. The feed is a firehose of appeals, recovery certificates and adjudication orders, so relevance classification is the whole value. A feed failure yields an empty, explained result rather than a blank panel that looks like 'nothing has changed'.",
     ),
-    h2("5.9  Financials extraction"),
+    h2("5.10  Financials extraction"),
     p(
       "Financial statements arrive as PDF or spreadsheet and are parsed for the three-year series the disclosure framework needs. The extractor deliberately never writes the revenue field that the consistency checker compares against — if it did, it would erase the very mismatch the checker exists to find.",
     ),
@@ -964,7 +1050,13 @@ async function build() {
     ),
     h2("6.8  Why drafting concurrency is derived, not chosen"),
     p(
-      `Because the limiter charges the reservation, a burst costs concurrency × (prompt + ${MAX_COMPLETION_TOKENS}) against the per-minute bucket. Measured prompts run 1,262–2,033 tokens per chapter, so a worst case of 2,100 is assumed. At the primary model's ${tpmBucketFor(MODEL_CHAIN[0]).toLocaleString()}-token bucket that permits ${concurrency} chapters in flight; three was tried, cost roughly 12,300 tokens, and rate-limited the third chapter of every burst. The buckets differ per model, so the fan-out is derived per model rather than fixed — sizing against a spent model's bucket would rate-limit its substitute immediately. The verification asserts both that the current burst fits AND that the concurrency which actually failed is rejected; without that second assertion the check would quietly become vacuous.`,
+      `Because the limiter charges the reservation, a burst costs concurrency × (prompt + ${MAX_COMPLETION_TOKENS.toLocaleString()}) against the per-minute bucket. The largest narrative prompt currently measures ${f.measuredWorstPrompt.toLocaleString()} tokens, against a declared worst case of ${WORST_CASE_PROMPT_TOKENS.toLocaleString()}. At the primary model's ${tpmBucketFor(MODEL_CHAIN[0]).toLocaleString()}-token bucket that permits ${concurrency} chapters in flight; three was tried, and rate-limited the third chapter of every burst.`,
+    ),
+    p(
+      `Both inputs to that arithmetic drift. The completion reservation was once cut to 1,800 on a single measurement of the longest chapter, and a later run of the same chapter on the same input ran past it and was refused — so the ceiling is now set from the observed OVERRUN rather than the observed mean. The worst-case prompt grew from 2,100 to ${WORST_CASE_PROMPT_TOKENS.toLocaleString()} the moment the narrative chapters were given more context fields, and understating it over-fans-out, because the derived slot cost comes out below the real one and the extra chapter rate-limits.`,
+    ),
+    p(
+      `The verification therefore MEASURES the real prompts rather than trusting the declaration, asserts that the current burst fits, and asserts that the concurrency which actually failed is rejected. Without that last assertion the check would quietly become vacuous. The buckets differ per model, so the fan-out is derived per model rather than fixed — sizing against a spent model's bucket would rate-limit its substitute immediately.`,
     ),
     pageBreak(),
   );
@@ -1109,9 +1201,22 @@ async function build() {
       widths: [3400, 2800, 2826],
       header: ["", "Drafter", "Filed SME DRHP"],
       rows: [
-        ["Words", shreeji.doc.stats.totalWords.toLocaleString(), "187,459 (mean of 17 filings)"],
-        ["Pages", "45 (PDF export)", "398 (mean of 17 filings)"],
-        ["Share by word count", "—", "Drafter is roughly 8%"],
+        [
+          "Words",
+          shreeji.doc.stats.totalWords.toLocaleString(),
+          `${f.corpus.meanWords.toLocaleString()} (mean of ${f.corpus.filings} filings)`,
+        ],
+        [
+          "Pages",
+          `${f.pdfPages} (PDF export)`,
+          `${f.corpus.meanPages} (mean of ${f.corpus.filings} filings)`,
+        ],
+        [
+          "Share by word count",
+          `${((shreeji.doc.stats.totalWords / f.corpus.meanWords) * 100).toFixed(1)}%`,
+          "100%",
+        ],
+        ["Risk factors", String(f.riskFactorCount(shreeji.doc)), "typically 30–60"],
       ],
     }),
     spacer(),
@@ -1119,7 +1224,16 @@ async function build() {
       "That gap is real and should not be talked around. Part of it is structural and correct: the restated financial statements are the auditor's signed work product, the Articles of Association are reproduced verbatim from the company's own constitutional document, and the industry chapter in a real filing is usually a research report bought from an agency. Where it was measurable in the corpus, the Articles alone account for around 18% of a filing.",
     ),
     p(
-      "The rest of the gap is depth, and that is a genuine limitation rather than a design choice. A filed Our Business chapter runs to thousands of words; ours runs to hundreds. The standard-text chapters — Definitions, Terms of the Issue, Issue Structure, Issue Procedure, Restrictions on Foreign Ownership — have been written out in full because they are the same in every SME offer document and carry almost no factual risk. The issuer-specific narrative chapters have not, because depth there means either more issuer input or more model output, and the second of those is where hallucination risk lives.",
+      "The rest of the gap is depth. Two things have been done about it, and the order matters because they carry very different risk.",
+    ),
+    p(
+      "The standard-text chapters — Definitions and Abbreviations, Terms of the Issue, Issue Structure, Issue Procedure, Restrictions on Foreign Ownership — are written out in full. They are near-identical in every SME offer document and carry almost no factual risk, which makes them the cheapest real volume available. Two rules govern every clause: no regulatory threshold is hard-coded, and procedural statements stay general enough to survive a circular amendment. Percentages, day counts and minimum application sizes are either interpolated from issuer data or deferred with \"as prescribed\" and a note to the banker.",
+    ),
+    p(
+      "The issuer-specific narrative chapters have been deepened more carefully, because depth there means more model output and that is where hallucination risk lives. Depth was taken from three sources in descending order of safety: fields the issuer had already supplied that no prompt was receiving, which is depth at zero risk and actually improves safety, since a figure only clears the output validator if it appears in the supplied context; wider must_cover, which widens the chapter and tightens the delivery check together; and richer deterministic fallbacks, which is what a user with no key or an exhausted quota actually sees. No instruction asks the model to characterise, rank, compare or assess anything — every added topic is descriptive and anchored to a supplied field, because the validator checks figures and cannot check adjectives.",
+    ),
+    p(
+      "What remains is genuinely issuer-specific narrative that needs more from the promoter rather than more from the model. That is a limitation to state, not to engineer around.",
     ),
     callout(
       "How to describe the output, and how not to",
@@ -1263,6 +1377,11 @@ async function build() {
       "Concurrent drafting returns results in input order and isolates a failure to one chapter.",
       "A quota retry that would overshoot the deadline is abandoned rather than slept through.",
       "The drafting burst fits the free tier's bucket — and the concurrency that actually failed is rejected.",
+      "The declared worst-case prompt is MEASURED against the real prompts, so it cannot silently drift when a chapter gains context fields.",
+      "The completion ceiling sits above the length at which Risk Factors was observed truncating.",
+      "No standard clause hard-codes a regulatory threshold — and a planted \"15%\" and \"4 days\" are caught, while an interpolated figure is allowed.",
+      "Standard text is never rendered with issuer-input provenance.",
+      "Risk factors are numbered 1..n with no gaps, on a deliberately bare issuer as well as on both samples.",
     ].map((x) => bullet(x)),
     spacer(),
     callout(
