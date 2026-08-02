@@ -1429,8 +1429,8 @@ async function build() {
           "Identical chapters measured 3.2s and 27.7s on the same model. The queue is not ours to optimise.",
         ],
         [
-          "The refine trace is not yet surfaced in the UI",
-          "It is returned by the API and visible in the response, but no screen renders it.",
+          "Qualitative claims are not machine-checked",
+          "The output validator checks figures, not adjectives. A chapter that overstates a strength without inventing a number would pass. The prompt forbids it and the merchant banker is the backstop.",
         ],
       ],
     }),
