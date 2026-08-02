@@ -38,11 +38,22 @@ legacy_streamlit/exports/*.docx
 # the README and BACKTEST.md are what stand on their own. It stays on disk.
 FINAL_BUILD_PROMPT.md
 #
-# DEMO_SCRIPT.md is the presenter's own notes for recording the walkthrough
-# video. Same reasoning: written for the person speaking, not for a reader of
-# this repository. The reader-facing tour is the "Demo script" section of the
-# README. It stays on disk.
+# The same reasoning covers everything below: written for the people building
+# and presenting this, not for a reader of the repository. All of it stays on
+# disk; none of it belongs in a public submission.
+#
+#   DEMO_SCRIPT.md      the presenter's notes for recording the walkthrough
+#   BUILD_GUIDE.md      team runbook, including what to say while recording
+#   POSITIONING.md      pitch notes and a named competitive landscape
+#   docs/*.docx         the team handbook, written for the team by request
+#
+# What replaces them in public: the README carries the guided tour and the
+# scope statement, and BACKTEST.md carries the evidence. Those stand on their
+# own and are addressed to a reader.
 DEMO_SCRIPT.md
+BUILD_GUIDE.md
+POSITIONING.md
+docs/*.docx
 
 # Editor and agent configuration — local tooling, not project source.
 .claude/
