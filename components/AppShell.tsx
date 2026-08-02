@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { BLANK_ISSUER_ID, sampleIssuers } from "@/lib/data";
 import { useDrafter } from "@/lib/store";
-import { ROLES, navEmphasis, orderedNav } from "@/lib/roles";
+import { ROLES, groupedNav, navEmphasis } from "@/lib/roles";
 import { cn } from "@/lib/utils";
 import { Badge, Button, Segmented, Select } from "@/components/ui/primitives";
 import { Explain } from "@/components/ui/Explain";
@@ -139,39 +139,51 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* ------------------------------------------------------------ */}
         {/* Primary navigation                                            */}
         {/* ------------------------------------------------------------ */}
-        {/* Ordered for the current role: the routes this seat works in come
-            first. Nothing is hidden — a promoter should be able to look ahead
+        {/* Understand → Prepare → Verify, in that order, and the SAME order in
+            both seats. The role changes weight and colour, never position: a
+            navigation that rearranges itself costs the user the spatial memory
+            they built in the first minute, and it camouflages the one thing
+            that actually differs between the two roles.
+
+            Nothing is hidden either — a promoter should be able to look ahead
             at the banker's workspace, and a reviewer should see the whole
             product without hunting for a toggle. */}
         <nav className="mx-auto flex max-w-[1600px] items-center gap-0.5 overflow-x-auto px-5 thin-scrollbar sm:px-7">
-          {orderedNav(role, NAV).map((item) => {
+          {groupedNav(NAV).map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             const Icon = item.icon;
             const primaryForRole = item.href !== "/" && navEmphasis(role, item.href) === "primary";
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "relative flex shrink-0 items-center gap-1.5 px-3 pb-2.5 pt-1.5 text-[12.5px] tracking-[-0.005em] transition-colors duration-200 ease-smooth",
-                  active
-                    ? "font-medium text-primary"
-                    : primaryForRole
-                      ? "font-medium text-foreground/80 hover:text-foreground"
-                      : "font-normal text-muted-foreground/75 hover:text-foreground",
-                )}
-              >
-                <Icon className={cn("h-3.5 w-3.5 transition-colors", active && "text-accent")} />
-                {item.label}
-                {/* The rule is a child, not a border, so it can be inset and
-                    rounded — a full-width border-bottom reads as a tab strip. */}
-                <span
+              <React.Fragment key={item.href}>
+                {item.startsGroup ? (
+                  <span
+                    aria-hidden
+                    className="mx-1.5 h-3.5 w-px shrink-0 self-center bg-border"
+                  />
+                ) : null}
+                <Link
+                  href={item.href}
                   className={cn(
-                    "absolute inset-x-2 bottom-0 h-[2px] rounded-full transition-all duration-200 ease-smooth",
-                    active ? "bg-accent opacity-100" : "bg-transparent opacity-0",
+                    "relative flex shrink-0 items-center gap-1.5 px-3 pb-2.5 pt-1.5 text-[12.5px] tracking-[-0.005em] transition-colors duration-200 ease-smooth",
+                    active
+                      ? "font-medium text-primary"
+                      : primaryForRole
+                        ? "font-medium text-foreground/80 hover:text-foreground"
+                        : "font-normal text-muted-foreground/75 hover:text-foreground",
                   )}
-                />
-              </Link>
+                >
+                  <Icon className={cn("h-3.5 w-3.5 transition-colors", active && "text-accent")} />
+                  {item.label}
+                  {/* The rule is a child, not a border, so it can be inset and
+                      rounded — a full-width border-bottom reads as a tab strip. */}
+                  <span
+                    className={cn(
+                      "absolute inset-x-2 bottom-0 h-[2px] rounded-full transition-all duration-200 ease-smooth",
+                      active ? "bg-accent opacity-100" : "bg-transparent opacity-0",
+                    )}
+                  />
+                </Link>
+              </React.Fragment>
             );
           })}
         </nav>
