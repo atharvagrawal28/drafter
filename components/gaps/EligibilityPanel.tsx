@@ -6,6 +6,7 @@ import { useDrafter } from "@/lib/store";
 import type { ConditionState, EligibilityCondition } from "@/lib/engine/eligibility";
 import { cn } from "@/lib/utils";
 import { Badge, Card, CardContent } from "@/components/ui/primitives";
+import { Explain } from "@/components/ui/Explain";
 
 const STATE_META: Record<
   ConditionState,
@@ -88,7 +89,8 @@ export function EligibilityPanel() {
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Eligibility gate · Chapter IX
+                <Explain term="eligibility gate">Eligibility gate</Explain> ·{" "}
+                <Explain term="Chapter IX">Chapter IX</Explain>
               </span>
               <Badge variant="secondary">Reg 228 · 229 · 230(1)</Badge>
             </div>

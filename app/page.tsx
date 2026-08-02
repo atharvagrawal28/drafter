@@ -16,6 +16,7 @@ import { useDrafter } from "@/lib/store";
 import { sampleIssuers } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Badge, Button, Card, CardContent, Progress } from "@/components/ui/primitives";
+import { Explain } from "@/components/ui/Explain";
 
 export default function OverviewPage() {
   const { gapReport, document, generate, generating, issuerId, issuerData, llmAvailable, llmModel } =
@@ -71,7 +72,7 @@ export default function OverviewPage() {
           <CardContent className="p-5">
             <div className="flex items-baseline justify-between">
               <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-                Disclosure coverage
+                <Explain term="disclosure coverage">Disclosure coverage</Explain>
               </p>
               <span className="font-serif text-[38px] font-semibold leading-none tabular-nums tracking-[-0.02em] text-primary [font-optical-sizing:auto]">
                 {gapReport.coveragePct}%
@@ -166,7 +167,8 @@ export default function OverviewPage() {
         <Card>
           <CardContent className="p-6">
             <h2 className="font-serif text-[19px] font-bold text-primary">
-              Drafter sits upstream of the exchange&apos;s own AI pre-check
+              Drafter sits upstream of the exchange&apos;s own AI{" "}
+              <Explain term="exchange pre-check">pre-check</Explain>
             </h2>
             <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
               BSE&apos;s GenAI DRHP pre-check has cut exchange review from around seven days to under

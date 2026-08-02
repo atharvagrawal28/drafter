@@ -19,8 +19,10 @@ import {
 } from "lucide-react";
 import { BLANK_ISSUER_ID, sampleIssuers } from "@/lib/data";
 import { useDrafter } from "@/lib/store";
+import { ROLES, navEmphasis, orderedNav } from "@/lib/roles";
 import { cn } from "@/lib/utils";
 import { Badge, Button, Segmented, Select } from "@/components/ui/primitives";
+import { Explain } from "@/components/ui/Explain";
 
 const NAV = [
   { href: "/", label: "Overview", icon: Building2 },
@@ -93,7 +95,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             title="Disclosure coverage across the requirement registry"
           >
             <span className="text-[9.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
-              Coverage
+              {role === "banker" ? "Issuer coverage" : "Coverage"}
             </span>
             <span className="font-serif text-[17px] font-semibold leading-none tabular-nums text-primary">
               {gapReport.coveragePct}%
@@ -124,7 +126,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             ) : (
               <>
                 <Sparkles />
-                {document ? "Regenerate" : "Generate draft"}
+                {document ? "Regenerate" : ROLES[role].generateLabel}
               </>
             )}
           </Button>
@@ -133,17 +135,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* ------------------------------------------------------------ */}
         {/* Primary navigation                                            */}
         {/* ------------------------------------------------------------ */}
+        {/* Ordered for the current role: the routes this seat works in come
+            first. Nothing is hidden — a promoter should be able to look ahead
+            at the banker's workspace, and a reviewer should see the whole
+            product without hunting for a toggle. */}
         <nav className="mx-auto flex max-w-[1600px] items-center gap-0.5 overflow-x-auto px-5 thin-scrollbar sm:px-7">
-          {NAV.map((item) => {
+          {orderedNav(role, NAV).map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             const Icon = item.icon;
+            const primaryForRole = item.href !== "/" && navEmphasis(role, item.href) === "primary";
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative flex shrink-0 items-center gap-1.5 px-3 pb-2.5 pt-1.5 text-[12.5px] font-medium tracking-[-0.005em] transition-colors duration-200 ease-smooth",
-                  active ? "text-primary" : "text-muted-foreground hover:text-foreground",
+                  "relative flex shrink-0 items-center gap-1.5 px-3 pb-2.5 pt-1.5 text-[12.5px] tracking-[-0.005em] transition-colors duration-200 ease-smooth",
+                  active
+                    ? "font-medium text-primary"
+                    : primaryForRole
+                      ? "font-medium text-foreground/80 hover:text-foreground"
+                      : "font-normal text-muted-foreground/75 hover:text-foreground",
                 )}
               >
                 <Icon className={cn("h-3.5 w-3.5 transition-colors", active && "text-accent")} />
@@ -172,8 +183,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             Preparatory draft
           </span>
           <span className="text-muted-foreground">
-            Not for filing. Submission is solely through the authorised merchant banker after due
-            diligence and certification. All issuer data in this prototype is fictional.
+            Not for filing. Submission is solely through the authorised{" "}
+            <Explain term="merchant banker" className="text-muted-foreground">
+              merchant banker
+            </Explain>{" "}
+            after{" "}
+            <Explain term="due diligence" className="text-muted-foreground">
+              due diligence
+            </Explain>{" "}
+            and certification. All issuer data in this prototype is fictional.
           </span>
           <span className="ml-auto hidden items-center gap-1.5 text-muted-foreground lg:flex">
             {llmAvailable === null ? null : llmAvailable ? (
@@ -188,6 +206,39 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </>
             )}
           </span>
+        </div>
+      </div>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Role context — who you are in this seat, and what you carry       */}
+      {/*                                                                   */}
+      {/* The separation between the issuer who asserts and the intermediary */}
+      {/* who verifies is one of the things this product exists to preserve, */}
+      {/* so it is stated rather than implied by a toggle.                   */}
+      {/* ---------------------------------------------------------------- */}
+      <div
+        className={cn(
+          "border-b transition-colors duration-300 ease-smooth",
+          role === "banker" ? "border-primary/15 bg-primary/[0.035]" : "border-border/70 bg-secondary/40",
+        )}
+      >
+        <div className="mx-auto flex max-w-[1600px] flex-wrap items-baseline gap-x-2.5 gap-y-1 px-5 py-[7px] text-[11px] sm:px-7">
+          <span
+            className={cn(
+              "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2 py-[2.5px] text-[10px] font-semibold leading-none",
+              role === "banker"
+                ? "border-primary/25 bg-card text-primary"
+                : "border-border bg-card text-secondary-foreground",
+            )}
+          >
+            {role === "banker" ? (
+              <BriefcaseBusiness className="h-[11px] w-[11px]" />
+            ) : (
+              <UserRound className="h-[11px] w-[11px]" />
+            )}
+            {ROLES[role].identity}
+          </span>
+          <span className="text-muted-foreground">{ROLES[role].obligation}</span>
         </div>
       </div>
 
