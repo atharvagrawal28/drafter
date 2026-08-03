@@ -11,6 +11,8 @@
  * silent regression in the checker would not be visible until the recording.
  */
 
+import fs from "node:fs";
+import path from "node:path";
 import { flatChapters, sampleIssuers } from "../lib/data";
 import { runGapCheck } from "../lib/engine/gapCheck";
 import { generateDocument } from "../lib/engine/generate";
@@ -1423,6 +1425,48 @@ async function main() {
       `${issuer.id}: the capture is dated, and not in the future`,
       reference.capturedAt,
     );
+  }
+
+  // ---- The README's own figures ----------------------------------------
+  //
+  // The README claims its clause table "cannot quietly rot" because verify
+  // asserts every cited file still exists. That was true of the files and not
+  // of the numbers, and the numbers rotted: it advertised 15,044 words against
+  // 15,233, 48 PDF pages against 49, and three different placeholder counts
+  // (11, 11 and "7 and 8") where the real answer is 10 and 11.
+  //
+  // Every figure here moves when the reference capture is refreshed, because
+  // narrative length depends on what the model wrote. That is exactly why it
+  // has to be checked rather than remembered.
+  console.log("");
+  console.log(`${BOLD}README figures${RESET}`);
+  {
+    const readme = fs.readFileSync(path.join(process.cwd(), "README.md"), "utf8");
+    const [first, second] = sampleIssuers;
+    const firstDoc = (await buildReferenceDocument(first.id, first.data))!.document;
+    const secondDoc = (await buildReferenceDocument(second.id, second.data))!.document;
+
+    const React = (await import("react")).default;
+    const { renderToBuffer } = await import("@react-pdf/renderer");
+    const { DrhpPdf } = await import("../lib/export/pdf");
+    const pdf = await renderToBuffer(React.createElement(DrhpPdf, { document: firstDoc }) as any);
+    const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
+
+    const claims: [string, string][] = [
+      [`${firstDoc.stats.totalWords.toLocaleString("en-IN")} words`, "word count"],
+      [`${firstDoc.stats.totalTables} tables`, "table count"],
+      [`${firstDoc.stats.totalChapters} chapters over ${pages} PDF pages`, "chapters and PDF pages"],
+      [`${firstDoc.stats.placeholders} placeholders`, "placeholder count"],
+      [
+        `${firstDoc.stats.placeholders} for the first sample issuer, ` +
+          `${secondDoc.stats.placeholders} for the second`,
+        "per-issuer placeholder counts",
+      ],
+    ];
+
+    for (const [claim, label] of claims) {
+      assert(readme.includes(claim), `README states the real ${label}`, `expected to find "${claim}"`);
+    }
   }
 
   console.log("");

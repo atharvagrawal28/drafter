@@ -21,16 +21,19 @@ by postgraduates in Securities Markets, NISM.
 
 The Track 04 problem statement is recorded verbatim in
 [`data/problem_statement.json`](data/problem_statement.json), split into the thirteen clauses that
-impose a requirement. Each one names the files that discharge it and the number that proves it, and
-`npm run verify` asserts that every cited file still exists, so this table cannot quietly rot.
+impose a requirement. Each one names the files that discharge it and the number that proves it.
+`npm run verify` asserts that every cited file still exists **and that the headline figures below are
+what the product actually produces**, so this table cannot quietly rot. It did rot once, which is why
+the second half of that sentence exists: the word count, the page count and the placeholder count had
+all drifted, and only the files were being checked.
 
 | # | SEBI's words | Discharged by | Proof |
 |---|---|---|---|
 | PS-1 | capture their business, financial, **and legal** particulars | 8-step wizard; financials read out of the issuer's own workbook | **125** evidence-field references, all reachable, nothing in the registry is uncollectable |
-| PS-2 | generate a **well-organised, disclosure-ready** draft offer document | 34 chapters, Sections I–IX; prospectus-formatted DOCX + PDF | 15,044 words, 27 tables, 34 chapters over 48 PDF pages |
+| PS-2 | generate a **well-organised, disclosure-ready** draft offer document | 34 chapters, Sections I–IX; prospectus-formatted DOCX + PDF | 15,233 words, 27 tables, 34 chapters over 49 PDF pages |
 | PS-3 | accessible to promoters **without specialist knowledge** | Plain questions + a register normaliser that lifts them into prospectus prose | No figure moved across **258** free-text fields; transform is idempotent |
 | PS-4 | checks for **accuracy and completeness** | Two mechanisms: weighted coverage over 76 requirements; 12 cross-chapter consistency checks | Planted defects surface with the **exact** high-severity count (2 and 4), a false positive fails the build |
-| PS-5 | **preserve the role of authorised intermediaries** in review and certification | 11 placeholders sitting exactly at signature points; 14-item DD checklist ending at DD-14 Certification | Standing non-dismissible "not for filing" banner on every screen |
+| PS-5 | **preserve the role of authorised intermediaries** in review and certification | 10 placeholders sitting exactly at signature points; 14-item DD checklist ending at DD-14 Certification | Standing non-dismissible "not for filing" banner on every screen |
 | PS-6 | a **substantially complete** draft | Coverage computed as a weighted mean over applicable requirements | 97% / 95% on the samples, **14%** on a blank form, the score moves with the evidence |
 | PS-7 | significantly **reducing preparation time** | An effort meter that times active promoter effort, stamps each coverage milestone and the first draft | ⚠️ **Partial**, measures drafting effort in Drafter, not the auditor/legal/DD cycle. Pauses are counted at the cap, so the figure *overstates* effort |
 | PS-8 | lowering dependence on intermediaries **at the early drafting stage** | Promoter and banker are separate roles; the split falls where SEBI puts it | Eligibility answered before any fee is committed |
@@ -75,7 +78,10 @@ asserts that **all six planted defects are still caught** with exact locations, 
 false positives**, and that the DOCX and PDF exports still render. It also asserts two structural
 properties: that **every scored evidence field has an intake control**, a requirement the wizard
 cannot collect is one the issuer can never discharge, and that register normalisation **never moves
-a figure**. Needs no API key. Run it after any change.
+a figure**. It replays the shipped reference drafts with no provider call, re-checking that they
+still contain no figure absent from the issuer data, and it reads this README back to confirm the
+figures quoted in it are the ones the engine produces today. Needs no API key. Run it after any
+change.
 
 ```bash
 npm run verify:eligibility
@@ -428,7 +434,7 @@ capital build-up totalling back to pre-issue capital, with pre and post-issue sh
 rather than entered. **Show disclosure trail** reveals, for every block, where its content came from
 and which requirement IDs it discharges.
 
-Then the placeholders. There are **11**, and each sits where the law requires a named professional to
+Then the placeholders. There are **10**, and each sits where the law requires a named professional to
 sign: the auditor's examination report, counsel's tax particulars, the executed declaration page.
 Drafter stops exactly there, deliberately.
 *A disclosure-ready draft, and traceability in preference to raw generation.*
@@ -463,7 +469,7 @@ executed declaration and the lead manager's due diligence certificate.** The int
 preserved, not removed: the regulations reserve filing to them, and so does this.
 *Preserving the role of authorised intermediaries.*
 
-**Export, and the scope statement.** The PDF is **34 chapters over 48 pages** in prospectus
+**Export, and the scope statement.** The PDF is **34 chapters over 49 pages** in prospectus
 formatting, with the gap report exportable as a standalone compliance checklist. **Impact** carries
 the clause-by-clause conformance table, in which two of thirteen clauses are marked partial on
 purpose, with a statement of what is missing from each.
@@ -500,7 +506,7 @@ What Drafter actually delivers, and what it does not:
 **What is real**
 - All 34 chapters of the SME DRHP tree are generated and navigable; the 14 priority chapters are
   fully drafted, the rest carry proper headings and structured placeholders. The remaining
-  placeholders, 7 for the first sample issuer, 8 for the second, each sit where the law requires a
+  placeholders, 10 for the first sample issuer, 11 for the second, each sit where the law requires a
   named professional to sign: the auditor's examination report and tax-benefits certificate,
   counsel's tax particulars, the lock-in computation, the verbatim Articles, the executed
   declaration page.
