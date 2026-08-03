@@ -26,6 +26,7 @@ import {
   CheckCircle2,
   CircleSlash,
   FileText,
+  Loader2,
   Repeat,
   RotateCcw,
   ShieldCheck,
@@ -59,7 +60,8 @@ const OUTCOME = {
 } as const;
 
 export function DraftingRecord() {
-  const { refineTrace, document, generate, generating, llmAvailable } = useDrafter();
+  const { refineTrace, document, generate, generating, llmAvailable, documentSource, capturedAt } =
+    useDrafter();
 
   if (!refineTrace) {
     return (
@@ -111,6 +113,14 @@ export function DraftingRecord() {
   return (
     <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-7">
       <Header />
+
+      <ProvenanceNote
+        source={documentSource}
+        capturedAt={capturedAt}
+        models={models}
+        onGenerate={generate}
+        generating={generating}
+      />
 
       {/* ---- Headline counts ------------------------------------------- */}
       <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -260,6 +270,63 @@ export function DraftingRecord() {
         <Explain term="standard clause">template</Explain> contain the same facts as those the model
         wrote, only the prose is plainer.
       </p>
+    </div>
+  );
+}
+
+/**
+ * Says which of the two things the reader is looking at.
+ *
+ * A replayed capture and a run that just finished look identical on this page,
+ * and only one of them actually happened while you were watching. Leaving that
+ * ambiguous would be a strange failure on the single screen whose entire
+ * purpose is showing what really happened during drafting, so the distinction
+ * is stated at the top rather than in a footnote.
+ */
+function ProvenanceNote({
+  source,
+  capturedAt,
+  models,
+  onGenerate,
+  generating,
+}: {
+  source: "live" | "reference" | null;
+  capturedAt: string | null;
+  models: string[];
+  onGenerate: () => void;
+  generating: boolean;
+}) {
+  if (source !== "reference") return null;
+
+  const captured = capturedAt
+    ? new Date(capturedAt).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : null;
+
+  return (
+    <div className="mt-5 rounded-lg border border-border bg-secondary/30 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="max-w-2xl">
+          <p className="text-[12.5px] font-semibold text-foreground">
+            This is a captured run, not one that just happened.
+          </p>
+          <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
+            Every figure below came from a real drafting run
+            {captured ? ` on ${captured}` : ""}
+            {models.length ? `, written by ${models.join(" and ")}` : ""}. It is replayed on load so
+            that the record is here to read without spending a shared free-tier quota, and without a
+            45 second wait. The tables and computed figures in the draft itself are rebuilt fresh
+            each time. Run the loop again now and this page will show that run instead.
+          </p>
+        </div>
+        <Button onClick={onGenerate} disabled={generating} variant="outline" className="shrink-0">
+          {generating ? <Loader2 className="animate-spin" /> : null}
+          {generating ? "Drafting" : "Run it again now"}
+        </Button>
+      </div>
     </div>
   );
 }

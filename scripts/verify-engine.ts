@@ -14,6 +14,9 @@
 import { flatChapters, sampleIssuers } from "../lib/data";
 import { runGapCheck } from "../lib/engine/gapCheck";
 import { generateDocument } from "../lib/engine/generate";
+import { unsupportedFiguresFor } from "../lib/engine/llm";
+import { buildReferenceDocument, getReferenceDraft } from "../lib/engine/referenceDraft";
+import { buildRequest } from "../lib/engine/refineGraph";
 
 const GREEN = "\x1b[32m";
 const RED = "\x1b[31m";
@@ -1352,6 +1355,75 @@ async function main() {
     "the two issuers fail on entirely different requirements (proves the checker is data-driven)",
     `overlap: ${overlap.join(", ")}`,
   );
+
+  // ---- Reference drafts -------------------------------------------------
+  //
+  // These ship in the repository and are what a visitor sees on load, so a
+  // capture that has gone stale or empty is a defect in the deployed product,
+  // not just in a data file. Nothing here calls a model: the point is to prove
+  // the replay path works with the provider unreachable, which is the exact
+  // condition it exists for.
+  console.log("");
+  console.log(`${BOLD}Reference drafts${RESET}`);
+
+  for (const issuer of sampleIssuers) {
+    const reference = getReferenceDraft(issuer.id);
+    assert(reference !== null, `${issuer.id}: a capture is shipped`);
+    if (!reference) continue;
+
+    const drafted = reference.trace.chapters.filter((chapter) => chapter.text?.trim());
+    assert(
+      drafted.length > 0,
+      `${issuer.id}: the capture contains drafted prose`,
+      `${drafted.length} of ${reference.trace.chapters.length} chapters carry text`,
+    );
+
+    const replayed = await buildReferenceDocument(issuer.id, issuer.data);
+    assert(replayed !== null, `${issuer.id}: the capture replays into a document`);
+    if (!replayed) continue;
+
+    // The replay must produce the same document the live path would, minus the
+    // model call. A drift here means the generator and the capture have parted
+    // company, which would show up as a short or malformed draft on load.
+    const live = await generateDocument(issuer.data, { issuerId: issuer.id, useLlm: false });
+    assert(
+      replayed.document.chapters.length === live.chapters.length,
+      `${issuer.id}: replay produces the full chapter tree`,
+      `${replayed.document.chapters.length} vs ${live.chapters.length}`,
+    );
+    assert(
+      replayed.document.stats.totalWords > live.stats.totalWords,
+      `${issuer.id}: replayed prose is richer than the template-only draft`,
+      `${replayed.document.stats.totalWords.toLocaleString("en-IN")} vs ` +
+        `${live.stats.totalWords.toLocaleString("en-IN")} words`,
+    );
+
+    // The guarantee the whole product rests on has to hold for replayed prose
+    // exactly as it does for live prose, and it is re-checked against the
+    // issuer data as it stands NOW. Editing a sample fixture after a capture
+    // was taken can turn faithful prose into a chapter asserting a figure that
+    // no longer exists anywhere, and nothing else in the build would notice.
+    const unsupported: string[] = [];
+    for (const chapter of drafted) {
+      const request = buildRequest(chapter.chapterId, issuer.data);
+      if (!request) continue;
+      for (const figure of unsupportedFiguresFor(chapter.text!, request.context)) {
+        unsupported.push(`${chapter.chapterId}: ${figure}`);
+      }
+    }
+    assert(
+      unsupported.length === 0,
+      `${issuer.id}: replayed prose still contains no figure absent from issuer data`,
+      unsupported.join(", "),
+    );
+
+    const captured = new Date(reference.capturedAt);
+    assert(
+      !Number.isNaN(captured.getTime()) && captured.getTime() <= Date.now(),
+      `${issuer.id}: the capture is dated, and not in the future`,
+      reference.capturedAt,
+    );
+  }
 
   console.log("");
   if (failures === 0) {

@@ -280,6 +280,21 @@ function containsUnsupportedFigures(text: string, allowed: Set<string>): string[
   return Array.from(new Set(offenders));
 }
 
+/**
+ * Re-run the figure guarantee over prose that was accepted earlier.
+ *
+ * Exported for the reference drafts, which are model output accepted at capture
+ * time and replayed later. If the issuer fixture is edited afterwards, prose
+ * that was faithful when written can quietly stop being faithful, and the
+ * shipped capture becomes a chapter asserting a figure the data no longer
+ * contains. Being accepted once is not a reason to stop checking.
+ */
+export function unsupportedFiguresFor(text: string, context: unknown): string[] {
+  const allowed = new Set<string>();
+  collectNumbers(context, allowed);
+  return containsUnsupportedFigures(text, allowed);
+}
+
 export interface DraftResult {
   text: string | null;
   rejected?: string[];

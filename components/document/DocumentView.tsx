@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import {
   AlertTriangle,
   ChevronRight,
@@ -27,6 +28,7 @@ export function DocumentView() {
     bankerEdits,
     setBankerEdit,
     clearBankerEdit,
+    documentSource,
   } = useDrafter();
 
   const [showProvenance, setShowProvenance] = React.useState(false);
@@ -133,6 +135,18 @@ export function DocumentView() {
             <Badge variant="secondary">{document.stats.totalTables} tables</Badge>
             {document.stats.placeholders > 0 ? (
               <Badge variant="partial">{document.stats.placeholders} items to supply</Badge>
+            ) : null}
+            {/* Unobtrusive here on purpose: the full account of what a captured
+                run is, and how to replace it with a live one, belongs on the
+                Drafting Record. This is the pointer to it, not the argument. */}
+            {documentSource === "reference" ? (
+              <Link
+                href="/trace"
+                className="rounded-full border border-border px-2 py-0.5 text-[10.5px] font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+                title="The narrative chapters replay a captured drafting run. Open the Drafting Record."
+              >
+                narrative from a captured run
+              </Link>
             ) : null}
           </div>
 

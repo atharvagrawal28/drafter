@@ -28,6 +28,7 @@ import {
 import { runEligibility, type EligibilityReport } from "./engine/eligibility";
 import { runGapCheck } from "./engine/gapCheck";
 import { generateDocument } from "./engine/generate";
+import { buildReferenceDocument, hasReferenceDraft } from "./engine/referenceDraft";
 import type { RefineTrace } from "./engine/refineGraph";
 import { getPath, setPath } from "./engine/utils";
 import type { DrhpDocument, GapReport, IssuerData } from "./types";
@@ -45,11 +46,23 @@ export interface BankerEdit {
   editedAt: string;
 }
 
+/**
+ * Where the document on screen came from.
+ *
+ * "reference" is a real captured run being replayed, not a live one, and the
+ * interface has to say so. See lib/engine/referenceDraft.ts.
+ */
+export type DocumentSource = "live" | "reference";
+
 interface SessionState {
   role: Role;
   issuerId: string;
   issuerData: IssuerData;
   document: DrhpDocument | null;
+  /** Which of the two produced `document`. Null while there is no document. */
+  documentSource: DocumentSource | null;
+  /** ISO timestamp of the capture, when `documentSource` is "reference". */
+  capturedAt: string | null;
   /**
    * What the self-correction loop did to produce the current document, or null
    * where it did not run — no key, or a template-only generation.
@@ -106,6 +119,8 @@ function initialState(): SessionState {
     issuerId: issuer.id,
     issuerData: cloneIssuerData(issuer.data),
     document: null,
+    documentSource: null,
+    capturedAt: null,
     refineTrace: null,
     bankerEdits: {},
     uploadNote: null,
@@ -136,6 +151,11 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
             issuerId: parsed.issuerId!,
             issuerData: parsed.issuerData!,
             document: parsed.document ?? null,
+            // A session stored before reference drafts existed has a document
+            // but no source. It was necessarily a live run, since replay did
+            // not exist when it was written.
+            documentSource: parsed.documentSource ?? (parsed.document ? "live" : null),
+            capturedAt: parsed.capturedAt ?? null,
             refineTrace: parsed.refineTrace ?? null,
             bankerEdits: parsed.bankerEdits ?? {},
             uploadNote: parsed.uploadNote ?? null,
@@ -172,6 +192,50 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       );
     }
   }, [state, hydrated]);
+
+  /**
+   * Load the captured run for a bundled sample, so the product has something to
+   * show before anyone presses anything.
+   *
+   * Three conditions, and each one matters:
+   *
+   *   hydrated      — running before localStorage is read would overwrite the
+   *                   visitor's own draft with the reference one on every reload
+   *   no document   — a live run always wins, and so does a replay already in
+   *                   state; this only ever fills a hole
+   *   a capture exists for this issuer — a real company started from a blank
+   *                   form has nothing to replay, and must show nothing
+   *
+   * Failure is silent on purpose. A missing or malformed capture should leave
+   * the app exactly as it was, with an empty Draft DRHP and a working Generate
+   * button, which is the behaviour that existed before any of this.
+   */
+  React.useEffect(() => {
+    if (!hydrated || state.document || !hasReferenceDraft(state.issuerId)) return;
+    let cancelled = false;
+    buildReferenceDocument(state.issuerId, state.issuerData)
+      .then((reference) => {
+        if (cancelled || !reference) return;
+        setState((current) => {
+          // The issuer may have been switched, or a live generation may have
+          // landed, while this was being assembled.
+          if (current.issuerId !== state.issuerId || current.document) return current;
+          return {
+            ...current,
+            document: reference.document,
+            documentSource: "reference",
+            capturedAt: reference.capturedAt,
+            refineTrace: reference.trace,
+          };
+        });
+      })
+      .catch(() => {
+        // Deliberately nothing. See above.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [hydrated, state.document, state.issuerId, state.issuerData]);
 
   // ---- Probe whether a language-model key is configured ----------------
   React.useEffect(() => {
@@ -258,6 +322,8 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       issuerId: BLANK_ISSUER_ID,
       issuerData: buildBlankIssuerData(),
       document: null,
+      documentSource: null,
+      capturedAt: null,
       refineTrace: null,
       bankerEdits: {},
       uploadNote: null,
@@ -274,6 +340,8 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       issuerId: issuer.id,
       issuerData: cloneIssuerData(issuer.data),
       document: null,
+      documentSource: null,
+      capturedAt: null,
       refineTrace: null,
       bankerEdits: {},
       uploadNote: null,
@@ -340,6 +408,8 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       setState((current) => ({
         ...current,
         document: payload.document,
+        documentSource: "live",
+        capturedAt: null,
         // The self-correction loop's own record of what it did. Kept because a
         // model that rejects its own output is the least visible and most
         // consequential thing this product does, and until it is on screen the
@@ -355,6 +425,8 @@ export function DrafterProvider({ children }: { children: React.ReactNode }) {
       setState((current) => ({
         ...current,
         document: fallback,
+        documentSource: "live",
+        capturedAt: null,
         refineTrace: null,
         effort: current.issuerId === BLANK_ISSUER_ID ? recordDraft(current.effort) : current.effort,
       }));

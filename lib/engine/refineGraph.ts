@@ -202,7 +202,12 @@ function findMissingTopics(text: string, mustCover: string[], data: IssuerData):
 }
 
 /** Build the NarrativeRequest for a chapter from the knowledge base. */
-function buildRequest(chapterId: string, data: IssuerData): NarrativeRequest | null {
+/**
+ * Exported so a captured chapter can be re-validated against the issuer data as
+ * it stands now, rather than as it stood when the capture was taken. See
+ * `unsupportedFiguresFor` in llm.ts.
+ */
+export function buildRequest(chapterId: string, data: IssuerData): NarrativeRequest | null {
   const kb = (sectionTemplates.chapters ?? {})[chapterId];
   if (!kb?.instruction) return null;
 

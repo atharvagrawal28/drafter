@@ -20,7 +20,8 @@
     "corpus": "tsx scripts/corpus-analyse.ts backtest_output/corpus backtest_output",
     "coldtest": "tsx scripts/coldtest.ts",
     "handbook": "tsx scripts/build-handbook.ts",
-    "check:quota": "tsx scripts/check-quota.ts"
+    "check:quota": "tsx scripts/check-quota.ts",
+    "capture:reference": "tsx scripts/capture-reference.ts"
   },
   "dependencies": {
     "@ai-sdk/groq": "^1.2.9",
