@@ -29,7 +29,7 @@ all drifted, and only the files were being checked.
 
 | # | SEBI's words | Discharged by | Proof |
 |---|---|---|---|
-| PS-1 | capture their business, financial, **and legal** particulars | 8-step wizard; financials read out of the issuer's own workbook | **125** evidence-field references, all reachable, nothing in the registry is uncollectable |
+| PS-1 | capture their business, financial, **and legal** particulars | 9-step wizard, 92 questions; financials read out of the issuer's own workbook | **125** evidence-field references, all reachable, nothing in the registry is uncollectable |
 | PS-2 | generate a **well-organised, disclosure-ready** draft offer document | 34 chapters, Sections I–IX; prospectus-formatted DOCX + PDF | 15,233 words, 27 tables, 34 chapters over 49 PDF pages |
 | PS-3 | accessible to promoters **without specialist knowledge** | Plain questions + a register normaliser that lifts them into prospectus prose | No figure moved across **258** free-text fields; transform is idempotent |
 | PS-4 | checks for **accuracy and completeness** | Two mechanisms: weighted coverage over 76 requirements; 12 cross-chapter consistency checks | Planted defects surface with the **exact** high-severity count (2 and 4), a false positive fails the build |
