@@ -82,24 +82,6 @@ async function capture(issuerId: string) {
     return false;
   }
 
-  // Compare against what is already shipped rather than against perfection.
-  // The guard exists to stop a re-run REPLACING a good capture with a duller
-  // one, not to stop it improving on an equally dull one, which is what
-  // refusing on "no rejections" alone would do: with no rejection in the file
-  // already, every attempt to get a better one would be blocked.
-  const previous = exists
-    ? (JSON.parse(fs.readFileSync(outPath, "utf8")) as {
-        trace: { chapters: { rejectedFigures?: string[][]; outcome: string }[] };
-      })
-    : null;
-  const previousRejected = (previous?.trace.chapters ?? []).flatMap((chapter) =>
-    (chapter.rejectedFigures ?? []).flat(),
-  );
-  const previousFellBack = (previous?.trace.chapters ?? []).filter(
-    (chapter) => chapter.outcome === "fell-back-to-template",
-  ).length;
-  const fellBack = trace.fellBackChapters.length;
-
   if (rejected.length) {
     console.log(green(`  rejected figures: ${rejected.join(", ")}`));
   } else {
@@ -112,14 +94,46 @@ async function capture(issuerId: string) {
     );
   }
 
-  if (!force && previous) {
-    const losesRejection = previousRejected.length > 0 && rejected.length === 0;
-    const losesChapters = fellBack > previousFellBack;
-    if (losesRejection || losesChapters) {
+  // Compare against what is already shipped rather than against perfection: the
+  // guard exists to stop a re-run replacing a good capture with a duller one,
+  // not to stop it improving on an equally dull one.
+  //
+  // "Better" here means better AS A RECORD OF THE LOOP WORKING, which is not
+  // the same as a cleaner run, and getting that backwards has already cost one
+  // good capture. An earlier version of this guard ranked on rejected figures
+  // and fallbacks only, so a run where all five chapters were accepted first
+  // pass silently replaced one where a chapter had been caught missing a
+  // required topic, redrafted, and accepted from a different model after the
+  // first ran out of quota. The second is the flawless run. The first is the
+  // one that shows there is a loop at all.
+  const value = (counts: { rejected: number; recovered: number; fellBack: number }) =>
+    [counts.rejected, counts.recovered, -counts.fellBack];
+
+  const mine = {
+    rejected: rejected.length,
+    recovered: trace.recoveredChapters.length,
+    fellBack: trace.fellBackChapters.length,
+  };
+
+  if (!force && exists) {
+    const previous = JSON.parse(fs.readFileSync(outPath, "utf8")) as {
+      trace: { chapters: { rejectedFigures?: string[][]; outcome: string }[] };
+    };
+    const theirs = {
+      rejected: previous.trace.chapters.flatMap((c) => (c.rejectedFigures ?? []).flat()).length,
+      recovered: previous.trace.chapters.filter((c) => c.outcome === "accepted-after-revision")
+        .length,
+      fellBack: previous.trace.chapters.filter((c) => c.outcome === "fell-back-to-template").length,
+    };
+
+    const [a, b] = [value(mine), value(theirs)];
+    const worse = a.some((score, index) => score < b[index]) && !a.some((s, i) => s > b[i]);
+    if (worse) {
       console.log(
         yellow(
-          `  Keeping the existing ${issuerId}.json, which is the better capture ` +
-            `(${previousRejected.length} rejected, ${previousFellBack} fell back).\n` +
+          `  Keeping the existing ${issuerId}.json, which shows more of the loop working\n` +
+            `  (${theirs.rejected} refused, ${theirs.recovered} recovered, ${theirs.fellBack} fell back` +
+            ` against ${mine.rejected}/${mine.recovered}/${mine.fellBack}).\n` +
             `  Pass --force to overwrite it anyway.`,
         ),
       );
