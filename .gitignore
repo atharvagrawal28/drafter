@@ -45,7 +45,7 @@ FINAL_BUILD_PROMPT.md
 #   DEMO_SCRIPT.md      the presenter's notes for recording the walkthrough
 #   BUILD_GUIDE.md      team runbook, including what to say while recording
 #   POSITIONING.md      pitch notes and a named competitive landscape
-#   docs/*.docx         the team handbook, written for the team by request
+#   docs/*            the team handbook, and briefs written for a named reader
 #
 # What replaces them in public: the README carries the guided tour and the
 # scope statement, and BACKTEST.md carries the evidence. Those stand on their
@@ -54,6 +54,7 @@ DEMO_SCRIPT.md
 BUILD_GUIDE.md
 POSITIONING.md
 docs/*.docx
+docs/*.pdf
 
 # Editor and agent configuration — local tooling, not project source.
 .claude/
