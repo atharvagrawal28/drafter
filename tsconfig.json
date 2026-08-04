@@ -19,5 +19,11 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "legacy_streamlit"]
+  "exclude": [
+    "node_modules",
+    "legacy_streamlit",
+    // Private working material: team handbook, review briefs and the scripts
+    // that render them. Not project source, not shipped, and not tracked.
+    "docs"
+  ]
 }
