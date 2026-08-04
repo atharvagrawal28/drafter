@@ -1467,6 +1467,32 @@ async function main() {
     for (const [claim, label] of claims) {
       assert(readme.includes(claim), `README states the real ${label}`, `expected to find "${claim}"`);
     }
+
+    // Asserting that the right string appears SOMEWHERE is not enough: the
+    // README quoted the page count in three places and only one of them was
+    // checked, so two sat at 45 against a real 49 while the check stayed green.
+    // Every occurrence has to agree.
+    //
+    // Only the two figures that actually drift are scanned this way. A third
+    // scan over "N chapters" was written and removed: BACKTEST.md's history
+    // reads "2 chapters added ... Structure 32 to 34", which is a delta rather
+    // than a total, and no regex separates those two senses reliably. A check
+    // that reports a false positive gets switched off, which costs more than
+    // the check was worth. The chapter count is asserted structurally
+    // elsewhere and has not moved.
+    const restated: [RegExp, number, string][] = [
+      [/(\d+) PDF pages/g, pages, "PDF page count"],
+      [/(\d+) placeholders/g, firstDoc.stats.placeholders, "placeholder count"],
+    ];
+    for (const [pattern, expected, label] of restated) {
+      const seen = [...readme.matchAll(pattern)].map((m) => Number(m[1]));
+      const wrong = seen.filter((value) => value !== expected);
+      assert(
+        wrong.length === 0,
+        `every ${label} in the README agrees (${seen.length} mentions)`,
+        `expected ${expected}, also found ${[...new Set(wrong)].join(", ")}`,
+      );
+    }
   }
 
   console.log("");

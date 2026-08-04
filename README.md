@@ -11,6 +11,14 @@ complete, correctly structured, **disclosure-mapped draft Red Herring Prospectus
 Built for the **SEBI Securities Market TechSprint @ GFF 2026 · Track 04: Fund Raising**
 by postgraduates in Securities Markets, NISM.
 
+### ▶  [Open the live app](https://thedrafter.vercel.app)
+
+**Nothing to install.** No API key, no sign-in, no setup. A sample issuer is already loaded, the
+draft is already generated, and every screen described below is live at that link right now.
+
+Everything further down is for reading the source or checking our figures yourself. To *use*
+Drafter, the link above is all you need.
+
 > **Drafter produces a preparatory draft. It is not a filing.** Submission is solely through the
 > authorised merchant banker after due diligence and certification. All issuer data shipped with
 > this prototype is fictional.
@@ -46,6 +54,270 @@ all drifted, and only the files were being checked.
 Two clauses are marked partial on purpose, and `npm run verify` fails if that ever silently becomes
 thirteen green ticks. A jury of securities-markets people would not believe a perfect score, and it
 would not deserve to be believed.
+
+---
+
+## What it does
+
+| # | Screen | What happens |
+|---|--------|--------------|
+| 1 | **Guided Intake** | Multi-step plain-language wizard. Every field is tagged with the DRHP chapter and disclosure requirement it feeds. Autosaves. Upload audited financials (XLSX/CSV/PDF) and Drafter reads the figures out of them. |
+| 2 | **Draft DRHP** | All **34 chapters across Sections I–IX**, plus a prospectus cover page and sticky TOC. Every chapter shows the requirement IDs it discharges. Toggle the **disclosure trail** to see the provenance of every block. |
+| 3 | **Gap & Consistency** | Opens with the **eligibility gate**: may this issuer make an SME IPO at all? Then an exchange-pre-check-styled report: coverage score, a ranked **action plan** with the coverage each step would add, per-requirement Complete/Partial/Missing, and findings with exact locations and the return pattern that would bounce the draft. |
+| 4 | **Merchant Banker** | The same draft as due-diligence work product: documents required vs provided, chapter→requirement mapping, risk flags, and a version diff of the banker's amendments. |
+| 5 | **Observation Replay** | Paste the observation letter the exchange returned on a draft. Each observation is mapped to the requirement and chapter that would have raised it first, or reported as a **registry gap**. The only check on this product that does not come from this product. Runs entirely client-side, the letter never leaves the browser. |
+| 6 | **Regulation Watch** | States the registry version and the date its rules were built against, then reads SEBI's public RSS feed and flags what has been published since. Rule-based classification, mapped to requirement IDs, with the matched terms shown. |
+| 7 | **Impact** | Clause-by-clause conformance against SEBI's problem statement, with the file and measured number behind each claim, plus an honest scope statement. |
+
+Exports: **DOCX** and **PDF** of the full prospectus, 34 chapters over **49 PDF pages** (Word
+paginates tighter, around 27), with a cover page, TOC, numbered sections, ruled tables,
+headers/footers and page numbers, plus the **gap report as a standalone compliance checklist**.
+
+---
+
+## The wedge
+
+| Player | What it does | Side of the pipeline |
+|--------|--------------|----------------------|
+| BSE GenAI DRHP pre-check | Checks a draft against exchange rules in <40 min (was 7 days) | Exchange gatekeeper |
+| Invisigent, IPO dashboards | Review/analysis of an already-filed DRHP | Analysis (investor) |
+| OnFinance AI | BFSI regulatory-compliance automation | Compliance ops |
+| **Drafter** | **Promoter's plain answers → draft DRHP + gap check** | **Generation (issuer), the gap** |
+
+Drafter sits **upstream** of the exchange's own AI pre-check and targets the exact return patterns it
+flags, so the draft clears pre-check instead of bouncing:
+
+- **Unreconciled figures**, revenue in the business chapter vs the restated financials; objects vs
+  net proceeds; shareholding vs paid-up capital.
+- **Undisclosed related parties**, a promoter-connected dealing described anywhere in the issuer's
+  own answers but declared as nil.
+- **Missing auditor reference**, restated financials presented without the peer-reviewed auditor and
+  firm registration number.
+
+---
+
+## A guided tour
+
+The shortest route through the product, in the order the screens build on each other. Every figure
+below is real output asserted by `npm run verify`. If one has drifted, the verify run says so.
+
+**Overview.** The headline is the whole thesis: everyone else checks a DRHP that already exists,
+Drafter writes the first one. The coverage panel reads **97%**, which is a computed weighted mean
+over the **74** disclosure requirements that apply to this issuer, out of a registry of 76. It is not
+a stored number, and it moves as the intake is filled in.
+*Answers the problem statement itself, and Market Impact.*
+
+**How it works.** Five stages: ask in plain language, assemble the document, refuse what the model
+invents, check it the way an exchange would, hand it to the merchant banker. Each stage states what
+would go wrong without it. Stage 03 is the load-bearing one: *trusting the instruction means a wrong
+figure reaches an offer document, reads as confident, and is caught weeks later by the exchange, if
+at all.* The four metrics at the top are read from the live session rather than written into the
+page, so this screen cannot describe a version of the product that does not exist.
+*The mechanism, on one screen.*
+
+**Guided Intake.** 92 questions across 9 steps, phrased as *do you have any court cases*, not
+*Schedule VI Part A clause 11*. Any term a promoter might not know carries an **(i) explainer**, one
+of **32** glossary entries written for someone who has never raised capital, each with a *why it
+matters* line.
+
+Dropping `sample_uploads/Shreeji_Restated_Financials.csv` in reads the year headings (FY24, FY25,
+FY26) and extracts **11 fields, 5 of them three-year series**, printing the label it matched for each
+so the extraction can be checked rather than trusted. The audited sheet states revenue of
+**₹78.90 crore**, which matters two screens later.
+*Accessible without specialist knowledge, and document intelligence.*
+
+**Generating.** A 45-second model budget inside a 60-second platform ceiling. If the budget runs out,
+the remaining chapters take deterministic templates and the document still returns complete.
+
+**Drafting Record.** The most important screen in the product, because it is the one that shows the
+system failing and recovering. The red panel records that the language model wrote **79**, a figure
+that appears nowhere in the issuer data it was given. It had rounded ₹78.90 crore. The validator
+caught it, discarded the entire chapter, and redrafted it.
+
+The instruction not to round appears in the prompt twice. Models round anyway, which is exactly why
+the guarantee is enforced on the output rather than requested in the prompt. Below that, per chapter:
+accepted first pass, recovered by the loop, degraded to template, and the model that wrote it. Three
+different models wrote this document. When one exhausted its free quota the system moved down the
+chain and the guarantee held, because it belongs to the validator and not to the model.
+*No hallucinated facts, demonstrated rather than asserted.*
+
+**Draft DRHP.** 34 chapters across Sections I to IX. **III.4 Capital Structure** shows the share
+capital build-up totalling back to pre-issue capital, with pre and post-issue shareholding computed
+rather than entered. **Show disclosure trail** reveals, for every block, where its content came from
+and which requirement IDs it discharges.
+
+Then the placeholders. There are **10**, and each sits where the law requires a named professional to
+sign: the auditor's examination report, counsel's tax particulars, the executed declaration page.
+Drafter stops exactly there, deliberately.
+*A disclosure-ready draft, and traceability in preference to raw generation.*
+
+**Gap & Consistency.** Opens on the eligibility gate, because whether the issuer may make the issue
+at all outranks how complete the draft is: **10** Chapter IX conditions under Reg 228, 229 and
+230(1), 8 applicable to this issuer and 2 not, each **met / not met / unknown**, and an unknown never
+reads as a pass. Among them **Reg 229(6)**, the operating-profit condition inserted on 8 March 2025,
+which is what disqualifies most aspirants, tested before any fee is committed.
+
+Then the verdict: **2 issues would return this draft at pre-check.**
+
+- **DR-INC-001.** Our Business states **₹82.50 crore**; Restated Financial Statements shows
+  **₹78.90 crore**, the figure that came off the spreadsheet. A difference of **₹3.60 crore**, with
+  both chapters linked.
+- **DR-RFL-001.** The Legal chapter says *"None pending"*, but a matter *"currently under appeal"*
+  appears in the promoter's own business notes. The promoter never ticked a box; the checker read the
+  narrative and caught the contradiction.
+
+One distinction is worth stating explicitly, because it constrains the whole design: the loop
+corrects the model's own errors and never the issuer's. When these findings were fed back into the
+prompt during development, the model quietly adopted the audited figure and harmonised away the very
+defect the checker exists to catch.
+*Gaps and inconsistencies both, positioned upstream of the exchange's own pre-check.*
+
+**The two roles.** Switching Promoter to Merchant Banker changes the standing obligation strip from
+*"You are the issuer, everything factual comes from your answers"* to *"You are the certifying
+intermediary. Drafter has verified nothing."* The navigation keeps its order in both seats and
+changes only emphasis. The Merchant Banker workspace carries a **14-item** due-diligence checklist
+assigned by owner, 6 issuer, 3 auditor, 4 lead manager and 1 legal counsel, ending at **DD-14, the
+executed declaration and the lead manager's due diligence certificate.** The intermediary is
+preserved, not removed: the regulations reserve filing to them, and so does this.
+*Preserving the role of authorised intermediaries.*
+
+**Export, and the scope statement.** The PDF is **34 chapters over 49 pages** in prospectus
+formatting, with the gap report exportable as a standalone compliance checklist. **Impact** carries
+the clause-by-clause conformance table, in which two of thirteen clauses are marked partial on
+purpose, with a statement of what is missing from each.
+
+### Three things worth checking beyond the main path
+
+**The same engine on a different issuer.** Selecting **Aarna Specialty Chemicals** runs the identical
+engine over a different sector and produces **four entirely different** failures: objects aggregating
+₹19.75 crore against ₹21.00 crore of net proceeds; related parties declared "Nil" while the notes
+describe a promoter-owned tolling arrangement; a missing auditor reference; and ₹6.00 crore to
+general corporate purposes, 26.7% of a ₹22.50 crore issue, against a **Reg 230(2)** ceiling of
+₹3.38 crore. That last finding shows the regulation, the arithmetic, and which limb binds. One
+knowledge base, any issuer.
+
+**Observation Replay.** Everything else here is self-referential: the registry reports the draft
+complete because the registry says so. This is the one check that comes from outside. An exchange
+observation letter is pasted in and each observation is mapped to the requirement that would have
+raised it first, or reported as a **registry gap** counting against Drafter's own score. Dropping
+those would have made the number look better. The letter is parsed client-side and never leaves the
+browser.
+
+**Starting from nothing.** **+ Start a new company** shows what the product does with an empty form,
+which is nothing dramatic: **zero** high-severity findings before a single question is answered,
+coverage honestly **14%**, and eligibility *indeterminate* rather than a false pass. Answering a few
+fields starts the preparation-time meter, whose methodology states that pauses are counted at the
+cap, so the figure overstates Drafter's own effort.
+
+## Architecture
+
+```
+data/
+  drhp_structure.json          9 sections, 34 chapters. The document tree (mode + priority)
+  requirement_registry.json    76 disclosure requirements, each mapped to chapters + evidence fields
+  intake_questionnaire.json    9-step plain-language wizard, 92 questions; every scored field has a control
+  problem_statement.json       SEBI's Track 04 text, split into the 13 clauses that impose a requirement
+  sample_company_autocomp.json Shreeji Auto Components,   2 planted defects
+  sample_company_specchem.json Aarna Specialty Chemicals,  4 planted defects
+knowledge_base/
+  section_templates.json       Per-chapter drafting instructions + deterministic fallbacks
+lib/
+  types.ts                     The block model. Every block carries provenance + requirement IDs
+  glossary.ts                  32 plain-language definitions behind the inline (i) explainers
+  roles.ts                     What the promoter and the merchant banker each are, and carry
+  engine/generate.ts           Walks the DRHP tree; factual builders, narrative, boilerplate
+  engine/eligibility.ts        The gate. Reg 228, 229, 230(1), three-state per condition
+  engine/gapCheck.ts           The trust layer. 12 cross-chapter consistency checks
+  engine/refineGraph.ts        The LangGraph self-correction loop (draft, assemble, check, revise)
+  engine/actionPlan.ts         The gap report ranked into "what to do next"
+  engine/llm.ts                Groq via the Vercel AI SDK, model fallback chain, output validation
+  engine/dueDiligence.ts       Banker DD checklist + regulatory mapping
+  observations/                Exchange observation letters, parsed and replayed against the registry
+  circulars/                   SEBI feed, filtered for relevance to the registry
+  export/docx.ts               Prospectus-formatted Word
+  export/pdf.tsx               Prospectus-formatted PDF
+app/api/                       generate · extract · status · circulars · export/{docx,pdf,gap}
+```
+
+### Validated against 17 real filed DRHPs
+
+Drafter's structure and registry are not invented for a demo. They were measured against a corpus of
+**17 filed SME DRHPs, 14 NSE Emerge and 3 BSE SME, 6,765 pages, 3.19 million words**, spanning manufacturing,
+chemicals, software, engineering services, solar and events:
+
+- **30 of 34 chapters** appear in *every* document in the corpus; all 34 in at least 86%.
+- **72 of 73** scored disclosure requirements are evidenced in ≥70% of filings.
+- **No chapter differs by more than a third** between NSE Emerge and BSE SME, one tree serves both.
+
+More importantly, the corpus was run as a **gap hunt**, and it changed the product:
+
+- **13 requirements added**, each appearing in 79–100% of real filings with no home in the registry
+, including SEBI's post-2022 **KPI** and **weighted average cost of acquisition** disclosures, the
+  **monitoring agency**, and the **general-corporate-purposes ceiling**. Registry 60 → 76.
+- **2 chapters added**. Summary of the Offer Document, and Our Subsidiaries. Structure 32 → 34.
+- **3 citation defects fixed** after auditing the registry against the ICDR text itself, see Part 5
+  of [BACKTEST.md](BACKTEST.md). The general-corporate-purposes ceiling had been carrying the
+  main-board figure of 25% rather than Chapter IX's 15%-or-₹10-crore.
+- **A new class of check**: `percentage_cap`, which catches a *regulatory arithmetic breach* (GCP
+  above the ICDR ceiling) rather than an internal inconsistency.
+- **A real defect fixed**: capacity disclosure appears in only 64% of filings because the rest are
+  services businesses. Requirements are now **sector-conditional**, a software SME is no longer
+  marked down for lacking a factory.
+
+The corpus and single-document studies together also found and fixed three engine bugs that
+synthetic fixtures could never have exposed. Full method, numbers and honest limitations:
+**[BACKTEST.md](BACKTEST.md)**.
+
+### The self-correction loop
+
+When a Groq key is present, drafting runs through a **LangGraph** state machine with a genuine
+conditional cycle:
+
+```
+draft ──▶ assemble ──▶ gapCheck ──▶ decide
+   ▲                                  │
+   └────────── revise ◀───────────────┘
+        (while chapters remain defective
+         and iterations < maxIterations)
+```
+
+The model occasionally rounds a figure (78.90 → "79") or omits a required topic. The validator
+rejects such a chapter, and rather than silently degrading it to a template, the loop hands the
+offending figures back to the model by name and redrafts. In testing this took narrative chapters
+recovered from **2 of 4 falling back, to 0**.
+
+It revises **drafting** defects only. It never revises prose in response to a Gap & Consistency
+finding: that was built, tested, and deliberately removed, because feeding the revenue-mismatch
+finding to the model made it quietly adopt the audited figure and paper over the promoter's error.
+A drafter that harmonises away the inconsistency its own checker exists to catch is worse than no
+checker. See the note at the top of `lib/engine/refineGraph.ts`.
+
+**Five design decisions worth knowing:**
+
+1. **Generation produces a structured document, not a string.** Every block carries `provenance`
+   (issuer-input / derived / llm-narrative / template-narrative / standard-clause / placeholder) and
+   the requirement IDs it discharges. The screen, the DOCX, the PDF and the gap report are four
+   projections of that one model, which is what makes the disclosure trail machine-readable by
+   construction rather than a claim.
+
+2. **Coverage is computed, never asserted.** Each requirement declares `evidence_fields`; their
+   presence in the issuer data decides Complete/Partial/Missing. The score moves as the wizard is
+   filled in. It is also split into *overall* and *issuer-controllable* coverage, so the promoter's
+   score is not depressed by work that is the banker's to do.
+
+3. **The red-flag checks derive their conclusion from free text.** The litigation check reads the
+   promoter's narrative answers, finds the proceeding, and then observes that the Legal chapter says
+   "None pending", rather than trusting a pre-set boolean. That is the behaviour that generalises to
+   a real issuer who never sets a flag.
+
+4. **The language model is fenced in.** It receives only the fields the knowledge base declares for
+   that chapter, and its output is **post-validated**: if it emits a figure that does not appear in
+   the supplied issuer data, the chapter is rejected and the deterministic template is used instead.
+   A wrong number in an offer document is worse than plainer prose.
+
+5. **Issuer data never rests on the server.** Pre-IPO data is price-sensitive. It lives in the
+   browser session and is POSTed to stateless route handlers only when needed. That is the
+   confidentiality guardrail, and it also means no database and no per-issuer marginal cost.
 
 ---
 
@@ -233,270 +505,6 @@ commit does not land.
 
 ---
 
-## What it does
-
-| # | Screen | What happens |
-|---|--------|--------------|
-| 1 | **Guided Intake** | Multi-step plain-language wizard. Every field is tagged with the DRHP chapter and disclosure requirement it feeds. Autosaves. Upload audited financials (XLSX/CSV/PDF) and Drafter reads the figures out of them. |
-| 2 | **Draft DRHP** | All **34 chapters across Sections I–IX**, plus a prospectus cover page and sticky TOC. Every chapter shows the requirement IDs it discharges. Toggle the **disclosure trail** to see the provenance of every block. |
-| 3 | **Gap & Consistency** | Opens with the **eligibility gate**: may this issuer make an SME IPO at all? Then an exchange-pre-check-styled report: coverage score, a ranked **action plan** with the coverage each step would add, per-requirement Complete/Partial/Missing, and findings with exact locations and the return pattern that would bounce the draft. |
-| 4 | **Merchant Banker** | The same draft as due-diligence work product: documents required vs provided, chapter→requirement mapping, risk flags, and a version diff of the banker's amendments. |
-| 5 | **Observation Replay** | Paste the observation letter the exchange returned on a draft. Each observation is mapped to the requirement and chapter that would have raised it first, or reported as a **registry gap**. The only check on this product that does not come from this product. Runs entirely client-side, the letter never leaves the browser. |
-| 6 | **Regulation Watch** | States the registry version and the date its rules were built against, then reads SEBI's public RSS feed and flags what has been published since. Rule-based classification, mapped to requirement IDs, with the matched terms shown. |
-| 7 | **Impact** | Clause-by-clause conformance against SEBI's problem statement, with the file and measured number behind each claim, plus an honest scope statement. |
-
-Exports: **DOCX** and **PDF** of the full prospectus, 34 chapters over **45 PDF pages** (Word
-paginates tighter, around 27), with a cover page, TOC, numbered sections, ruled tables,
-headers/footers and page numbers, plus the **gap report as a standalone compliance checklist**.
-
----
-
-## The wedge
-
-| Player | What it does | Side of the pipeline |
-|--------|--------------|----------------------|
-| BSE GenAI DRHP pre-check | Checks a draft against exchange rules in <40 min (was 7 days) | Exchange gatekeeper |
-| Invisigent, IPO dashboards | Review/analysis of an already-filed DRHP | Analysis (investor) |
-| OnFinance AI | BFSI regulatory-compliance automation | Compliance ops |
-| **Drafter** | **Promoter's plain answers → draft DRHP + gap check** | **Generation (issuer), the gap** |
-
-Drafter sits **upstream** of the exchange's own AI pre-check and targets the exact return patterns it
-flags, so the draft clears pre-check instead of bouncing:
-
-- **Unreconciled figures**, revenue in the business chapter vs the restated financials; objects vs
-  net proceeds; shareholding vs paid-up capital.
-- **Undisclosed related parties**, a promoter-connected dealing described anywhere in the issuer's
-  own answers but declared as nil.
-- **Missing auditor reference**, restated financials presented without the peer-reviewed auditor and
-  firm registration number.
-
----
-
-## Architecture
-
-```
-data/
-  drhp_structure.json          9 sections, 34 chapters. The document tree (mode + priority)
-  requirement_registry.json    76 disclosure requirements, each mapped to chapters + evidence fields
-  intake_questionnaire.json    9-step plain-language wizard, 92 questions; every scored field has a control
-  problem_statement.json       SEBI's Track 04 text, split into the 13 clauses that impose a requirement
-  sample_company_autocomp.json Shreeji Auto Components,   2 planted defects
-  sample_company_specchem.json Aarna Specialty Chemicals,  4 planted defects
-knowledge_base/
-  section_templates.json       Per-chapter drafting instructions + deterministic fallbacks
-lib/
-  types.ts                     The block model. Every block carries provenance + requirement IDs
-  glossary.ts                  32 plain-language definitions behind the inline (i) explainers
-  roles.ts                     What the promoter and the merchant banker each are, and carry
-  engine/generate.ts           Walks the DRHP tree; factual builders, narrative, boilerplate
-  engine/eligibility.ts        The gate. Reg 228, 229, 230(1), three-state per condition
-  engine/gapCheck.ts           The trust layer. 12 cross-chapter consistency checks
-  engine/refineGraph.ts        The LangGraph self-correction loop (draft, assemble, check, revise)
-  engine/actionPlan.ts         The gap report ranked into "what to do next"
-  engine/llm.ts                Groq via the Vercel AI SDK, model fallback chain, output validation
-  engine/dueDiligence.ts       Banker DD checklist + regulatory mapping
-  observations/                Exchange observation letters, parsed and replayed against the registry
-  circulars/                   SEBI feed, filtered for relevance to the registry
-  export/docx.ts               Prospectus-formatted Word
-  export/pdf.tsx               Prospectus-formatted PDF
-app/api/                       generate · extract · status · circulars · export/{docx,pdf,gap}
-```
-
-### Validated against 17 real filed DRHPs
-
-Drafter's structure and registry are not invented for a demo. They were measured against a corpus of
-**17 filed SME DRHPs, 14 NSE Emerge and 3 BSE SME, 6,765 pages, 3.19 million words**, spanning manufacturing,
-chemicals, software, engineering services, solar and events:
-
-- **30 of 34 chapters** appear in *every* document in the corpus; all 34 in at least 86%.
-- **72 of 73** scored disclosure requirements are evidenced in ≥70% of filings.
-- **No chapter differs by more than a third** between NSE Emerge and BSE SME, one tree serves both.
-
-More importantly, the corpus was run as a **gap hunt**, and it changed the product:
-
-- **13 requirements added**, each appearing in 79–100% of real filings with no home in the registry
-, including SEBI's post-2022 **KPI** and **weighted average cost of acquisition** disclosures, the
-  **monitoring agency**, and the **general-corporate-purposes ceiling**. Registry 60 → 76.
-- **2 chapters added**. Summary of the Offer Document, and Our Subsidiaries. Structure 32 → 34.
-- **3 citation defects fixed** after auditing the registry against the ICDR text itself, see Part 5
-  of [BACKTEST.md](BACKTEST.md). The general-corporate-purposes ceiling had been carrying the
-  main-board figure of 25% rather than Chapter IX's 15%-or-₹10-crore.
-- **A new class of check**: `percentage_cap`, which catches a *regulatory arithmetic breach* (GCP
-  above the ICDR ceiling) rather than an internal inconsistency.
-- **A real defect fixed**: capacity disclosure appears in only 64% of filings because the rest are
-  services businesses. Requirements are now **sector-conditional**, a software SME is no longer
-  marked down for lacking a factory.
-
-The corpus and single-document studies together also found and fixed three engine bugs that
-synthetic fixtures could never have exposed. Full method, numbers and honest limitations:
-**[BACKTEST.md](BACKTEST.md)**.
-
-### The self-correction loop
-
-When a Groq key is present, drafting runs through a **LangGraph** state machine with a genuine
-conditional cycle:
-
-```
-draft ──▶ assemble ──▶ gapCheck ──▶ decide
-   ▲                                  │
-   └────────── revise ◀───────────────┘
-        (while chapters remain defective
-         and iterations < maxIterations)
-```
-
-The model occasionally rounds a figure (78.90 → "79") or omits a required topic. The validator
-rejects such a chapter, and rather than silently degrading it to a template, the loop hands the
-offending figures back to the model by name and redrafts. In testing this took narrative chapters
-recovered from **2 of 4 falling back, to 0**.
-
-It revises **drafting** defects only. It never revises prose in response to a Gap & Consistency
-finding: that was built, tested, and deliberately removed, because feeding the revenue-mismatch
-finding to the model made it quietly adopt the audited figure and paper over the promoter's error.
-A drafter that harmonises away the inconsistency its own checker exists to catch is worse than no
-checker. See the note at the top of `lib/engine/refineGraph.ts`.
-
-**Five design decisions worth knowing:**
-
-1. **Generation produces a structured document, not a string.** Every block carries `provenance`
-   (issuer-input / derived / llm-narrative / template-narrative / standard-clause / placeholder) and
-   the requirement IDs it discharges. The screen, the DOCX, the PDF and the gap report are four
-   projections of that one model, which is what makes the disclosure trail machine-readable by
-   construction rather than a claim.
-
-2. **Coverage is computed, never asserted.** Each requirement declares `evidence_fields`; their
-   presence in the issuer data decides Complete/Partial/Missing. The score moves as the wizard is
-   filled in. It is also split into *overall* and *issuer-controllable* coverage, so the promoter's
-   score is not depressed by work that is the banker's to do.
-
-3. **The red-flag checks derive their conclusion from free text.** The litigation check reads the
-   promoter's narrative answers, finds the proceeding, and then observes that the Legal chapter says
-   "None pending", rather than trusting a pre-set boolean. That is the behaviour that generalises to
-   a real issuer who never sets a flag.
-
-4. **The language model is fenced in.** It receives only the fields the knowledge base declares for
-   that chapter, and its output is **post-validated**: if it emits a figure that does not appear in
-   the supplied issuer data, the chapter is rejected and the deterministic template is used instead.
-   A wrong number in an offer document is worse than plainer prose.
-
-5. **Issuer data never rests on the server.** Pre-IPO data is price-sensitive. It lives in the
-   browser session and is POSTed to stateless route handlers only when needed. That is the
-   confidentiality guardrail, and it also means no database and no per-issuer marginal cost.
-
----
-
-## A guided tour
-
-The shortest route through the product, in the order the screens build on each other. Every figure
-below is real output asserted by `npm run verify`. If one has drifted, the verify run says so.
-
-**Overview.** The headline is the whole thesis: everyone else checks a DRHP that already exists,
-Drafter writes the first one. The coverage panel reads **97%**, which is a computed weighted mean
-over the **74** disclosure requirements that apply to this issuer, out of a registry of 76. It is not
-a stored number, and it moves as the intake is filled in.
-*Answers the problem statement itself, and Market Impact.*
-
-**How it works.** Five stages: ask in plain language, assemble the document, refuse what the model
-invents, check it the way an exchange would, hand it to the merchant banker. Each stage states what
-would go wrong without it. Stage 03 is the load-bearing one: *trusting the instruction means a wrong
-figure reaches an offer document, reads as confident, and is caught weeks later by the exchange, if
-at all.* The four metrics at the top are read from the live session rather than written into the
-page, so this screen cannot describe a version of the product that does not exist.
-*The mechanism, on one screen.*
-
-**Guided Intake.** 92 questions across 9 steps, phrased as *do you have any court cases*, not
-*Schedule VI Part A clause 11*. Any term a promoter might not know carries an **(i) explainer**, one
-of **32** glossary entries written for someone who has never raised capital, each with a *why it
-matters* line.
-
-Dropping `sample_uploads/Shreeji_Restated_Financials.csv` in reads the year headings (FY24, FY25,
-FY26) and extracts **11 fields, 5 of them three-year series**, printing the label it matched for each
-so the extraction can be checked rather than trusted. The audited sheet states revenue of
-**₹78.90 crore**, which matters two screens later.
-*Accessible without specialist knowledge, and document intelligence.*
-
-**Generating.** A 45-second model budget inside a 60-second platform ceiling. If the budget runs out,
-the remaining chapters take deterministic templates and the document still returns complete.
-
-**Drafting Record.** The most important screen in the product, because it is the one that shows the
-system failing and recovering. The red panel records that the language model wrote **79**, a figure
-that appears nowhere in the issuer data it was given. It had rounded ₹78.90 crore. The validator
-caught it, discarded the entire chapter, and redrafted it.
-
-The instruction not to round appears in the prompt twice. Models round anyway, which is exactly why
-the guarantee is enforced on the output rather than requested in the prompt. Below that, per chapter:
-accepted first pass, recovered by the loop, degraded to template, and the model that wrote it. Three
-different models wrote this document. When one exhausted its free quota the system moved down the
-chain and the guarantee held, because it belongs to the validator and not to the model.
-*No hallucinated facts, demonstrated rather than asserted.*
-
-**Draft DRHP.** 34 chapters across Sections I to IX. **III.4 Capital Structure** shows the share
-capital build-up totalling back to pre-issue capital, with pre and post-issue shareholding computed
-rather than entered. **Show disclosure trail** reveals, for every block, where its content came from
-and which requirement IDs it discharges.
-
-Then the placeholders. There are **10**, and each sits where the law requires a named professional to
-sign: the auditor's examination report, counsel's tax particulars, the executed declaration page.
-Drafter stops exactly there, deliberately.
-*A disclosure-ready draft, and traceability in preference to raw generation.*
-
-**Gap & Consistency.** Opens on the eligibility gate, because whether the issuer may make the issue
-at all outranks how complete the draft is: **10** Chapter IX conditions under Reg 228, 229 and
-230(1), 8 applicable to this issuer and 2 not, each **met / not met / unknown**, and an unknown never
-reads as a pass. Among them **Reg 229(6)**, the operating-profit condition inserted on 8 March 2025,
-which is what disqualifies most aspirants, tested before any fee is committed.
-
-Then the verdict: **2 issues would return this draft at pre-check.**
-
-- **DR-INC-001.** Our Business states **₹82.50 crore**; Restated Financial Statements shows
-  **₹78.90 crore**, the figure that came off the spreadsheet. A difference of **₹3.60 crore**, with
-  both chapters linked.
-- **DR-RFL-001.** The Legal chapter says *"None pending"*, but a matter *"currently under appeal"*
-  appears in the promoter's own business notes. The promoter never ticked a box; the checker read the
-  narrative and caught the contradiction.
-
-One distinction is worth stating explicitly, because it constrains the whole design: the loop
-corrects the model's own errors and never the issuer's. When these findings were fed back into the
-prompt during development, the model quietly adopted the audited figure and harmonised away the very
-defect the checker exists to catch.
-*Gaps and inconsistencies both, positioned upstream of the exchange's own pre-check.*
-
-**The two roles.** Switching Promoter to Merchant Banker changes the standing obligation strip from
-*"You are the issuer, everything factual comes from your answers"* to *"You are the certifying
-intermediary. Drafter has verified nothing."* The navigation keeps its order in both seats and
-changes only emphasis. The Merchant Banker workspace carries a **14-item** due-diligence checklist
-assigned by owner, 6 issuer, 3 auditor, 4 lead manager and 1 legal counsel, ending at **DD-14, the
-executed declaration and the lead manager's due diligence certificate.** The intermediary is
-preserved, not removed: the regulations reserve filing to them, and so does this.
-*Preserving the role of authorised intermediaries.*
-
-**Export, and the scope statement.** The PDF is **34 chapters over 49 pages** in prospectus
-formatting, with the gap report exportable as a standalone compliance checklist. **Impact** carries
-the clause-by-clause conformance table, in which two of thirteen clauses are marked partial on
-purpose, with a statement of what is missing from each.
-
-### Three things worth checking beyond the main path
-
-**The same engine on a different issuer.** Selecting **Aarna Specialty Chemicals** runs the identical
-engine over a different sector and produces **four entirely different** failures: objects aggregating
-₹19.75 crore against ₹21.00 crore of net proceeds; related parties declared "Nil" while the notes
-describe a promoter-owned tolling arrangement; a missing auditor reference; and ₹6.00 crore to
-general corporate purposes, 26.7% of a ₹22.50 crore issue, against a **Reg 230(2)** ceiling of
-₹3.38 crore. That last finding shows the regulation, the arithmetic, and which limb binds. One
-knowledge base, any issuer.
-
-**Observation Replay.** Everything else here is self-referential: the registry reports the draft
-complete because the registry says so. This is the one check that comes from outside. An exchange
-observation letter is pasted in and each observation is mapped to the requirement that would have
-raised it first, or reported as a **registry gap** counting against Drafter's own score. Dropping
-those would have made the number look better. The letter is parsed client-side and never leaves the
-browser.
-
-**Starting from nothing.** **+ Start a new company** shows what the product does with an empty form,
-which is nothing dramatic: **zero** high-severity findings before a single question is answered,
-coverage honestly **14%**, and eligibility *indeterminate* rather than a false pass. Answering a few
-fields starts the preparation-time meter, whose methodology states that pauses are counted at the
-cap, so the figure overstates Drafter's own effort.
-
 ## Honest limitations
 
 A filed DRHP runs to 200–350 pages and only becomes filing-grade after a merchant banker's due
@@ -514,7 +522,7 @@ What Drafter actually delivers, and what it does not:
 - The gap checker computes coverage from evidence fields and catches all six planted defects across
   two issuers with the **exact** high-severity counts, 2 and 4, so a false positive fails the
   build as loudly as a miss (`npm run verify`).
-- DOCX and PDF exports are real prospectus-formatted documents: 34 chapters over 45 PDF pages.
+- DOCX and PDF exports are real prospectus-formatted documents: 34 chapters over 49 PDF pages.
 - Preparation time is **measured**, not asserted, and the measurement is biased against our own
   claim (pauses counted at the cap).
 
