@@ -81,10 +81,27 @@ export default function OverviewPage() {
             </Link>
           </div>
 
+          {/* A real company started from a blank form matches no bundled sample,
+              so `issuer` is undefined and the sample wording rendered as
+              "Currently loaded: , ." That was on screen in a recorded demo
+              before anyone noticed it. */}
           <p className="mt-5 text-[12.5px] leading-relaxed text-muted-foreground">
-            Currently loaded: <span className="font-medium text-foreground">{issuer?.name}</span>, {" "}
-            {issuer?.sector}. Switch issuers from the selector in the header to see the same engine
-            run against a different sector.
+            {issuer ? (
+              <>
+                Currently loaded: <span className="font-medium text-foreground">{issuer.name}</span>,{" "}
+                {issuer.sector}. Switch issuers from the selector in the header to see the same engine
+                run against a different sector.
+              </>
+            ) : (
+              <>
+                Currently drafting{" "}
+                <span className="font-medium text-foreground">
+                  {issuerData?.identity?.company_name?.trim() || "your own company"}
+                </span>
+                , started from a blank form. Coverage rises as you answer the guided intake, and the
+                header selector still holds the two sample issuers.
+              </>
+            )}
           </p>
         </div>
 
